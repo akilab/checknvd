@@ -1,0 +1,2 @@
+# checknvd
+NVDチェック用
