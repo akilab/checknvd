@@ -7,7 +7,7 @@
 <title>2026-08-05 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
 <link rel="stylesheet" href="../assets/report.css">
 </head>
-<body data-report-date="2026-08-05" data-case-count="4">
+<body data-report-date="2026-08-05" data-case-count="1">
 <a class="skip-link" href="#main">本文へスキップ</a>
 
 <header class="report-header">
@@ -15,9 +15,9 @@
     <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
     <h1>2026年8月5日（水）の脆弱性ブリーフ</h1>
     <dl class="report-meta">
-      <div><dt>生成日時</dt><dd>2026-08-05 07:30 JST</dd></div>
-      <div><dt>調査対象期間</dt><dd>2026-08-04 07:00 〜 2026-08-05 07:00 JST</dd></div>
-      <div><dt>掲載件数</dt><dd>4 件（P1: 2 ／ P2: 1 ／ P3: 1）</dd></div>
+      <div><dt>生成日時</dt><dd>2026-08-05 03:05 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-07-29 〜 2026-08-05 JST</dd></div>
+      <div><dt>掲載件数</dt><dd>1 件（P1: 1 ／ P2: 0 ／ P3: 0）</dd></div>
     </dl>
     <nav class="report-nav" aria-label="レポートの移動">
       <a class="nav-btn" href="2026-08-04.html" rel="prev">← 前日 2026-08-04</a>
@@ -28,25 +28,17 @@
 </header>
 
 <main id="main" class="wrap">
-
-  <p class="sample-notice">
-    <strong>これはサイト構造のサンプルです。</strong>
-    製品名・CVE番号・バージョンはすべて架空のもので、実際の脆弱性情報ではありません。
-    ChatGPT Workが同じ構造で日次レポートを生成するための雛形として配置しています。
-  </p>
-
   <section class="conclusion" aria-labelledby="conclusionHeading">
     <h2 id="conclusionHeading">今日の結論</h2>
     <p class="conclusion-body">
-      <strong>インターネットに公開しているNorthwind Secure Gateway（SSL-VPN）を、本日中に確認してください。</strong>
-      認証不要のリモートコード実行が実際に悪用されており、CISA KEVにも追加されました。
-      同時に、Orbit RMM Serverの認証回避も悪用が観測されています。いずれも侵入経路として直接使われる基盤製品です。
+      <strong>Cisco Secure Firewall Management Center（FMC）を利用している場合は、直ちに影響確認とCisco提供ホットフィックスの適用判断を行ってください。</strong>
+      CVE-2026-20316は、認証不要で低権限アカウントとしてFMCへログインできる静的資格情報の脆弱性です。Ciscoは実悪用を認識しており、CISA KEVにも2026年7月29日に追加されています。Ciscoは2026年8月3日にIOC確認手順を更新しました。
     </p>
     <dl class="conclusion-points">
-      <div><dt>最優先で確認すべき製品</dt><dd>Northwind Secure Gateway 12.x ／ Orbit RMM Server 5.x</dd></div>
-      <div><dt>推奨アクション</dt><dd>修正版へ更新。即時更新が難しい場合は管理画面のインターネット公開を停止</dd></div>
-      <div><dt>対応期限</dt><dd>CISA KEV: 2026-08-26 まで（連邦機関向け期限。参考値として掲載）</dd></div>
-      <div><dt>今日読むべき理由</dt><dd>昨日はPoC公開のみだったCVE-2026-18577が、実悪用およびKEV掲載に変化しました</dd></div>
+      <div><dt>最優先で確認すべき製品</dt><dd>Cisco Secure Firewall Management Center（オンプレミスFMC）</dd></div>
+      <div><dt>推奨アクション</dt><dd>公開状況・対象リリースを確認し、Cisco提供ホットフィックスを適用。IOCに該当する場合はCisco TACへ連絡</dd></div>
+      <div><dt>対応期限</dt><dd>CISA KEV: 2026-08-01（米国連邦機関向け期限。参考）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>Ciscoが2026-08-03にIOC確認手順を更新</dd></div>
     </dl>
   </section>
 
@@ -56,59 +48,18 @@
       <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
     </div>
     <div class="summary-list">
-
-      <a class="summary-card" href="#CVE-2026-18577" data-priority="P1">
+      <a class="summary-card" href="#CVE-2026-20316" data-priority="P1">
         <span class="badge p1" data-glyph="■">P1 即時確認</span>
-        <span class="card-cve">CVE-2026-18577</span>
-        <span class="card-product">Northwind Secure Gateway 12.0 – 12.4.2</span>
-        <span class="card-lead">認証不要でリモートコード実行が可能。実悪用が観測され、CISA KEVに掲載。</span>
+        <span class="card-cve">CVE-2026-20316</span>
+        <span class="card-product">Cisco Secure Firewall Management Center（FMC）</span>
+        <span class="card-lead">実悪用・CISA KEV掲載済み。認証不要でFMCへ低権限ログインが可能となる静的資格情報の脆弱性。</span>
         <span class="badges">
           <span class="badge on" data-glyph="●">実悪用あり</span>
           <span class="badge on" data-glyph="●">KEV掲載</span>
-          <span class="badge warn" data-glyph="●">公開PoCあり</span>
+          <span class="badge off" data-glyph="○">公開PoC未確認</span>
         </span>
-        <span class="card-fixed"><span>修正版:</span> 12.4.3</span>
+        <span class="card-fixed"><span>修正版:</span> Cisco提供ホットフィックス（対象リリース別）</span>
       </a>
-
-      <a class="summary-card" href="#CVE-2026-18412" data-priority="P1">
-        <span class="badge p1" data-glyph="■">P1 即時確認</span>
-        <span class="card-cve">CVE-2026-18412</span>
-        <span class="card-product">Orbit RMM Server 5.6 – 5.8.1</span>
-        <span class="card-lead">認証回避により、管理下の全端末へ任意スクリプトを配信できる。悪用を観測。</span>
-        <span class="badges">
-          <span class="badge on" data-glyph="●">実悪用あり</span>
-          <span class="badge off" data-glyph="○">KEV未掲載</span>
-          <span class="badge warn" data-glyph="●">公開PoCあり</span>
-        </span>
-        <span class="card-fixed"><span>修正版:</span> 5.8.2 ／ 5.7.9</span>
-      </a>
-
-      <a class="summary-card" href="#CVE-2026-17903" data-priority="P2">
-        <span class="badge p2" data-glyph="■">P2 速やかに確認</span>
-        <span class="card-cve">CVE-2026-17903</span>
-        <span class="card-product">Meridian Managed File Transfer 2026.1.x</span>
-        <span class="card-lead">認証前の任意ファイル読み取り。設定ファイルからの資格情報漏えいにつながる。</span>
-        <span class="badges">
-          <span class="badge off" data-glyph="○">実悪用なし</span>
-          <span class="badge off" data-glyph="○">KEV未掲載</span>
-          <span class="badge warn" data-glyph="●">公開PoCあり</span>
-        </span>
-        <span class="card-fixed"><span>修正版:</span> 2026.2.1</span>
-      </a>
-
-      <a class="summary-card" href="#CVE-2026-17650" data-priority="P3">
-        <span class="badge p3" data-glyph="■">P3 継続監視</span>
-        <span class="card-cve">CVE-2026-17650</span>
-        <span class="card-product">Cascade Analytics DB 14.0 – 14.2.5</span>
-        <span class="card-lead">認証済みユーザーによる権限昇格。CVSSは高いが、事前の有効な資格情報が必要。</span>
-        <span class="badges">
-          <span class="badge off" data-glyph="○">実悪用なし</span>
-          <span class="badge off" data-glyph="○">KEV未掲載</span>
-          <span class="badge off" data-glyph="○">公開PoCなし</span>
-        </span>
-        <span class="card-fixed"><span>修正版:</span> 14.2.6</span>
-      </a>
-
     </div>
   </section>
 
@@ -118,269 +69,65 @@
       <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
     </div>
 
-    <article class="case" id="CVE-2026-18577"
-      data-cve="CVE-2026-18577"
+    <article class="case" id="CVE-2026-20316"
+      data-cve="CVE-2026-20316"
       data-priority="P1"
-      data-product="Northwind Secure Gateway"
+      data-product="Cisco Secure Firewall Management Center (FMC)"
       data-exploited="true"
       data-kev="true"
-      data-poc="true"
-      data-cvss="9.8"
-      data-fixed="12.4.3">
+      data-poc="false"
+      data-cvss="5.3"
+      data-fixed="Cisco提供ホットフィックス（対象リリース別）">
       <div class="case-head">
         <span class="badge p1" data-glyph="■">P1 即時確認</span>
-        <h3>CVE-2026-18577</h3>
+        <h3>CVE-2026-20316</h3>
       </div>
-      <p class="product">Northwind Secure Gateway 12.0 – 12.4.2（SSL-VPN／リモートアクセス基盤）</p>
-      <p class="lead">
-        認証前のHTTPリクエスト処理に境界チェックの欠落があり、インターネットからの認証不要のリモートコード実行が可能です。
-        機器の資格情報とVPNセッションの窃取につながります。
-      </p>
+      <p class="product">Cisco Secure Firewall Management Center（オンプレミスFMC／ファイアウォール管理基盤）</p>
+      <p class="lead">FMC Webインターフェースに静的な低権限資格情報が存在し、認証不要のリモート攻撃者が影響機器へログインして機微情報へアクセスできる脆弱性です。Ciscoは他のFMC脆弱性との組み合わせによる権限昇格の可能性を示し、実悪用を認識しています。</p>
       <div class="badges">
         <span class="badge on" data-glyph="●">実悪用あり</span>
         <span class="badge on" data-glyph="●">CISA KEV掲載</span>
-        <span class="badge warn" data-glyph="●">公開PoCあり</span>
-        <span class="badge na" data-glyph="■">CVSS 9.8</span>
+        <span class="badge off" data-glyph="○">公開PoC未確認</span>
+        <span class="badge na" data-glyph="■">CVSS 5.3</span>
       </div>
       <dl class="facts">
-        <div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div>
-        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・ユーザー操作不要</dd></div>
-        <div><dt>実悪用</dt><dd class="is-alert">あり（2026-08-04以降、複数組織で観測）</dd></div>
-        <div><dt>CISA KEV</dt><dd class="is-alert">掲載あり（2026-08-05追加）</dd></div>
-        <div><dt>公開PoC</dt><dd class="is-warn">あり（一般公開のリポジトリで確認）</dd></div>
-        <div><dt>影響バージョン</dt><dd>12.0.0 – 12.4.2</dd></div>
-        <div><dt>修正版</dt><dd class="is-ok">12.4.3</dd></div>
+        <div><dt>CVSS</dt><dd>5.3 / Medium（CVSS v3.1、Cisco）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・ユーザー操作不要。FMC管理インターフェースが外部到達可能な場合、攻撃面が増加</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり（Cisco PSIRTが2026年7月に実悪用を認識）</dd></div>
+        <div><dt>CISA KEV</dt><dd class="is-alert">掲載あり（2026-07-29追加、期限 2026-08-01）</dd></div>
+        <div><dt>公開PoC</dt><dd>false — GitHub等を検索した範囲で、実装を伴う公開PoCは確認できず</dd></div>
+        <div><dt>影響バージョン</dt><dd>Cisco Secure FMC Software。Ciscoはデバイス構成にかかわらず影響すると記載。対象リリースは公式アドバイザリのFixed Softwareで要照合</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Cisco提供ホットフィックス：7.0（GB-7.0.9.1-3）、7.2（HL-7.2.11.1-4）、7.4（HG-7.4.7.1-3）、7.6（CY-7.6.5.1-2）、7.7（AM-7.7.12.1-2）、10.0（P-10.0.1.1-2）</dd></div>
       </dl>
       <div class="block">
         <h4>推奨対処</h4>
-        <p>
-          12.4.3へ更新してください。更新までの緩和策として、管理インターフェースのインターネット公開を停止し、
-          VPNポータルへのアクセスを許可IPに制限します。更新後は、既存セッションとローカル管理者資格情報を必ず再発行してください
-          （侵害済みの場合、更新だけでは持続性が残ります）。
-        </p>
+        <p>Ciscoの公式アドバイザリに従い、該当リリースへホットフィックスを適用してください。Ciscoは恒久的な回避策はないとしています。Cloud-Delivered FMC、FDM、ASA、FTD、Security Cloud Controlは本CVEの影響を受けないとCiscoは記載しています。侵害が疑われる場合は、Ciscoが案内するIOC確認を実施し、該当時はCisco TACへ直ちに連絡してください。</p>
       </div>
       <div class="block reason">
         <h4>AIによる注目理由</h4>
-        <p>
-          リモートアクセス基盤に対する認証不要のRCEで、実悪用とKEV掲載の両方が成立しています。
-          前日レポートではPoC公開のみのP2でしたが、本日P1へ引き上げました。侵入直後に横展開へつながる位置にある製品のため、
-          資産の棚卸しよりも先に、インターネット公開状況の確認を優先すべきと判断しました。
-        </p>
+        <p>CVSSは5.3ですが、実悪用とCISA KEV掲載が確認され、かつ複数のファイアウォールを管理するFMCが標的です。低権限アクセスでも他の脆弱性との連鎖が示されているため、CVSSのみではなく管理基盤侵害・管理対象への波及可能性を重視してP1と判定しました。</p>
       </div>
       <div class="block">
         <h4>SOC向け推奨アクション</h4>
         <ul class="checklist">
-          <li><label><input type="checkbox"><span>Northwind Secure Gatewayの利用有無と設置台数を確認</span></label></li>
-          <li><label><input type="checkbox"><span>ファームウェアが 12.4.2 以下かを確認</span></label></li>
-          <li><label><input type="checkbox"><span>管理インターフェースがインターネットから到達可能かを外部から確認</span></label></li>
-          <li><label><input type="checkbox"><span>ベンダー公開IOC（不審な設定ファイル改変、想定外の管理者アカウント）と照合</span></label></li>
-          <li><label><input type="checkbox"><span>VPN認証ログで、地理的に不整合なログイン成功を確認</span></label></li>
-          <li><label><input type="checkbox"><span>更新後、VPNセッションと管理者資格情報を再発行</span></label></li>
+          <li><label><input type="checkbox"><span>オンプレミスCisco FMCの利用有無、設置台数、管理対象ファイアウォールの範囲を確認</span></label></li>
+          <li><label><input type="checkbox"><span>FMCのリリースとCisco提供ホットフィックスの適用状況を確認</span></label></li>
+          <li><label><input type="checkbox"><span>FMC管理インターフェースのインターネット公開・到達可能な管理ネットワークを確認し、不要な公開を停止</span></label></li>
+          <li><label><input type="checkbox"><span>Cisco指定の <code>package_info.*license</code> と <code>/var/tmp/license.tmp</code> を用いたログ確認を実施</span></label></li>
+          <li><label><input type="checkbox"><span>FMCの管理者・低権限アカウントのログイン履歴、設定変更、管理下デバイスへのポリシー配布履歴を確認</span></label></li>
+          <li><label><input type="checkbox"><span>IOC該当または不審な操作がある場合、機器保全とCisco TACへの連絡を行い、インシデント対応へ移行</span></label></li>
         </ul>
       </div>
       <div class="block">
         <h4>情報源</h4>
         <ul class="sources">
-          <li>ベンダーアドバイザリ NW-SA-2026-014 <span>（サンプルのため実リンクはありません）</span></li>
-          <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA Known Exploited Vulnerabilities Catalog</a></li>
-          <li><a href="https://nvd.nist.gov/vuln" target="_blank" rel="noopener noreferrer">NVD (National Vulnerability Database)</a></li>
+          <li><a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-fmc-static-cred-BET3Cjh" target="_blank" rel="noopener noreferrer">Cisco Security Advisory: Cisco Secure Firewall Management Center Software Static Credential Vulnerability</a>（初版 2026-07-29、最終更新 2026-08-03）</li>
+          <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-20316" target="_blank" rel="noopener noreferrer">NVD: CVE-2026-20316</a>（CISA KEV掲載・追加日・影響バージョンの確認）</li>
+          <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2026-20316" target="_blank" rel="noopener noreferrer">CISA Known Exploited Vulnerabilities Catalog: CVE-2026-20316</a></li>
+          <li>GitHub上のCVE番号検索（2026-08-05実施）：実装を伴う公開PoCは確認できず</li>
         </ul>
       </div>
     </article>
-
-    <article class="case" id="CVE-2026-18412"
-      data-cve="CVE-2026-18412"
-      data-priority="P1"
-      data-product="Orbit RMM Server"
-      data-exploited="true"
-      data-kev="false"
-      data-poc="true"
-      data-cvss="9.1"
-      data-fixed="5.8.2 / 5.7.9">
-      <div class="case-head">
-        <span class="badge p1" data-glyph="■">P1 即時確認</span>
-        <h3>CVE-2026-18412</h3>
-      </div>
-      <p class="product">Orbit RMM Server 5.6 – 5.8.1（リモート監視・運用管理基盤）</p>
-      <p class="lead">
-        API認証トークンの検証不備により認証を回避でき、管理下の全エンドポイントへ任意スクリプトを配信できます。
-        MSP経由での連鎖的な侵害が想定されます。
-      </p>
-      <div class="badges">
-        <span class="badge on" data-glyph="●">実悪用あり</span>
-        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
-        <span class="badge warn" data-glyph="●">公開PoCあり</span>
-        <span class="badge na" data-glyph="■">CVSS 9.1</span>
-      </div>
-      <dl class="facts">
-        <div><dt>CVSS</dt><dd>9.1 / Critical (CVSS v3.1)</dd></div>
-        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要（管理ポート到達が前提）</dd></div>
-        <div><dt>実悪用</dt><dd class="is-alert">あり（限定的だが複数の被害報告）</dd></div>
-        <div><dt>CISA KEV</dt><dd>未掲載</dd></div>
-        <div><dt>公開PoC</dt><dd class="is-warn">あり</dd></div>
-        <div><dt>影響バージョン</dt><dd>5.6.0 – 5.8.1</dd></div>
-        <div><dt>修正版</dt><dd class="is-ok">5.8.2（5.7系は 5.7.9）</dd></div>
-      </dl>
-      <div class="block">
-        <h4>推奨対処</h4>
-        <p>
-          5.8.2 もしくは 5.7.9 へ更新してください。更新までは、管理APIポートへのアクセスを管理セグメントに限定します。
-          RMMは正規機能としてスクリプトを実行するため、更新前後で配信済みスクリプトとジョブ履歴の確認が必要です。
-        </p>
-      </div>
-      <div class="block reason">
-        <h4>AIによる注目理由</h4>
-        <p>
-          RMMは、1台の侵害が管理下の全端末へ即座に波及します。KEV未掲載ではあるものの、実悪用とPoC公開が揃っており、
-          影響範囲の広さからP1としました。自社利用だけでなく、運用委託先が使用している場合も確認対象です。
-        </p>
-      </div>
-      <div class="block">
-        <h4>SOC向け推奨アクション</h4>
-        <ul class="checklist">
-          <li><label><input type="checkbox"><span>自社および運用委託先でのOrbit RMM利用有無を確認</span></label></li>
-          <li><label><input type="checkbox"><span>サーバーバージョンが 5.8.1 以下かを確認</span></label></li>
-          <li><label><input type="checkbox"><span>管理APIポートのアクセス元制限を確認</span></label></li>
-          <li><label><input type="checkbox"><span>直近30日のスクリプト配信ジョブ履歴に、想定外の実行がないか確認</span></label></li>
-          <li><label><input type="checkbox"><span>EDRで、RMMエージェントを親プロセスとする不審な子プロセス生成を確認</span></label></li>
-          <li><label><input type="checkbox"><span>APIトークンをすべて再発行</span></label></li>
-        </ul>
-      </div>
-      <div class="block">
-        <h4>情報源</h4>
-        <ul class="sources">
-          <li>ベンダーアドバイザリ ORB-2026-0031 <span>（サンプルのため実リンクはありません）</span></li>
-          <li><a href="https://nvd.nist.gov/vuln" target="_blank" rel="noopener noreferrer">NVD (National Vulnerability Database)</a></li>
-        </ul>
-      </div>
-    </article>
-
-    <article class="case" id="CVE-2026-17903"
-      data-cve="CVE-2026-17903"
-      data-priority="P2"
-      data-product="Meridian Managed File Transfer"
-      data-exploited="false"
-      data-kev="false"
-      data-poc="true"
-      data-cvss="7.5"
-      data-fixed="2026.2.1">
-      <div class="case-head">
-        <span class="badge p2" data-glyph="■">P2 速やかに確認</span>
-        <h3>CVE-2026-17903</h3>
-      </div>
-      <p class="product">Meridian Managed File Transfer 2026.1.0 – 2026.1.4（ファイル転送基盤）</p>
-      <p class="lead">
-        パス正規化の不備により、認証前に任意ファイルを読み取れます。設定ファイルからのデータベース資格情報漏えいにつながります。
-      </p>
-      <div class="badges">
-        <span class="badge off" data-glyph="○">実悪用なし</span>
-        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
-        <span class="badge warn" data-glyph="●">公開PoCあり</span>
-        <span class="badge na" data-glyph="■">CVSS 7.5</span>
-      </div>
-      <dl class="facts">
-        <div><dt>CVSS</dt><dd>7.5 / High (CVSS v3.1)</dd></div>
-        <div><dt>攻撃条件</dt><dd class="is-warn">ネットワーク経由・認証不要（読み取りのみ）</dd></div>
-        <div><dt>実悪用</dt><dd>報告なし（2026-08-05時点）</dd></div>
-        <div><dt>CISA KEV</dt><dd>未掲載</dd></div>
-        <div><dt>公開PoC</dt><dd class="is-warn">あり（技術詳細も公開済み）</dd></div>
-        <div><dt>影響バージョン</dt><dd>2026.1.0 – 2026.1.4</dd></div>
-        <div><dt>修正版</dt><dd class="is-ok">2026.2.1</dd></div>
-      </dl>
-      <div class="block">
-        <h4>推奨対処</h4>
-        <p>
-          2026.2.1へ更新してください。ファイル転送製品は過去に大規模な悪用が繰り返されており、PoC公開から実悪用までの期間が短い傾向があります。
-          更新後は、設定ファイルに保存されている資格情報を再発行してください。
-        </p>
-      </div>
-      <div class="block reason">
-        <h4>AIによる注目理由</h4>
-        <p>
-          実悪用は未確認のため即時対応のP1とはしていませんが、認証不要かつPoCが公開済みであり、
-          製品カテゴリ的に短期間で悪用が始まる可能性があります。24〜48時間以内の確認を推奨します。
-        </p>
-      </div>
-      <div class="block">
-        <h4>SOC向け推奨アクション</h4>
-        <ul class="checklist">
-          <li><label><input type="checkbox"><span>Meridian MFTの利用有無と、インターネット公開の有無を確認</span></label></li>
-          <li><label><input type="checkbox"><span>バージョンが 2026.1.4 以下かを確認</span></label></li>
-          <li><label><input type="checkbox"><span>Webアクセスログで、パストラバーサルを含むリクエストを遡って確認</span></label></li>
-          <li><label><input type="checkbox"><span>設定ファイル内の資格情報が使い回されていないかを確認</span></label></li>
-          <li><label><input type="checkbox"><span>更新後、DB接続用資格情報を再発行</span></label></li>
-        </ul>
-      </div>
-      <div class="block">
-        <h4>情報源</h4>
-        <ul class="sources">
-          <li>ベンダーアドバイザリ MER-2026-08 <span>（サンプルのため実リンクはありません）</span></li>
-          <li><a href="https://nvd.nist.gov/vuln" target="_blank" rel="noopener noreferrer">NVD (National Vulnerability Database)</a></li>
-        </ul>
-      </div>
-    </article>
-
-    <article class="case" id="CVE-2026-17650"
-      data-cve="CVE-2026-17650"
-      data-priority="P3"
-      data-product="Cascade Analytics DB"
-      data-exploited="false"
-      data-kev="false"
-      data-poc="false"
-      data-cvss="8.8"
-      data-fixed="14.2.6">
-      <div class="case-head">
-        <span class="badge p3" data-glyph="■">P3 継続監視</span>
-        <h3>CVE-2026-17650</h3>
-      </div>
-      <p class="product">Cascade Analytics DB 14.0 – 14.2.5（分析用データベース）</p>
-      <p class="lead">
-        保存プロシージャの権限チェック不備により、認証済みの一般ユーザーが管理者権限へ昇格できます。
-      </p>
-      <div class="badges">
-        <span class="badge off" data-glyph="○">実悪用なし</span>
-        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
-        <span class="badge off" data-glyph="○">公開PoCなし</span>
-        <span class="badge na" data-glyph="■">CVSS 8.8</span>
-      </div>
-      <dl class="facts">
-        <div><dt>CVSS</dt><dd>8.8 / High (CVSS v3.1)</dd></div>
-        <div><dt>攻撃条件</dt><dd>要認証（有効なDBアカウントが必要）</dd></div>
-        <div><dt>実悪用</dt><dd>報告なし</dd></div>
-        <div><dt>CISA KEV</dt><dd>未掲載</dd></div>
-        <div><dt>公開PoC</dt><dd>確認されていない</dd></div>
-        <div><dt>影響バージョン</dt><dd>14.0.0 – 14.2.5</dd></div>
-        <div><dt>修正版</dt><dd class="is-ok">14.2.6</dd></div>
-      </dl>
-      <div class="block">
-        <h4>推奨対処</h4>
-        <p>通常のパッチ適用サイクルで 14.2.6 へ更新してください。DBは一般にインターネット非公開のため、緊急の切り離しは不要と判断できます。</p>
-      </div>
-      <div class="block reason">
-        <h4>AIによる注目理由</h4>
-        <p>
-          CVSSは8.8と高いものの、有効な認証情報が前提であり、実悪用・KEV・PoCのいずれも確認されていません。
-          CVSSの数値だけで緊急対応に引き上げるのではなく、利用有無を確認したうえで通常の運用サイクルに載せる対象として掲載しています。
-        </p>
-      </div>
-      <div class="block">
-        <h4>SOC向け推奨アクション</h4>
-        <ul class="checklist">
-          <li><label><input type="checkbox"><span>Cascade Analytics DBの利用有無を確認</span></label></li>
-          <li><label><input type="checkbox"><span>バージョンが 14.2.5 以下かを確認</span></label></li>
-          <li><label><input type="checkbox"><span>次回パッチ適用計画に組み込む</span></label></li>
-          <li><label><input type="checkbox"><span>DBアカウントの権限棚卸し（一般ユーザーの過剰権限）を確認</span></label></li>
-        </ul>
-      </div>
-      <div class="block">
-        <h4>情報源</h4>
-        <ul class="sources">
-          <li>ベンダーアドバイザリ CAS-2026-0077 <span>（サンプルのため実リンクはありません）</span></li>
-          <li><a href="https://nvd.nist.gov/vuln" target="_blank" rel="noopener noreferrer">NVD (National Vulnerability Database)</a></li>
-        </ul>
-      </div>
-    </article>
-
   </section>
 
   <p class="disclaimer">
@@ -392,7 +139,6 @@
     <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
     <p><a href="../index.html">レポート一覧へ戻る</a></p>
   </footer>
-
 </main>
 </body>
 </html>
