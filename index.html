@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>緊急脆弱性ウォッチ</title>
+<style>
+:root{--navy:#102a43;--blue:#1769aa;--ink:#243b53;--muted:#627d98;--line:#d9e2ec;--bg:#f5f8fb;--card:#fff;--critical:#b42318;--critical-bg:#fff0ef;--high:#b54708;--high-bg:#fff7ed;--good:#067647;--good-bg:#ecfdf3;--neutral:#475467;--neutral-bg:#f2f4f7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.65}
+.wrap{max-width:1120px;margin:auto;padding:30px 20px 56px}header{border-left:5px solid var(--blue);padding:6px 0 6px 18px;margin-bottom:22px}
+h1{margin:0;color:var(--navy);font-size:clamp(1.45rem,3vw,2.15rem)}h2{font-size:1.14rem;color:var(--navy);margin:31px 0 13px}
+.subtitle,.meta,.count,.footnote{color:var(--muted)}.subtitle{margin:5px 0 0}.meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:13px;font-size:.83rem}
+.notice,.status{border-radius:10px;padding:14px 16px;font-size:.91rem}.notice{background:#eef6ff;border:1px solid #cfe5ff;margin:17px 0 22px}.status{background:#fff;border:1px solid var(--line)}
+.status.error{background:var(--critical-bg);border-color:#fecdca;color:var(--critical)}
+.toolbar{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(150px,.55fr) auto;gap:10px;margin:22px 0 10px;align-items:end}
+.field label{display:block;color:var(--muted);font-size:.8rem;font-weight:700;margin-bottom:4px}.field input,.field select{width:100%;border:1px solid var(--line);border-radius:9px;background:#fff;padding:10px 12px}
+.button{border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--navy);padding:10px 14px;cursor:pointer;font-weight:700}
+.latest-grid,.reports{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.panel,.report-card{background:var(--card);border:1px solid var(--line);border-radius:11px;box-shadow:0 8px 28px rgba(16,42,67,.07)}
+.panel{padding:18px}.panel h3{margin:0 0 8px;color:var(--navy);font-size:1rem}.changes{margin:0;padding-left:19px;font-size:.9rem}
+.report-card{overflow:hidden}.report-main{display:block;color:inherit;text-decoration:none;padding:18px}.date-row{display:flex;justify-content:space-between;gap:12px}.date{color:var(--navy);font-weight:800}.file{color:var(--muted);font-size:.76rem;word-break:break-all;text-align:right}
+.summary{font-size:.9rem}.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.badge{display:inline-block;border-radius:999px;padding:3px 9px;font-size:.74rem;font-weight:700}
+.critical{color:var(--critical);background:var(--critical-bg);border:1px solid #fecdca}.high{color:var(--high);background:var(--high-bg);border:1px solid #fed7aa}.yes{color:var(--good);background:var(--good-bg);border:1px solid #abefc6}.neutral{color:var(--neutral);background:var(--neutral-bg);border:1px solid #d0d5dd}
+.empty{grid-column:1/-1;border:1px dashed #b8c7d6;border-radius:10px;background:#fff;padding:28px;text-align:center;color:var(--muted)}.footnote{margin-top:28px;font-size:.79rem}
+@media(max-width:760px){.wrap{padding:20px 13px 40px}.toolbar,.latest-grid,.reports{grid-template-columns:1fr}.date-row{display:block}.file{text-align:left}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+<h1>緊急脆弱性ウォッチ</h1>
+<p class="subtitle">AIが公開情報を調査し、SOC向けに優先度を整理した日次レポート</p>
+<div class="meta"><span id="repoMeta">リポジトリを確認中</span><span id="updatedMeta">最終取得: 未取得</span></div>
+</header>
+
+<section class="notice"><strong>このページについて:</strong> <code>vuln/</code>フォルダへ追加されたHTMLをGitHub APIから取得し、新しい順に自動表示します。トップページの日次更新は不要です。</section>
+
+<section class="toolbar">
+<div class="field"><label for="search">検索</label><input id="search" type="search" placeholder="日付、CVE、製品名など"></div>
+<div class="field"><label for="yearFilter">年</label><select id="yearFilter"><option value="">すべて</option></select></div>
+<button id="reload" class="button" type="button">再読み込み</button>
+</section>
+
+<div id="status" class="status" role="status">レポート一覧を取得しています。</div>
+
+<section id="latestSection" hidden>
+<h2>最新レポートと前回からの変化</h2>
+<div class="latest-grid">
+<article class="panel"><h3 id="latestTitle">最新レポート</h3><div id="latestSummary"></div></article>
+<article class="panel"><h3>前回からの変化</h3><ul id="changeList" class="changes"></ul></article>
+</div>
+</section>
+
+<section>
+<h2>レポート一覧</h2>
+<p id="count" class="count"></p>
+<div id="reports" class="reports"></div>
+</section>
+
+<p class="footnote">GitHub APIの未認証アクセスには利用回数制限があります。取得できない場合は時間を置いて再読み込みしてください。</p>
+</main>
+
+<script>
+(()=>{
+"use strict";
+const CONFIG={owner:"",repository:"",branch:"main",reportDirectory:"vuln",maxInspect:20};
+const state={reports:[],enriched:[]};
+const $=id=>document.getElementById(id);
+const el={repoMeta:$("repoMeta"),updatedMeta:$("updatedMeta"),search:$("search"),yearFilter:$("yearFilter"),reload:$("reload"),status:$("status"),reports:$("reports"),count:$("count"),latestSection:$("latestSection"),latestTitle:$("latestTitle"),latestSummary:$("latestSummary"),changeList:$("changeList")};
+
+function detectRepo(){
+ if(CONFIG.owner&&CONFIG.repository)return{owner:CONFIG.owner,repository:CONFIG.repository};
+ const m=location.hostname.match(/^([^.]+)\.github\.io$/i);
+ if(!m)throw new Error("リポジトリを自動判定できません。CONFIG.ownerとCONFIG.repositoryを設定してください。");
+ const owner=m[1],first=location.pathname.split("/").filter(Boolean)[0];
+ return{owner,repository:first||owner+".github.io"};
+}
+function parseDate(name){const m=name.match(/(\d{4})-(\d{2})-(\d{2})/);if(!m)return null;const iso=`${m[1]}-${m[2]}-${m[3]}`;return{iso,date:new Date(iso+"T00:00:00+09:00")}}
+function fmt(iso){return new Intl.DateTimeFormat("ja-JP",{year:"numeric",month:"long",day:"numeric",weekday:"short"}).format(new Date(iso+"T00:00:00+09:00"))}
+function esc(v){return String(v).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function badgeClass(t){if(/緊急|critical|p1/i.test(t))return"critical";if(/高|high|p2/i.test(t))return"high";if(/実悪用あり|kev|pocあり|掲載/i.test(t))return"yes";return"neutral"}
+
+async function details(r){
+ try{
+  const res=await fetch(r.url,{cache:"no-store"});if(!res.ok)throw 0;
+  const doc=new DOMParser().parseFromString(await res.text(),"text/html");
+  const cases=[...doc.querySelectorAll(".case")].map(n=>{
+   const h=n.querySelector("h3")?.textContent||"";
+   const cve=h.match(/CVE-\d{4}-\d+/i)?.[0]?.toUpperCase()||h.trim();
+   return{cve,product:n.querySelector(".product")?.textContent?.trim()||"",lead:n.querySelector(".lead")?.textContent?.trim()||"",badges:[...n.querySelectorAll(".badge")].map(b=>b.textContent.trim()).filter(Boolean)}
+  });
+  return{...r,cases,searchable:[r.name,r.iso,...cases.flatMap(x=>[x.cve,x.product,x.lead,...x.badges])].join(" ").toLowerCase()}
+ }catch{return{...r,cases:[],searchable:(r.name+" "+r.iso).toLowerCase()}}
+}
+function years(){
+ const ys=[...new Set(state.reports.map(r=>r.iso.slice(0,4)))].sort().reverse();
+ el.yearFilter.innerHTML='<option value="">すべて</option>'+ys.map(y=>`<option value="${y}">${y}年</option>`).join("");
+}
+function render(){
+ const q=el.search.value.trim().toLowerCase(),y=el.yearFilter.value;
+ const list=state.enriched.filter(r=>(!y||r.iso.startsWith(y))&&(!q||r.searchable.includes(q)));
+ el.count.textContent=`${list.length}件を表示 / 全${state.enriched.length}件`;
+ if(!list.length){el.reports.innerHTML='<div class="empty">条件に一致するレポートがありません。</div>';return}
+ el.reports.innerHTML=list.map(r=>{
+  const p=r.cases[0],badges=p?.badges?.slice(0,4)||[];
+  const summary=p?`${p.cve}${p.product?" — "+p.product:""}`:"レポートを開いて詳細を確認してください。";
+  return`<article class="report-card"><a class="report-main" href="${esc(r.url)}"><div class="date-row"><div class="date">${esc(fmt(r.iso))}</div><div class="file">${esc(r.name)}</div></div><p class="summary">${esc(summary)}</p><div class="badges">${badges.map(b=>`<span class="badge ${badgeClass(b)}">${esc(b)}</span>`).join("")}<span class="badge neutral">${r.cases.length}件掲載</span></div></a></article>`
+ }).join("");
+}
+function compare(){
+ if(!state.enriched.length){el.latestSection.hidden=true;return}
+ const a=state.enriched[0],b=state.enriched[1];el.latestSection.hidden=false;el.latestTitle.textContent="最新: "+fmt(a.iso);
+ el.latestSummary.innerHTML=a.cases.length?a.cases.slice(0,3).map(x=>`<p><strong>${esc(x.cve)}</strong>${x.product?" — "+esc(x.product):""}</p>`).join(""):"最新レポートを開いて詳細を確認してください。";
+ if(!b){el.changeList.innerHTML="<li>比較対象となる前回レポートがありません。</li>";return}
+ const am=new Map(a.cases.map(x=>[x.cve,x])),bm=new Map(b.cases.map(x=>[x.cve,x])),changes=[];
+ for(const[cve,x]of am){if(!bm.has(cve)){changes.push(`<strong>${esc(cve)}</strong> が新規掲載されました。`);continue}const old=bm.get(cve),n=x.badges.join(" / "),o=old.badges.join(" / ");if(n!==o)changes.push(`<strong>${esc(cve)}</strong> の状態表示が更新されました。`)}
+ for(const[cve]of bm)if(!am.has(cve))changes.push(`<strong>${esc(cve)}</strong> は今回の優先対象から外れました。`);
+ el.changeList.innerHTML=(changes.length?changes:["前回レポートから大きな掲載変更は確認できません。"]).map(x=>`<li>${x}</li>`).join("");
+}
+async function load(){
+ el.status.hidden=false;el.status.className="status";el.status.textContent="GitHubからレポート一覧を取得しています。";el.reload.disabled=true;
+ try{
+  const {owner,repository}=detectRepo();el.repoMeta.textContent=owner+"/"+repository;
+  const api=`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repository)}/contents/${encodeURIComponent(CONFIG.reportDirectory)}?ref=${encodeURIComponent(CONFIG.branch)}`;
+  const res=await fetch(api,{headers:{Accept:"application/vnd.github+json"}});if(!res.ok)throw new Error(`GitHub API取得失敗: ${res.status}`);
+  const files=await res.json();
+  state.reports=files.filter(x=>x.type==="file"&&/\.html?$/i.test(x.name)).map(x=>{const d=parseDate(x.name);return d?{name:x.name,iso:d.iso,date:d.date,url:`./${CONFIG.reportDirectory}/${encodeURIComponent(x.name)}`}:null}).filter(Boolean).sort((a,b)=>b.date-a.date);
+  years();
+  const top=await Promise.all(state.reports.slice(0,CONFIG.maxInspect).map(details)),map=new Map(top.map(r=>[r.name,r]));
+  state.enriched=state.reports.map(r=>map.get(r.name)||{...r,cases:[],searchable:(r.name+" "+r.iso).toLowerCase()});
+  compare();render();el.updatedMeta.textContent="最終取得: "+new Intl.DateTimeFormat("ja-JP",{dateStyle:"medium",timeStyle:"short"}).format(new Date());el.status.hidden=true;
+ }catch(e){el.status.hidden=false;el.status.className="status error";el.status.textContent=e.message||"取得に失敗しました。";el.reports.innerHTML="";el.latestSection.hidden=true}
+ finally{el.reload.disabled=false}
+}
+el.search.addEventListener("input",render);el.yearFilter.addEventListener("change",render);el.reload.addEventListener("click",load);load();
+})();
+</script>
+</body>
+</html>
