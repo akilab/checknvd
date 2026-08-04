@@ -4,136 +4,167 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>緊急脆弱性ウォッチ</title>
-<style>
-:root{--navy:#102a43;--blue:#1769aa;--ink:#243b53;--muted:#627d98;--line:#d9e2ec;--bg:#f5f8fb;--card:#fff;--critical:#b42318;--critical-bg:#fff0ef;--high:#b54708;--high-bg:#fff7ed;--good:#067647;--good-bg:#ecfdf3;--neutral:#475467;--neutral-bg:#f2f4f7}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.65}
-.wrap{max-width:1120px;margin:auto;padding:30px 20px 56px}header{border-left:5px solid var(--blue);padding:6px 0 6px 18px;margin-bottom:22px}
-h1{margin:0;color:var(--navy);font-size:clamp(1.45rem,3vw,2.15rem)}h2{font-size:1.14rem;color:var(--navy);margin:31px 0 13px}
-.subtitle,.meta,.count,.footnote{color:var(--muted)}.subtitle{margin:5px 0 0}.meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:13px;font-size:.83rem}
-.notice,.status{border-radius:10px;padding:14px 16px;font-size:.91rem}.notice{background:#eef6ff;border:1px solid #cfe5ff;margin:17px 0 22px}.status{background:#fff;border:1px solid var(--line)}
-.status.error{background:var(--critical-bg);border-color:#fecdca;color:var(--critical)}
-.toolbar{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(150px,.55fr) auto;gap:10px;margin:22px 0 10px;align-items:end}
-.field label{display:block;color:var(--muted);font-size:.8rem;font-weight:700;margin-bottom:4px}.field input,.field select{width:100%;border:1px solid var(--line);border-radius:9px;background:#fff;padding:10px 12px}
-.button{border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--navy);padding:10px 14px;cursor:pointer;font-weight:700}
-.latest-grid,.reports{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.panel,.report-card{background:var(--card);border:1px solid var(--line);border-radius:11px;box-shadow:0 8px 28px rgba(16,42,67,.07)}
-.panel{padding:18px}.panel h3{margin:0 0 8px;color:var(--navy);font-size:1rem}.changes{margin:0;padding-left:19px;font-size:.9rem}
-.report-card{overflow:hidden}.report-main{display:block;color:inherit;text-decoration:none;padding:18px}.date-row{display:flex;justify-content:space-between;gap:12px}.date{color:var(--navy);font-weight:800}.file{color:var(--muted);font-size:.76rem;word-break:break-all;text-align:right}
-.summary{font-size:.9rem}.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.badge{display:inline-block;border-radius:999px;padding:3px 9px;font-size:.74rem;font-weight:700}
-.critical{color:var(--critical);background:var(--critical-bg);border:1px solid #fecdca}.high{color:var(--high);background:var(--high-bg);border:1px solid #fed7aa}.yes{color:var(--good);background:var(--good-bg);border:1px solid #abefc6}.neutral{color:var(--neutral);background:var(--neutral-bg);border:1px solid #d0d5dd}
-.empty{grid-column:1/-1;border:1px dashed #b8c7d6;border-radius:10px;background:#fff;padding:28px;text-align:center;color:var(--muted)}.footnote{margin-top:28px;font-size:.79rem}
-@media(max-width:760px){.wrap{padding:20px 13px 40px}.toolbar,.latest-grid,.reports{grid-template-columns:1fr}.date-row{display:block}.file{text-align:left}}
-</style>
+<meta name="description" content="公開情報から、今日確認すべき重要な脆弱性をAIが選定・整理したSOC向けの日次脆弱性ブリーフです。">
+<title>AI Vulnerability Intelligence — SOC向け 緊急脆弱性ウォッチ</title>
+<link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-<main class="wrap">
-<header>
-<h1>緊急脆弱性ウォッチ</h1>
-<p class="subtitle">AIが公開情報を調査し、SOC向けに優先度を整理した日次レポート</p>
-<div class="meta"><span id="repoMeta">リポジトリを確認中</span><span id="updatedMeta">最終取得: 未取得</span></div>
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">
+      <span class="mark" aria-hidden="true"></span>
+      <div>
+        <h1 class="brand-name">AI Vulnerability Intelligence</h1>
+        <p class="brand-sub">SOC向け 緊急脆弱性ウォッチ</p>
+      </div>
+    </div>
+    <p class="tagline">
+      公開情報から、今日確認すべき重要な脆弱性をAIが選定・整理。
+      実悪用・CISA KEV掲載・公開PoCの有無と対象製品を、SOCの優先度順に整理した日次ブリーフです。
+    </p>
+    <dl class="header-meta">
+      <div>
+        <dt>対象リポジトリ</dt>
+        <dd><span id="repoMeta">確認中</span>
+          <a id="repoLink" href="#" rel="noopener noreferrer" hidden>GitHubで開く</a></dd>
+      </div>
+      <div>
+        <dt>最終取得日時</dt>
+        <dd id="updatedMeta">未取得</dd>
+      </div>
+      <div>
+        <dt>レポート件数</dt>
+        <dd id="totalMeta">―</dd>
+      </div>
+    </dl>
+  </div>
 </header>
 
-<section class="notice"><strong>このページについて:</strong> <code>vuln/</code>フォルダへ追加されたHTMLをGitHub APIから取得し、新しい順に自動表示します。トップページの日次更新は不要です。</section>
+<main id="main" class="wrap">
 
-<section class="toolbar">
-<div class="field"><label for="search">検索</label><input id="search" type="search" placeholder="日付、CVE、製品名など"></div>
-<div class="field"><label for="yearFilter">年</label><select id="yearFilter"><option value="">すべて</option></select></div>
-<button id="reload" class="button" type="button">再読み込み</button>
-</section>
+  <p id="status" class="status" role="status" aria-live="polite">レポート一覧を取得しています。</p>
 
-<div id="status" class="status" role="status">レポート一覧を取得しています。</div>
+  <section id="latestSection" aria-labelledby="latestHeading" hidden>
+    <div class="section-head">
+      <h2 id="latestHeading">最新レポート</h2>
+      <p class="section-note">最優先の1件を抜粋しています。</p>
+    </div>
+    <article class="hero" id="hero">
+      <div class="hero-top">
+        <div>
+          <p class="hero-date" id="heroDate">―</p>
+          <p class="hero-file" id="heroFile"></p>
+        </div>
+        <a class="btn" id="heroLink" href="#">最新レポートを開く</a>
+      </div>
+      <dl class="hero-facts" id="heroFacts"></dl>
+    </article>
+  </section>
 
-<section id="latestSection" hidden>
-<h2>最新レポートと前回からの変化</h2>
-<div class="latest-grid">
-<article class="panel"><h3 id="latestTitle">最新レポート</h3><div id="latestSummary"></div></article>
-<article class="panel"><h3>前回からの変化</h3><ul id="changeList" class="changes"></ul></article>
-</div>
-</section>
+  <section id="summarySection" aria-labelledby="summaryHeading" hidden>
+    <div class="section-head">
+      <h2 id="summaryHeading">今日のサマリー</h2>
+      <p class="section-note" id="summaryNote"></p>
+    </div>
+    <div class="stats" id="stats"></div>
+  </section>
 
-<section>
-<h2>レポート一覧</h2>
-<p id="count" class="count"></p>
-<div id="reports" class="reports"></div>
-</section>
+  <section id="changeSection" aria-labelledby="changeHeading" hidden>
+    <div class="section-head">
+      <h2 id="changeHeading">前回からの変化</h2>
+      <p class="section-note" id="changeNote"></p>
+    </div>
+    <ul class="changes" id="changes"></ul>
+  </section>
 
-<p class="footnote">GitHub APIの未認証アクセスには利用回数制限があります。取得できない場合は時間を置いて再読み込みしてください。</p>
+  <section id="listSection" aria-labelledby="listHeading">
+    <div class="section-head">
+      <h2 id="listHeading">レポート一覧</h2>
+      <p class="section-note">新しい順に表示します。</p>
+    </div>
+
+    <div class="filters">
+      <div class="filter-row">
+        <div class="field">
+          <label for="search">キーワード検索</label>
+          <input id="search" type="search" placeholder="CVE番号、製品名、概要、日付、ファイル名">
+        </div>
+        <div class="field">
+          <label for="yearFilter">年</label>
+          <select id="yearFilter"><option value="">すべての年</option></select>
+        </div>
+        <div class="field">
+          <label for="monthFilter">月</label>
+          <select id="monthFilter"><option value="">すべての月</option></select>
+        </div>
+        <div class="field">
+          <label for="priorityFilter">SOC Priority</label>
+          <select id="priorityFilter">
+            <option value="">すべて</option>
+            <option value="P1">P1 即時確認</option>
+            <option value="P2">P2 速やかに確認</option>
+            <option value="P3">P3 継続監視</option>
+          </select>
+        </div>
+      </div>
+      <div class="toggles">
+        <label class="toggle"><input type="checkbox" id="onlyExploited">実悪用ありのみ</label>
+        <label class="toggle"><input type="checkbox" id="onlyKev">CISA KEV掲載のみ</label>
+        <label class="toggle"><input type="checkbox" id="onlyPoc">公開PoCありのみ</label>
+        <div class="filter-actions">
+          <button type="button" class="btn btn-quiet" id="resetFilters">絞り込みを解除</button>
+          <button type="button" class="btn btn-quiet" id="reload">再読み込み</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="result-line" id="resultLine" role="status" aria-live="polite"></p>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section id="archiveSection" aria-labelledby="archiveHeading">
+    <div class="section-head">
+      <h2 id="archiveHeading">月別アーカイブ</h2>
+      <p class="section-note" id="archiveNote"></p>
+    </div>
+    <div class="archive" id="archive"></div>
+  </section>
+
+  <section id="prioritySection" aria-labelledby="prioritySectionHeading">
+    <div class="section-head">
+      <h2 id="prioritySectionHeading">SOC Priorityの考え方</h2>
+      <p class="section-note">CVSSとは別軸の、SOC運用上の優先度です。</p>
+    </div>
+    <div class="legend">
+      <div class="legend-item">
+        <h3><span class="badge p1" data-glyph="■">P1 即時確認</span></h3>
+        <p>実悪用が確認されている、CISA KEV掲載、インターネットから認証不要で悪用可能、管理基盤・RMM・VPN・認証基盤・セキュリティ製品への重大な影響、広範囲への侵害拡大が想定される。</p>
+      </div>
+      <div class="legend-item">
+        <h3><span class="badge p2" data-glyph="■">P2 速やかに確認</span></h3>
+        <p>公開PoCがある、リモートコード実行、認証回避、任意ファイル読み取り、広く利用される製品、重大な情報漏えいにつながる。</p>
+      </div>
+      <div class="legend-item">
+        <h3><span class="badge p3" data-glyph="■">P3 継続監視</span></h3>
+        <p>CVSSは高いが攻撃条件が限定的、実悪用・KEV・PoCが確認されていない、組織の利用有無を確認して継続監視する段階。</p>
+      </div>
+    </div>
+    <p class="disclaimer">
+      <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+      CVSSスコアや各ベンダーの深刻度評価とは異なります。最終的な対応判断は、自組織の資産構成・公開状況・補完的統制をふまえて行ってください。
+    </p>
+  </section>
+
+  <footer class="site-footer">
+    <p>日次レポートは <code>vuln/YYYY-MM-DD.html</code> として追加され、このページがGitHub APIから一覧を取得して自動表示します。トップページの日次更新は不要です。</p>
+    <p>GitHub APIの未認証アクセスには利用回数制限（IPあたり毎時60リクエスト）があります。取得できない場合は時間を置いて再読み込みしてください。</p>
+    <p>掲載内容は公開情報にもとづくAIの整理結果です。PoCへのリンクは安全性を確認したものではなく、実行してはいけません。</p>
+  </footer>
+
 </main>
 
-<script>
-(()=>{
-"use strict";
-const CONFIG={owner:"",repository:"",branch:"main",reportDirectory:"vuln",maxInspect:20};
-const state={reports:[],enriched:[]};
-const $=id=>document.getElementById(id);
-const el={repoMeta:$("repoMeta"),updatedMeta:$("updatedMeta"),search:$("search"),yearFilter:$("yearFilter"),reload:$("reload"),status:$("status"),reports:$("reports"),count:$("count"),latestSection:$("latestSection"),latestTitle:$("latestTitle"),latestSummary:$("latestSummary"),changeList:$("changeList")};
-
-function detectRepo(){
- if(CONFIG.owner&&CONFIG.repository)return{owner:CONFIG.owner,repository:CONFIG.repository};
- const m=location.hostname.match(/^([^.]+)\.github\.io$/i);
- if(!m)throw new Error("リポジトリを自動判定できません。CONFIG.ownerとCONFIG.repositoryを設定してください。");
- const owner=m[1],first=location.pathname.split("/").filter(Boolean)[0];
- return{owner,repository:first||owner+".github.io"};
-}
-function parseDate(name){const m=name.match(/(\d{4})-(\d{2})-(\d{2})/);if(!m)return null;const iso=`${m[1]}-${m[2]}-${m[3]}`;return{iso,date:new Date(iso+"T00:00:00+09:00")}}
-function fmt(iso){return new Intl.DateTimeFormat("ja-JP",{year:"numeric",month:"long",day:"numeric",weekday:"short"}).format(new Date(iso+"T00:00:00+09:00"))}
-function esc(v){return String(v).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function badgeClass(t){if(/緊急|critical|p1/i.test(t))return"critical";if(/高|high|p2/i.test(t))return"high";if(/実悪用あり|kev|pocあり|掲載/i.test(t))return"yes";return"neutral"}
-
-async function details(r){
- try{
-  const res=await fetch(r.url,{cache:"no-store"});if(!res.ok)throw 0;
-  const doc=new DOMParser().parseFromString(await res.text(),"text/html");
-  const cases=[...doc.querySelectorAll(".case")].map(n=>{
-   const h=n.querySelector("h3")?.textContent||"";
-   const cve=h.match(/CVE-\d{4}-\d+/i)?.[0]?.toUpperCase()||h.trim();
-   return{cve,product:n.querySelector(".product")?.textContent?.trim()||"",lead:n.querySelector(".lead")?.textContent?.trim()||"",badges:[...n.querySelectorAll(".badge")].map(b=>b.textContent.trim()).filter(Boolean)}
-  });
-  return{...r,cases,searchable:[r.name,r.iso,...cases.flatMap(x=>[x.cve,x.product,x.lead,...x.badges])].join(" ").toLowerCase()}
- }catch{return{...r,cases:[],searchable:(r.name+" "+r.iso).toLowerCase()}}
-}
-function years(){
- const ys=[...new Set(state.reports.map(r=>r.iso.slice(0,4)))].sort().reverse();
- el.yearFilter.innerHTML='<option value="">すべて</option>'+ys.map(y=>`<option value="${y}">${y}年</option>`).join("");
-}
-function render(){
- const q=el.search.value.trim().toLowerCase(),y=el.yearFilter.value;
- const list=state.enriched.filter(r=>(!y||r.iso.startsWith(y))&&(!q||r.searchable.includes(q)));
- el.count.textContent=`${list.length}件を表示 / 全${state.enriched.length}件`;
- if(!list.length){el.reports.innerHTML='<div class="empty">条件に一致するレポートがありません。</div>';return}
- el.reports.innerHTML=list.map(r=>{
-  const p=r.cases[0],badges=p?.badges?.slice(0,4)||[];
-  const summary=p?`${p.cve}${p.product?" — "+p.product:""}`:"レポートを開いて詳細を確認してください。";
-  return`<article class="report-card"><a class="report-main" href="${esc(r.url)}"><div class="date-row"><div class="date">${esc(fmt(r.iso))}</div><div class="file">${esc(r.name)}</div></div><p class="summary">${esc(summary)}</p><div class="badges">${badges.map(b=>`<span class="badge ${badgeClass(b)}">${esc(b)}</span>`).join("")}<span class="badge neutral">${r.cases.length}件掲載</span></div></a></article>`
- }).join("");
-}
-function compare(){
- if(!state.enriched.length){el.latestSection.hidden=true;return}
- const a=state.enriched[0],b=state.enriched[1];el.latestSection.hidden=false;el.latestTitle.textContent="最新: "+fmt(a.iso);
- el.latestSummary.innerHTML=a.cases.length?a.cases.slice(0,3).map(x=>`<p><strong>${esc(x.cve)}</strong>${x.product?" — "+esc(x.product):""}</p>`).join(""):"最新レポートを開いて詳細を確認してください。";
- if(!b){el.changeList.innerHTML="<li>比較対象となる前回レポートがありません。</li>";return}
- const am=new Map(a.cases.map(x=>[x.cve,x])),bm=new Map(b.cases.map(x=>[x.cve,x])),changes=[];
- for(const[cve,x]of am){if(!bm.has(cve)){changes.push(`<strong>${esc(cve)}</strong> が新規掲載されました。`);continue}const old=bm.get(cve),n=x.badges.join(" / "),o=old.badges.join(" / ");if(n!==o)changes.push(`<strong>${esc(cve)}</strong> の状態表示が更新されました。`)}
- for(const[cve]of bm)if(!am.has(cve))changes.push(`<strong>${esc(cve)}</strong> は今回の優先対象から外れました。`);
- el.changeList.innerHTML=(changes.length?changes:["前回レポートから大きな掲載変更は確認できません。"]).map(x=>`<li>${x}</li>`).join("");
-}
-async function load(){
- el.status.hidden=false;el.status.className="status";el.status.textContent="GitHubからレポート一覧を取得しています。";el.reload.disabled=true;
- try{
-  const {owner,repository}=detectRepo();el.repoMeta.textContent=owner+"/"+repository;
-  const api=`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repository)}/contents/${encodeURIComponent(CONFIG.reportDirectory)}?ref=${encodeURIComponent(CONFIG.branch)}`;
-  const res=await fetch(api,{headers:{Accept:"application/vnd.github+json"}});if(!res.ok)throw new Error(`GitHub API取得失敗: ${res.status}`);
-  const files=await res.json();
-  state.reports=files.filter(x=>x.type==="file"&&/\.html?$/i.test(x.name)).map(x=>{const d=parseDate(x.name);return d?{name:x.name,iso:d.iso,date:d.date,url:`./${CONFIG.reportDirectory}/${encodeURIComponent(x.name)}`}:null}).filter(Boolean).sort((a,b)=>b.date-a.date);
-  years();
-  const top=await Promise.all(state.reports.slice(0,CONFIG.maxInspect).map(details)),map=new Map(top.map(r=>[r.name,r]));
-  state.enriched=state.reports.map(r=>map.get(r.name)||{...r,cases:[],searchable:(r.name+" "+r.iso).toLowerCase()});
-  compare();render();el.updatedMeta.textContent="最終取得: "+new Intl.DateTimeFormat("ja-JP",{dateStyle:"medium",timeStyle:"short"}).format(new Date());el.status.hidden=true;
- }catch(e){el.status.hidden=false;el.status.className="status error";el.status.textContent=e.message||"取得に失敗しました。";el.reports.innerHTML="";el.latestSection.hidden=true}
- finally{el.reload.disabled=false}
-}
-el.search.addEventListener("input",render);el.yearFilter.addEventListener("change",render);el.reload.addEventListener("click",load);load();
-})();
-</script>
+<script src="assets/app.js"></script>
 </body>
 </html>

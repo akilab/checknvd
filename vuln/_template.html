@@ -1,0 +1,176 @@
+<!doctype html>
+<!--
+  日次脆弱性ブリーフ テンプレート
+  ==========================================================================
+  使い方: このファイルを vuln/YYYY-MM-DD.html としてコピーし、{{...}} を置換する。
+  ファイル名が YYYY-MM-DD.html 形式でないHTMLは、トップページの一覧に載らない。
+
+  トップページ（assets/app.js）が解析する要素:
+    article.case              … 脆弱性1件。data-* 属性を最優先で読む。
+      data-cve                … CVE番号（例: CVE-2026-18577）
+      data-priority           … P1 / P2 / P3
+      data-product            … 対象製品名
+      data-exploited          … true / false / unknown
+      data-kev                … true / false / unknown
+      data-poc                … true / false / unknown
+      data-cvss / data-fixed  … 任意（表示用）
+    .case h3                  … 見出し（data-cve が無い場合のフォールバック）
+    .product                  … 対象製品（data-product が無い場合のフォールバック）
+    .lead                     … 1〜2行の概要（一覧カードに表示）
+    .badge                    … 状態バッジ（data-* が無い場合のフォールバック解析対象）
+    .summary-card             … 優先度サマリーのカード
+
+  data-* を省略した場合はバッジ文言から推定するが、判定精度が落ちる。
+  可能な限り data-* を付けること。
+  ==========================================================================
+-->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>{{YYYY-MM-DD}} 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="{{YYYY-MM-DD}}" data-case-count="{{件数}}">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>{{YYYY年M月D日（曜）}}の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>{{YYYY-MM-DD HH:MM JST}}</dd></div>
+      <div><dt>調査対象期間</dt><dd>{{開始}} 〜 {{終了}}</dd></div>
+      <div><dt>掲載件数</dt><dd>{{N}} 件（P1: {{n}} ／ P2: {{n}} ／ P3: {{n}}）</dd></div>
+    </dl>
+    <!-- 前日・翌日のファイルが存在しない場合は <a> ではなく
+         <span class="nav-btn is-disabled" aria-disabled="true"> を使う -->
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="{{前日}}.html" rel="prev">← 前日 {{前日}}</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>{{最優先で確認すべきこと（1文）}}</strong>
+      {{なぜ今日確認すべきかを2〜3文で}}
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>{{製品名}}</dd></div>
+      <div><dt>推奨アクション</dt><dd>{{アクション}}</dd></div>
+      <div><dt>対応期限</dt><dd>{{期限。なければ「設定なし」}}</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>{{前回からの変化など}}</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      <!-- 脆弱性1件につき1枚。badge のクラスは p1 / p2 / p3、
+           状態は on（該当・危険） / warn（注意） / off（非該当） / na（不明） -->
+      <a class="summary-card" href="#{{CVE}}" data-priority="{{P1|P2|P3}}">
+        <span class="badge {{p1|p2|p3}}" data-glyph="■">{{P1 即時確認}}</span>
+        <span class="card-cve">{{CVE}}</span>
+        <span class="card-product">{{対象製品とバージョン}}</span>
+        <span class="card-lead">{{1〜2行の概要}}</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> {{修正版}}</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="{{CVE}}"
+      data-cve="{{CVE}}"
+      data-priority="{{P1|P2|P3}}"
+      data-product="{{製品名}}"
+      data-exploited="{{true|false|unknown}}"
+      data-kev="{{true|false|unknown}}"
+      data-poc="{{true|false|unknown}}"
+      data-cvss="{{9.8}}"
+      data-fixed="{{修正版}}">
+      <div class="case-head">
+        <span class="badge {{p1|p2|p3}}" data-glyph="■">{{P1 即時確認}}</span>
+        <h3>{{CVE}}</h3>
+      </div>
+      <p class="product">{{対象製品とバージョン（カテゴリ）}}</p>
+      <p class="lead">{{1〜2行の概要}}</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+        <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS {{9.8}}</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>{{9.8 / Critical (CVSS v3.1)}}</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">{{ネットワーク経由・認証不要 など}}</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">{{あり／報告なし}}</dd></div>
+        <div><dt>CISA KEV</dt><dd>{{掲載あり／未掲載}}</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">{{あり／確認されていない}}</dd></div>
+        <div><dt>影響バージョン</dt><dd>{{影響範囲}}</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">{{修正版}}</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>{{修正版適用・緩和策・更新後に必要な作業}}</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>{{なぜこのPriorityにしたのか。CVSSではなくSOC運用の観点で}}</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <!-- 全脆弱性で同じ文面にせず、製品特性・攻撃条件に合わせて調整すること -->
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>{{対象製品の利用有無を確認}}</span></label></li>
+          <li><label><input type="checkbox"><span>{{対象バージョンを確認}}</span></label></li>
+          <li><label><input type="checkbox"><span>{{インターネット公開状況を確認}}</span></label></li>
+          <li><label><input type="checkbox"><span>{{ベンダー公開IOCと照合}}</span></label></li>
+          <li><label><input type="checkbox"><span>{{関連ログ・EDRアラートを確認}}</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>{{ベンダーアドバイザリ番号}}</li>
+          <li><a href="{{URL}}" target="_blank" rel="noopener noreferrer">{{情報源名}}</a></li>
+        </ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>

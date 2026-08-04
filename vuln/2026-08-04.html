@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-08-04 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-08-04" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年8月4日（火）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-08-04 07:30 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-03 07:00 〜 2026-08-04 07:00 JST</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 0 ／ P2: 2 ／ P3: 1）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <span class="nav-btn is-disabled" aria-disabled="true">← 前日レポートなし</span>
+      <a class="nav-btn" href="2026-08-05.html" rel="next">翌日 2026-08-05 →</a>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <p class="sample-notice">
+    <strong>これはサイト構造のサンプルです。</strong>
+    製品名・CVE番号・バージョンはすべて架空のもので、実際の脆弱性情報ではありません。
+    トップページの「前回からの変化」を確認するための比較用データとして配置しています。
+  </p>
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>本日は実悪用が確認された脆弱性はありません。</strong>
+      ただし、Northwind Secure Gateway と Meridian Managed File Transfer の2製品でPoCが公開されました。
+      いずれもインターネット公開されやすい製品のため、利用有無と公開状況の確認を先に済ませてください。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Northwind Secure Gateway 12.x</dd></div>
+      <div><dt>推奨アクション</dt><dd>利用有無と公開状況を確認し、修正版の適用計画を立てる</dd></div>
+      <div><dt>対応期限</dt><dd>設定なし（KEV掲載なし）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>PoC公開済みの認証不要RCEがあり、悪用開始前に公開状況を把握しておく必要があります</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      <a class="summary-card" href="#CVE-2026-18577" data-priority="P2">
+        <span class="badge p2" data-glyph="■">P2 速やかに確認</span>
+        <span class="card-cve">CVE-2026-18577</span>
+        <span class="card-product">Northwind Secure Gateway 12.0 – 12.4.2</span>
+        <span class="card-lead">認証不要のリモートコード実行。PoCが公開されたが、実悪用は未確認。</span>
+        <span class="badges">
+          <span class="badge off" data-glyph="○">実悪用なし</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 12.4.3</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-17903" data-priority="P2">
+        <span class="badge p2" data-glyph="■">P2 速やかに確認</span>
+        <span class="card-cve">CVE-2026-17903</span>
+        <span class="card-product">Meridian Managed File Transfer 2026.1.x</span>
+        <span class="card-lead">認証前の任意ファイル読み取り。設定ファイルからの資格情報漏えいにつながる。</span>
+        <span class="badges">
+          <span class="badge off" data-glyph="○">実悪用なし</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 2026.2.1</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-17210" data-priority="P3">
+        <span class="badge p3" data-glyph="■">P3 継続監視</span>
+        <span class="card-cve">CVE-2026-17210</span>
+        <span class="card-product">Halcyon Print Server 8.1 – 8.3.2</span>
+        <span class="card-lead">印刷ジョブ処理の権限不備によるローカル権限昇格。攻撃条件は限定的。</span>
+        <span class="badges">
+          <span class="badge off" data-glyph="○">実悪用なし</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge off" data-glyph="○">公開PoCなし</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 8.3.3</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-18577"
+      data-cve="CVE-2026-18577"
+      data-priority="P2"
+      data-product="Northwind Secure Gateway"
+      data-exploited="false"
+      data-kev="false"
+      data-poc="true"
+      data-cvss="9.8"
+      data-fixed="12.4.3">
+      <div class="case-head">
+        <span class="badge p2" data-glyph="■">P2 速やかに確認</span>
+        <h3>CVE-2026-18577</h3>
+      </div>
+      <p class="product">Northwind Secure Gateway 12.0 – 12.4.2（SSL-VPN／リモートアクセス基盤）</p>
+      <p class="lead">
+        認証前のHTTPリクエスト処理に境界チェックの欠落があり、認証不要のリモートコード実行が可能です。
+        本日時点で実悪用は確認されていません。
+      </p>
+      <div class="badges">
+        <span class="badge off" data-glyph="○">実悪用なし</span>
+        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+        <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 9.8</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-warn">ネットワーク経由・認証不要・ユーザー操作不要</dd></div>
+        <div><dt>実悪用</dt><dd>報告なし（2026-08-04時点）</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">あり（2026-08-04公開）</dd></div>
+        <div><dt>影響バージョン</dt><dd>12.0.0 – 12.4.2</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">12.4.3</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>12.4.3へ更新してください。更新までの間は、VPNポータルおよび管理インターフェースのアクセス元を制限します。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>
+          認証不要のRCEでPoCが公開されており、リモートアクセス基盤という位置づけから悪用開始が早いと想定されます。
+          現時点では実悪用・KEV掲載がないためP2としていますが、状況が変われば引き上げます。
+        </p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>Northwind Secure Gatewayの利用有無と設置台数を確認</span></label></li>
+          <li><label><input type="checkbox"><span>ファームウェアが 12.4.2 以下かを確認</span></label></li>
+          <li><label><input type="checkbox"><span>管理インターフェースのインターネット公開状況を確認</span></label></li>
+          <li><label><input type="checkbox"><span>修正版の適用計画を立てる</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>ベンダーアドバイザリ NW-SA-2026-014 <span>（サンプルのため実リンクはありません）</span></li>
+          <li><a href="https://nvd.nist.gov/vuln" target="_blank" rel="noopener noreferrer">NVD (National Vulnerability Database)</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-17903"
+      data-cve="CVE-2026-17903"
+      data-priority="P2"
+      data-product="Meridian Managed File Transfer"
+      data-exploited="false"
+      data-kev="false"
+      data-poc="true"
+      data-cvss="7.5"
+      data-fixed="2026.2.1">
+      <div class="case-head">
+        <span class="badge p2" data-glyph="■">P2 速やかに確認</span>
+        <h3>CVE-2026-17903</h3>
+      </div>
+      <p class="product">Meridian Managed File Transfer 2026.1.0 – 2026.1.4（ファイル転送基盤）</p>
+      <p class="lead">
+        パス正規化の不備により、認証前に任意ファイルを読み取れます。設定ファイルからのデータベース資格情報漏えいにつながります。
+      </p>
+      <div class="badges">
+        <span class="badge off" data-glyph="○">実悪用なし</span>
+        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+        <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 7.5</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>7.5 / High (CVSS v3.1)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-warn">ネットワーク経由・認証不要（読み取りのみ）</dd></div>
+        <div><dt>実悪用</dt><dd>報告なし</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">あり</dd></div>
+        <div><dt>影響バージョン</dt><dd>2026.1.0 – 2026.1.4</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">2026.2.1</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>2026.2.1へ更新し、設定ファイルに保存された資格情報を再発行してください。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>ファイル転送製品は過去に大規模な悪用が繰り返されており、PoC公開から実悪用までの期間が短い傾向があります。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>Meridian MFTの利用有無と、インターネット公開の有無を確認</span></label></li>
+          <li><label><input type="checkbox"><span>バージョンが 2026.1.4 以下かを確認</span></label></li>
+          <li><label><input type="checkbox"><span>Webアクセスログでパストラバーサルを含むリクエストを確認</span></label></li>
+          <li><label><input type="checkbox"><span>更新後、DB接続用資格情報を再発行</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>ベンダーアドバイザリ MER-2026-08 <span>（サンプルのため実リンクはありません）</span></li>
+          <li><a href="https://nvd.nist.gov/vuln" target="_blank" rel="noopener noreferrer">NVD (National Vulnerability Database)</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-17210"
+      data-cve="CVE-2026-17210"
+      data-priority="P3"
+      data-product="Halcyon Print Server"
+      data-exploited="false"
+      data-kev="false"
+      data-poc="false"
+      data-cvss="7.8"
+      data-fixed="8.3.3">
+      <div class="case-head">
+        <span class="badge p3" data-glyph="■">P3 継続監視</span>
+        <h3>CVE-2026-17210</h3>
+      </div>
+      <p class="product">Halcyon Print Server 8.1 – 8.3.2（印刷サーバー）</p>
+      <p class="lead">印刷ジョブ処理におけるファイル権限の不備により、ローカルユーザーがSYSTEM権限を取得できます。</p>
+      <div class="badges">
+        <span class="badge off" data-glyph="○">実悪用なし</span>
+        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+        <span class="badge off" data-glyph="○">公開PoCなし</span>
+        <span class="badge na" data-glyph="■">CVSS 7.8</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>7.8 / High (CVSS v3.1)</dd></div>
+        <div><dt>攻撃条件</dt><dd>ローカル・要ログオン</dd></div>
+        <div><dt>実悪用</dt><dd>報告なし</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載</dd></div>
+        <div><dt>公開PoC</dt><dd>確認されていない</dd></div>
+        <div><dt>影響バージョン</dt><dd>8.1.0 – 8.3.2</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">8.3.3</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>通常のパッチ適用サイクルで 8.3.3 へ更新してください。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>ローカル権限昇格であり、単独では侵入経路になりません。侵入後の横展開に使われうるため、継続監視として掲載しています。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>Halcyon Print Serverの利用有無を確認</span></label></li>
+          <li><label><input type="checkbox"><span>バージョンが 8.3.2 以下かを確認</span></label></li>
+          <li><label><input type="checkbox"><span>次回パッチ適用計画に組み込む</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>ベンダーアドバイザリ HAL-2026-0912 <span>（サンプルのため実リンクはありません）</span></li>
+          <li><a href="https://nvd.nist.gov/vuln" target="_blank" rel="noopener noreferrer">NVD (National Vulnerability Database)</a></li>
+        </ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
