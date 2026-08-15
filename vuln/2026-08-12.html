@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-08-12 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-08-12" data-case-count="1">
+<a class="skip-link" href="#main">本文へスキップ</a>
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年8月12日（水）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-08-12 08:00 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-05 〜 2026-08-12</dd></div>
+      <div><dt>掲載件数</dt><dd>1 件（P1: 0 ／ P2: 1 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <span class="nav-btn is-disabled" aria-disabled="true">← 前日レポートなし</span>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body"><strong>NGINXのCVE-2026-42533について、公開された実装付きPoCを確認し、利用環境では修正版への更新状況を優先確認してください。</strong> CVE自体は7月公開ですが、今回の調査でASLR回避を含むフルチェーンPoCの公開を確認しました。認証不要・ネットワーク経由で到達可能なメモリ破壊脆弱性であり、構成条件はあるもののインターネット公開NGINXでは速やかな確認が必要です。</p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>NGINX Open Source / NGINX Plus</dd></div>
+      <div><dt>推奨アクション</dt><dd>対象バージョンとmap＋正規表現を用いる構成の有無を確認し、修正版へ更新</dd></div>
+      <div><dt>対応期限</dt><dd>設定なし</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>実装を伴う公開PoCを確認したため再評価</dd></div>
+    </dl>
+  </section>
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head"><h2 id="summaryHeading">優先度サマリー</h2><p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p></div>
+    <div class="summary-list">
+      <a class="summary-card" href="#CVE-2026-42533" data-priority="P2">
+        <span class="badge p2" data-glyph="■">P2 速やかに確認</span>
+        <span class="card-cve">CVE-2026-42533</span>
+        <span class="card-product">NGINX Open Source / NGINX Plus</span>
+        <span class="card-lead">mapディレクティブの正規表現処理に起因するヒープバッファオーバーフロー。認証不要のリモート攻撃が可能で、条件を満たす環境ではコード実行につながる可能性があります。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用報告なし</span><span class="badge na" data-glyph="■">KEV確認できず</span><span class="badge warn" data-glyph="●">公開PoCあり</span></span>
+        <span class="card-fixed"><span>修正版:</span> OSS 1.31.3+ / 1.30.4+、Plus 37.0.3.1 / R36 P7</span>
+      </a>
+    </div>
+  </section>
+  <section aria-labelledby="detailHeading">
+    <div class="section-head"><h2 id="detailHeading">詳細</h2><p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p></div>
+    <article class="case" id="CVE-2026-42533" data-cve="CVE-2026-42533" data-priority="P2" data-product="NGINX Open Source / NGINX Plus" data-exploited="false" data-kev="unknown" data-poc="true" data-cvss="9.2" data-fixed="OSS 1.31.3+ / 1.30.4+、Plus 37.0.3.1 / R36 P7">
+      <div class="case-head"><span class="badge p2" data-glyph="■">P2 速やかに確認</span><h3>CVE-2026-42533</h3></div>
+      <p class="product">NGINX Open Source / NGINX Plus（Webサーバー／リバースプロキシ）</p>
+      <p class="lead">mapディレクティブで正規表現とキャプチャ変数を特定の順序で使用する構成において、ヒープバッファオーバーフローが発生します。認証不要の攻撃者がネットワーク経由で細工したリクエストを送信でき、DoSまたは条件次第でコード実行につながる可能性があります。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用報告なし</span><span class="badge na" data-glyph="■">CISA KEV確認できず</span><span class="badge warn" data-glyph="●">公開PoCあり</span><span class="badge na" data-glyph="■">CVSS 9.2</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.2 / Critical (CVSS v4.0、GitHub Advisory Database掲載値)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要。mapディレクティブで正規表現を使用し、正規表現キャプチャ変数とmap出力変数を特定の組み合わせで参照する構成が必要。</dd></div>
+        <div><dt>実悪用</dt><dd>報告なし（確認した公開情報の範囲）</dd></div>
+        <div><dt>CISA KEV</dt><dd>確認できず</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">あり。GitHub上でCVE-2026-42533向けの実装を伴うPoCを確認。安全性を確認済みという意味ではありません。</dd></div>
+        <div><dt>影響バージョン</dt><dd>NGINX Open Source 1.31.2以前（mainline）および1.30.3以前（stable）。NGINX Plusも影響対象。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">NGINX Open Source 1.31.3+ / 1.30.4+。NGINX Plus 37.0.3.1 / R36 P7。</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>最優先はベンダー修正版への更新です。直ちに更新できない場合は、正規表現を使用するmapとキャプチャ変数を同一の複合値処理で組み合わせる構成を避けることを検討してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>実悪用やCISA KEV掲載は確認できていませんが、インターネット公開されやすいNGINXに対する認証不要・ネットワーク経由のメモリ破壊で、さらに実装付き公開PoCを確認したため、SOC PriorityをP2としました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>インターネット公開または外部到達可能なNGINX Open Source / NGINX Plusの利用有無を確認</span></label></li>
+        <li><label><input type="checkbox"><span>NGINXのバージョンと修正版への更新状況を確認</span></label></li>
+        <li><label><input type="checkbox"><span>正規表現を使用するmapとキャプチャ変数を組み合わせる構成の有無を確認</span></label></li>
+        <li><label><input type="checkbox"><span>NGINX error logでworker processの異常終了や予期しない再起動を確認</span></label></li>
+        <li><label><input type="checkbox"><span>WAF/EDRログでNGINXプロセス起点の不審な子プロセス生成や外向き通信を確認</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources">
+        <li>NGINX Security Advisories — CVE-2026-42533</li>
+        <li><a href="https://nginx.org/en/security_advisories.html" target="_blank" rel="noopener noreferrer">NGINX公式 Security Advisories</a></li>
+        <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-42533" target="_blank" rel="noopener noreferrer">NVD CVE-2026-42533</a></li>
+        <li><a href="https://github.com/advisories/GHSA-fxfg-v4rj-hp95" target="_blank" rel="noopener noreferrer">GitHub Advisory Database</a></li>
+        <li><a href="https://github.com/DepthFirstDisclosures/Nginx-Rift" target="_blank" rel="noopener noreferrer">公開PoC: DepthFirstDisclosures/Nginx-Rift（安全性を確認済みという意味ではありません）</a></li>
+      </ul></div>
+    </article>
+  </section>
+  <p class="disclaimer"><strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong> CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。</p>
+  <footer class="report-footer"><p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p><p><a href="../index.html">レポート一覧へ戻る</a></p></footer>
+</main>
+</body>
+</html>
