@@ -1,0 +1,173 @@
+<!doctype html>
+<!--
+  日次脆弱性ブリーフ テンプレート
+  ==========================================================================
+  使い方: このファイルを vuln/YYYY-MM-DD.html としてコピーし、プレースホルダーを置換する。
+  ファイル名が YYYY-MM-DD.html 形式でないHTMLは、トップページの一覧に載らない。
+
+  トップページ（assets/app.js）が解析する要素:
+    article.case              … 脆弱性1件。data-* 属性を最優先で読む。
+      data-cve                … CVE番号
+      data-priority           … P1 / P2 / P3
+      data-product            … 対象製品名
+      data-exploited          … true / false / unknown
+      data-kev                … true / false / unknown
+      data-poc                … true / false / unknown
+      data-cvss / data-fixed  … 任意（表示用）
+    .case h3                  … 見出し
+    .product                  … 対象製品
+    .lead                     … 1〜2行の概要
+    .badge                    … 状態バッジ
+    .summary-card             … 優先度サマリーのカード
+  ==========================================================================
+-->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-08-18 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-08-18" data-case-count="1">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年8月18日（火）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-08-18 08:01 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-11 〜 2026-08-18</dd></div>
+      <div><dt>掲載件数</dt><dd>1 件（P1: 1 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-08-17.html" rel="prev">← 前日 2026-08-17</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>macOSのScreen Sharingを有効化している環境は、CVE-2026-65400の修正版適用と外部公開状況を即時確認してください。</strong>
+      Appleは、ネットワーク上の攻撃者が有効な認証情報なしでScreen Sharingへ認証できる脆弱性として公開しています。CISA ADPではCVSS 9.8、認証不要・ユーザー操作不要・ネットワーク経由と評価されており、インターネット到達可能なScreen Sharing環境では侵害リスクが高いと判断します。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Apple macOS Screen Sharing</dd></div>
+      <div><dt>推奨アクション</dt><dd>Screen Sharing有効端末とTCP/5900の外部公開状況を特定し、修正版へ更新</dd></div>
+      <div><dt>対応期限</dt><dd>公式期限の設定なし。SOC判断として即時確認を推奨</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>CVEレコードとCISA ADP情報が2026-08-17に更新され、Critical 9.8・自動化可能と評価</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      <a class="summary-card" href="#CVE-2026-65400" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-65400</span>
+        <span class="card-product">macOS Sonoma 14.8.9未満 / Sequoia 15.7.9未満 / Tahoe 26.6.1未満</span>
+        <span class="card-lead">Screen Sharingの認証状態管理不備により、ネットワーク上の攻撃者が有効な認証情報なしで認証できる可能性があります。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用報告あり</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge na" data-glyph="■">公開PoC確認不十分</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> Sonoma 14.8.9 / Sequoia 15.7.9 / Tahoe 26.6.1</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-65400"
+      data-cve="CVE-2026-65400"
+      data-priority="P1"
+      data-product="Apple macOS Screen Sharing"
+      data-exploited="true"
+      data-kev="false"
+      data-poc="unknown"
+      data-cvss="9.8"
+      data-fixed="Sonoma 14.8.9 / Sequoia 15.7.9 / Tahoe 26.6.1">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-65400</h3>
+      </div>
+      <p class="product">Apple macOS Screen Sharing — Sonoma 14.8.9未満 / Sequoia 15.7.9未満 / Tahoe 26.6.1未満（リモート管理・画面共有）</p>
+      <p class="lead">Screen Sharingの認証状態管理不備により、ネットワーク上の攻撃者が有効な認証情報なしでScreen Sharingへ認証できる可能性があります。Appleは状態管理の改善により修正しています。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用報告あり</span>
+        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+        <span class="badge na" data-glyph="■">公開PoC unknown</span>
+        <span class="badge na" data-glyph="■">CVSS 9.8</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1、CISA ADP Vulnrichment)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・ユーザー操作不要。Screen Sharingサービスへネットワーク到達可能であることが前提。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">ありとの公的機関由来の報告を確認。ただしCISA ADPの2026-08-15時点SSVCではExploitation=noneであり、情報源間に時差があります。</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載（確認時点）。CISA ADPの脆弱性評価情報は存在しますが、KEV登録は確認できません。</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">unknown。公開PoCの存在報告は確認したものの、今回のGitHub検索では実装・再現コード・具体的手順を伴うPoCを直接確認できませんでした。</dd></div>
+        <div><dt>影響バージョン</dt><dd>macOS Sonoma 14.8.9未満、macOS Sequoia 15.7.9未満、macOS Tahoe 26.6.1未満。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">macOS Sonoma 14.8.9、macOS Sequoia 15.7.9、macOS Tahoe 26.6.1。</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>対象macOSを修正版へ更新してください。直ちに更新できない場合はScreen Sharingを無効化し、必要な場合でもTCP/5900をインターネットへ直接公開せず、管理ネットワークやVPN等の信頼済み経路からのみ到達可能に制限してください。更新後はScreen Sharing設定とファイアウォール設定を再確認してください。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>CVSS 9.8に加え、認証不要・ネットワーク経由・ユーザー操作不要でリモート管理機能へ認証できる点を重視しました。Screen Sharingが外部公開されている場合は初期侵入へ直結し得るため、実悪用報告も踏まえてSOC PriorityをP1と判断します。SOC PriorityはAIによる独自の運用判断です。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>macOS端末でScreen Sharingまたは関連するリモート管理機能が有効になっている端末を資産管理情報から特定</span></label></li>
+          <li><label><input type="checkbox"><span>対象端末がSonoma 14.8.9、Sequoia 15.7.9、Tahoe 26.6.1以上へ更新済みか確認</span></label></li>
+          <li><label><input type="checkbox"><span>境界FW、クラウドFW、NAT設定でTCP/5900がインターネットから到達可能になっていないか確認</span></label></li>
+          <li><label><input type="checkbox"><span>Screen Sharing関連ログと認証履歴で未知の送信元IPや通常と異なる接続時間帯を確認</span></label></li>
+          <li><label><input type="checkbox"><span>疑わしい端末ではroot権限での不審プロセス、永続化、未知のダウンロード、CPU高負荷、外向き通信をEDR・端末ログで確認</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>Apple CNA / CVE-2026-65400 — macOS Screen Sharing authentication issue</li>
+          <li><a href="https://support.apple.com/en-us/148170" target="_blank" rel="noopener noreferrer">Apple Security Update — macOS Tahoe 26.6.1</a></li>
+          <li><a href="https://support.apple.com/en-us/148171" target="_blank" rel="noopener noreferrer">Apple Security Update — macOS Sequoia 15.7.9</a></li>
+          <li><a href="https://support.apple.com/en-us/148172" target="_blank" rel="noopener noreferrer">Apple Security Update — macOS Sonoma 14.8.9</a></li>
+          <li><a href="https://www.cve.org/CVERecord?id=CVE-2026-65400" target="_blank" rel="noopener noreferrer">CVE Program — CVE-2026-65400</a></li>
+          <li><a href="https://github.com/cisagov/vulnrichment/blob/f90e7e379f5930a053c1b75de388e758a089a36a/2026/65xxx/CVE-2026-65400.json" target="_blank" rel="noopener noreferrer">CISA ADP Vulnrichment — CVE-2026-65400</a></li>
+          <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA Known Exploited Vulnerabilities Catalog</a></li>
+        </ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
