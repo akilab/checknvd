@@ -1,0 +1,245 @@
+<!doctype html>
+<!--
+  日次脆弱性ブリーフ テンプレート
+  ==========================================================================
+  使い方: このファイルを vuln/YYYY-MM-DD.html としてコピーし、プレースホルダーを置換する。
+  ファイル名が YYYY-MM-DD.html 形式でないHTMLは、トップページの一覧に載らない。
+
+  トップページ（assets/app.js）が解析する要素:
+    article.case
+      data-cve
+      data-priority
+      data-product
+      data-exploited
+      data-kev
+      data-poc
+      data-cvss / data-fixed
+    .case h3
+    .product
+    .lead
+    .badge
+    .summary-card
+  ==========================================================================
+-->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-08-20 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-08-20" data-case-count="2">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年8月20日（木）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-08-20 08:04 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-13 〜 2026-08-20</dd></div>
+      <div><dt>掲載件数</dt><dd>2 件（P1: 2 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-08-19.html" rel="prev">← 前日 2026-08-19</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>N-able N-centralのCVE-2026-18577を最優先で確認し、自己ホスト環境はHotfix 2（2026.3.1.10）への更新状況を確認してください。</strong>
+      N-ableは脅威アクターの攻撃手法の変化を継続監視し、Hotfix 1を置き換える追加緩和策としてHotfix 2を公開しています。macOS Screen SharingのCVE-2026-65400もインターネット公開されたTCP/5900を狙う実悪用が報告されており、Screen Sharing有効端末は並行して確認が必要です。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>N-able N-central（自己ホスト）</dd></div>
+      <div><dt>推奨アクション</dt><dd>N-central 2026.3.1.10への更新、外部露出と管理者操作履歴・Take Control利用履歴の確認</dd></div>
+      <div><dt>対応期限</dt><dd>確認できず（CISA KEV掲載は確認。N-ableは即時更新を推奨）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>N-ableが攻撃手法の変化に対応した追加緩和策を公開済み。macOS Screen Sharingでは直近に実悪用報告が更新</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      <a class="summary-card" href="#CVE-2026-18577" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-18577</span>
+        <span class="card-product">N-able N-central（自己ホスト）</span>
+        <span class="card-lead">不完全な修正に起因する認証回避・アカウント乗っ取り。N-central管理基盤へのリモート管理者アクセスに悪用されており、追加緩和を含むHotfix 2が公開されています。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge on" data-glyph="●">KEV掲載</span>
+          <span class="badge na" data-glyph="■">公開PoC確認不十分</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> N-central 2026.3.1.10（2026.3 HF2）</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-65400" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-65400</span>
+        <span class="card-product">macOS Screen Sharing</span>
+        <span class="card-lead">Screen Sharingの認証不備により、ネットワーク上の攻撃者が有効な認証情報なしで接続できる可能性があります。インターネット公開されたTCP/5900を狙う実悪用が報告されています。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge na" data-glyph="■">公開PoC確認不十分</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> Sonoma 14.8.9 / Sequoia 15.7.9 / Tahoe 26.6.1</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-18577"
+      data-cve="CVE-2026-18577"
+      data-priority="P1"
+      data-product="N-able N-central"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="unknown"
+      data-cvss="8.2"
+      data-fixed="2026.3.1.10 (2026.3 HF2)">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-18577</h3>
+      </div>
+      <p class="product">N-able N-central（RMM／端末・サーバー管理基盤、自己ホスト環境）</p>
+      <p class="lead">CVE-2026-18556への不完全な修正により、認証回避とアカウント乗っ取りが可能になる脆弱性です。N-ableは攻撃者が脆弱なN-centralへリモート管理者アクセスを得た事例を公表し、追加ハードニングを含む2026.3 HF2を公開しています。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge on" data-glyph="●">CISA KEV掲載</span>
+        <span class="badge na" data-glyph="■">公開PoC unknown</span>
+        <span class="badge na" data-glyph="■">CVSS 8.2</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>8.2 / High（CVSS v4.0、N-able CNA）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要。攻撃複雑度はHighと評価されているが、実悪用が確認されています。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり。N-ableは攻撃者が脆弱なN-centralへリモート管理者アクセスを取得し、Take ControlやCloudflare Tunnelを利用した事例を公表しています。</dd></div>
+        <div><dt>CISA KEV</dt><dd>掲載あり。カナダCyber Centreは2026-08-03のKEV追加を確認しています。</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">unknown。GitHubを検索したが、今回の確認では実装を伴う再現コードを直接確認できませんでした。</dd></div>
+        <div><dt>影響バージョン</dt><dd>N-central 2026.3.1以前がCVE対象。現在の追加緩和として自己ホスト環境は2026.3.1.10（HF2）への更新が必要です。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">N-central 2026.3.1.10（2026.3 Hotfix 2）。Hotfix 1（2026.3.1.7）適用済みでもHF2が必要です。Hosted N-centralはN-ableが緩和を適用済み。</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>自己ホストN-centralは2026.3.1.10へ直ちに更新してください。更新完了まで管理UIや関連サービスへの到達範囲を管理ネットワーク・VPN・許可済み送信元に限定し、不要なインターネット公開を停止してください。Hosted N-centralはベンダー側で緩和済みですが、管理者操作履歴や不審なリモート操作の確認は継続してください。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>N-centralは多数の顧客端末へリモート操作できるRMM管理基盤で、侵害時の波及範囲が大きい製品です。実悪用とKEV掲載に加え、ベンダーが攻撃手法の変化を受けて追加ハードニングを公開しているため、SOC PriorityをP1と判断します。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>自己ホストN-centralの利用有無とビルド番号を確認し、2026.3.1.10未満を最優先で更新</span></label></li>
+          <li><label><input type="checkbox"><span>N-central管理UI・API・関連サービスのインターネット公開状況と送信元制限を確認</span></label></li>
+          <li><label><input type="checkbox"><span>管理者アカウントの新規作成・権限変更・異常ログインとTake Controlセッション履歴を調査</span></label></li>
+          <li><label><input type="checkbox"><span>N-able公開IOCとファイアウォール／プロキシ／EDRログを照合し、Cloudflare Tunnel（cloudflared）サービスや不審な永続化を確認</span></label></li>
+          <li><label><input type="checkbox"><span>侵害兆候がある場合はN-centralから管理対象端末への操作履歴を追跡し、管理者資格情報・APIトークン等のローテーションを検討</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>N-able N-central 2026.3 HF2 Release Notes</li>
+          <li><a href="https://documentation.n-able.com/N-central/Release_Notes/GA/Content/N-central_2026.3_HF2_Release_Notes.htm" target="_blank" rel="noopener noreferrer">N-able公式 2026.3 HF2 Release Notes</a></li>
+          <li><a href="https://www.n-able.com/blog/n-central-security-update-august-6-2026" target="_blank" rel="noopener noreferrer">N-able公式 Security Update — August 6, 2026</a></li>
+          <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-18577" target="_blank" rel="noopener noreferrer">NVD CVE-2026-18577</a></li>
+          <li><a href="https://www.cyber.gc.ca/en/alerts-advisories/n-able-security-advisory-av26-769" target="_blank" rel="noopener noreferrer">Canadian Centre for Cyber Security AV26-769</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-65400"
+      data-cve="CVE-2026-65400"
+      data-priority="P1"
+      data-product="macOS Screen Sharing"
+      data-exploited="true"
+      data-kev="false"
+      data-poc="unknown"
+      data-cvss="9.8"
+      data-fixed="Sonoma 14.8.9 / Sequoia 15.7.9 / Tahoe 26.6.1">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-65400</h3>
+      </div>
+      <p class="product">macOS Sonoma / Sequoia / Tahoe（Screen Sharing／リモートデスクトップ）</p>
+      <p class="lead">Screen Sharingの認証状態管理の不備により、ネットワーク上の攻撃者が有効な認証情報なしで認証できる可能性があります。インターネットへTCP/5900を公開したMacを狙う実悪用が報告されています。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+        <span class="badge na" data-glyph="■">公開PoC unknown</span>
+        <span class="badge na" data-glyph="■">CVSS 9.8</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.8 / Critical（CISA ADPによる2026-08-14更新値として報告）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・有効な認証情報不要。Screen Sharingが有効で、攻撃者からサービスへ到達可能であることが前提です。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり。NCSC-NLへの報告として、インターネット公開されたTCP/5900を持つMacへの攻撃とMoneroマイナー導入が報告されています。</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載（今回確認した公開情報の範囲）。</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">unknown。公開エクスプロイトの存在報告はあるものの、今回のGitHub確認では実装を伴う再現コードを直接確認できませんでした。</dd></div>
+        <div><dt>影響バージョン</dt><dd>修正版より前のmacOS Sonoma 14.8.9、Sequoia 15.7.9、Tahoe 26.6.1の各系列。Screen Sharingが有効な環境を優先確認してください。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">macOS Sonoma 14.8.9 / Sequoia 15.7.9 / Tahoe 26.6.1</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>Appleの修正版へ更新してください。更新までの暫定措置としてScreen Sharingを無効化し、TCP/5900をインターネットから遮断してください。業務上必要な場合はVPNや管理セグメント経由に限定し、送信元制御を適用してください。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>CISA KEVへの掲載は確認できませんが、認証情報不要のネットワーク攻撃であり、実際にインターネット公開Macへの悪用が報告されています。リモート操作権限を奪われた場合の影響が大きく、攻撃条件も現実的なためSOC PriorityをP1と判断します。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>Screen Sharingを有効化しているMacをMDM・資産台帳・設定収集情報から特定</span></label></li>
+          <li><label><input type="checkbox"><span>対象MacのOSバージョンがSonoma 14.8.9 / Sequoia 15.7.9 / Tahoe 26.6.1以降か確認</span></label></li>
+          <li><label><input type="checkbox"><span>ファイアウォール／NAT／外部スキャン結果でTCP/5900のインターネット公開有無を確認し、不要な公開を停止</span></label></li>
+          <li><label><input type="checkbox"><span>Screen Sharing接続・認証関連ログとEDRテレメトリを確認し、root権限での不審なプロセス実行や設定変更を調査</span></label></li>
+          <li><label><input type="checkbox"><span>暗号資産マイナー、異常なCPU使用率、未知の外向き通信・マイニングプール接続など侵害兆候を確認</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>Apple Security — CVE-2026-65400</li>
+          <li><a href="https://support.apple.com/en-us/148170" target="_blank" rel="noopener noreferrer">Apple公式 macOS Tahoe 26.6.1 Security Content</a></li>
+          <li><a href="https://support.apple.com/en-us/148171" target="_blank" rel="noopener noreferrer">Apple公式 macOS Sequoia 15.7.9 Security Content</a></li>
+          <li><a href="https://support.apple.com/en-us/148172" target="_blank" rel="noopener noreferrer">Apple公式 macOS Sonoma 14.8.9 Security Content</a></li>
+          <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-65400" target="_blank" rel="noopener noreferrer">NVD CVE-2026-65400</a></li>
+          <li><a href="https://www.bleepingcomputer.com/news/security/hackers-exploit-macos-screen-sharing-flaw-to-deploy-monero-miner/" target="_blank" rel="noopener noreferrer">BleepingComputer — NCSC-NL実悪用報告の整理</a></li>
+        </ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
