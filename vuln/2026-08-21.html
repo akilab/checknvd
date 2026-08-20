@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-08-21 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-08-21" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年8月21日（金）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-08-21 08:01 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-14 〜 2026-08-21</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-08-20.html" rel="prev">← 前日 2026-08-20</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body"><strong>インターネット公開されるNetScaler Gateway/AAAと、Cisco Crosswork・Secure Workloadの管理基盤を優先して更新してください。</strong> 8月19日にNetScalerの認証回避とCiscoのCriticalな管理・セキュリティ基盤向け脆弱性が公開されました。いずれも認証不要のネットワーク攻撃につながり得る条件を含み、NetScalerとCisco製品はいずれも回避策が提供されていません。</p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>NetScaler ADC / NetScaler Gateway</dd></div>
+      <div><dt>推奨アクション</dt><dd>Gateway/AAA構成を確認し、修正版へ更新。Cisco Crosswork / Secure Workloadも同時に更新計画へ追加</dd></div>
+      <div><dt>対応期限</dt><dd>設定なし（ベンダーはいずれも速やかな更新を推奨）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>8月19日公開のCriticalな認証回避・認証不備が複数の管理基盤で確認されたため</dd></div>
+    </dl>
+  </section>
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head"><h2 id="summaryHeading">優先度サマリー</h2><p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p></div>
+    <div class="summary-list">
+      <a class="summary-card" href="#CVE-2026-19490" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-19490</span>
+        <span class="card-product">NetScaler ADC / NetScaler Gateway 13.1・14.1系</span>
+        <span class="card-lead">GatewayまたはAAA仮想サーバで認証を迂回できるCriticalな脆弱性。SSL VPN等の公開構成では認証不要のネットワーク攻撃が成立し得ます。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">KEV確認できず</span><span class="badge off" data-glyph="○">公開PoC確認できず</span></span>
+        <span class="card-fixed"><span>修正版:</span> 14.1-73.32+ / 13.1-63.21+ / FIPS等の指定修正版</span>
+      </a>
+      <a class="summary-card" href="#CVE-2026-20357" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-20357</span>
+        <span class="card-product">Cisco Crosswork Planning</span>
+        <span class="card-lead">重要機能に対する認証欠落（CWE-306）。Ciscoは最大CVSS 10.0としており、Crosswork管理基盤を速やかに修正版へ更新する必要があります。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用報告なし</span><span class="badge off" data-glyph="○">KEV確認できず</span><span class="badge off" data-glyph="○">公開PoC確認できず</span></span>
+        <span class="card-fixed"><span>修正版:</span> Crosswork 7.2.1-SP</span>
+      </a>
+      <a class="summary-card" href="#CVE-2026-20317" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-20317</span>
+        <span class="card-product">Cisco Secure Workload</span>
+        <span class="card-lead">不適切な認証（CWE-287）を含むCriticalな脆弱性群。SaaS・オンプレミス双方が対象で、Cluster/Agent/Connectorの更新が必要です。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用報告なし</span><span class="badge off" data-glyph="○">KEV確認できず</span><span class="badge off" data-glyph="○">公開PoC確認できず</span></span>
+        <span class="card-fixed"><span>修正版:</span> 3.10.9.1 / 4.0.4.16</span>
+      </a>
+    </div>
+  </section>
+  <section aria-labelledby="detailHeading">
+    <div class="section-head"><h2 id="detailHeading">詳細</h2><p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p></div>
+
+    <article class="case" id="CVE-2026-19490" data-cve="CVE-2026-19490" data-priority="P1" data-product="NetScaler ADC / NetScaler Gateway" data-exploited="false" data-kev="false" data-poc="false" data-cvss="9.3" data-fixed="14.1-73.32+ / 13.1-63.21+">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-19490</h3></div>
+      <p class="product">NetScaler ADC / NetScaler Gateway 14.1・13.1系（SSL VPN / AAA / 認証基盤）</p>
+      <p class="lead">認証を別経路で迂回できる脆弱性です。対象アプライアンスがGateway（SSL VPN、ICA Proxy、CVPN、RDP Proxy）またはAAA仮想サーバとして構成されている場合に影響し、認証不要でネットワーク経由の攻撃が可能です。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">CISA KEV確認できず</span><span class="badge off" data-glyph="○">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 9.3</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.3 / Critical (CVSS v4.0)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・ユーザー操作不要。Gateway/AAA構成が前提で、ビルドによってSAML actionの有無など追加条件があります。</dd></div>
+        <div><dt>実悪用</dt><dd>確認できず</dd></div>
+        <div><dt>CISA KEV</dt><dd>確認できず</dd></div>
+        <div><dt>公開PoC</dt><dd>十分に検索した範囲では、実装を伴う公開PoCを確認できず</dd></div>
+        <div><dt>影響バージョン</dt><dd>14.1-73.32未満、13.1-63.21未満。FIPS/NDcPPはベンダー指定の修正版未満。対象条件はベンダーアドバイザリ参照。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">14.1-73.32以降、13.1-63.21以降、14.1-73.32 FIPS以降、13.1-37.277 FIPS/NDcPP以降。</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>回避策はありません。該当アプライアンスをベンダー指定の修正版へ更新してください。更新前にGateway/AAA/SAML構成の該当性を確認し、外部公開されている場合は最優先で対応してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>VPN・認証基盤に相当するNetScalerで、認証不要のネットワーク攻撃による認証回避が可能なCritical脆弱性です。実悪用未確認でも、公開されやすいサービスかつ回避策がないためP1としました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>NetScaler ADC/Gatewayの利用有無とビルド番号を確認</span></label></li><li><label><input type="checkbox"><span>SSL VPN、ICA Proxy、CVPN、RDP Proxy、AAA vserver、SAML actionの構成有無を確認</span></label></li><li><label><input type="checkbox"><span>インターネット公開されているGateway/AAAを特定し、修正版適用を優先</span></label></li><li><label><input type="checkbox"><span>認証ログ・VPNセッション・管理ログから不審な認証成功や異常なセッションを確認</span></label></li><li><label><input type="checkbox"><span>不審なアクセスがあれば関連資格情報・セッショントークンの失効を検討</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>NetScaler Security Bulletin CTX696939</li><li><a href="https://support.citrix.com/external/article/CTX696939/netscaler-adc-and-netscaler-gateway-secu.html" target="_blank" rel="noopener noreferrer">NetScaler公式セキュリティ情報</a></li></ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-20357" data-cve="CVE-2026-20357" data-priority="P1" data-product="Cisco Crosswork Planning" data-exploited="false" data-kev="false" data-poc="false" data-cvss="10.0" data-fixed="7.2.1-SP">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-20357</h3></div>
+      <p class="product">Cisco Crosswork Planning（ネットワーク管理基盤）</p>
+      <p class="lead">重要機能に対する認証欠落（CWE-306）を含む脆弱性です。Ciscoは最大CVSS 10.0としており、Crosswork 7.2.1以前の環境は修正版への更新が必要です。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用報告なし</span><span class="badge off" data-glyph="○">CISA KEV確認できず</span><span class="badge off" data-glyph="○">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 10.0</span></div>
+      <dl class="facts"><div><dt>CVSS</dt><dd>10.0 / Critical (CVSS v3.1、Cisco掲載最大値)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・低攻撃複雑度・ユーザー操作不要としてCiscoのアドバイザリ全体で評価。</dd></div><div><dt>実悪用</dt><dd>報告なし（Cisco PSIRT）</dd></div><div><dt>CISA KEV</dt><dd>確認できず</dd></div><div><dt>公開PoC</dt><dd>十分に検索した範囲では、実装を伴う公開PoCを確認できず</dd></div><div><dt>影響バージョン</dt><dd>Cisco Crosswork Planningを含むCrosswork 7.2.1以前。CVE-2026-20357について公開CVE情報ではCrosswork Planningの7.0.x、7.1.x、7.2.0等が影響。</dd></div><div><dt>修正版</dt><dd class="is-ok">Crosswork 7.2.1-SP</dd></div></dl>
+      <div class="block"><h4>推奨対処</h4><p>回避策はありません。Cisco Crossworkを7.2.1-SPへ更新してください。管理ネットワークへの露出を再確認し、外部または広範な管理セグメントから到達できる場合はアクセス制御も併せて見直してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>ネットワーク管理基盤での認証欠落は、侵害時の影響範囲が大きくなりやすく、Ciscoの最大評価もCVSS 10.0です。実悪用未確認でも管理基盤への重大影響と認証不要条件を重視してP1としました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Cisco Crosswork Data Gateway / Network Controller / Planningの利用有無を確認</span></label></li><li><label><input type="checkbox"><span>Crossworkのリリース番号と7.2.1-SP適用状況を確認</span></label></li><li><label><input type="checkbox"><span>管理UI/APIへの到達元を確認し、不要なネットワークからのアクセスを制限</span></label></li><li><label><input type="checkbox"><span>管理者操作・設定変更・新規アカウント作成などの監査ログを点検</span></label></li><li><label><input type="checkbox"><span>不審な設定変更があれば関連するネットワーク機器側の設定差分も確認</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>Cisco Advisory cisco-sa-hardening-crosswork-UzDTU9Vh</li><li><a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-hardening-crosswork-UzDTU9Vh" target="_blank" rel="noopener noreferrer">Cisco公式セキュリティアドバイザリ</a></li></ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-20317" data-cve="CVE-2026-20317" data-priority="P1" data-product="Cisco Secure Workload" data-exploited="false" data-kev="false" data-poc="false" data-cvss="10.0" data-fixed="3.10.9.1 / 4.0.4.16">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-20317</h3></div>
+      <p class="product">Cisco Secure Workload（セキュリティ・マイクロセグメンテーション管理基盤）</p>
+      <p class="lead">不適切な認証（CWE-287）に分類されるCriticalな脆弱性群です。SaaS・オンプレミス双方のCisco Secure Workloadが影響し、Cluster、Agent、Connectorの更新が必要です。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用報告なし</span><span class="badge off" data-glyph="○">CISA KEV確認できず</span><span class="badge off" data-glyph="○">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 10.0</span></div>
+      <dl class="facts"><div><dt>CVSS</dt><dd>10.0 / Critical (CVSS v3.1、Cisco掲載最大値)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・低攻撃複雑度・ユーザー操作不要としてCiscoのアドバイザリ全体で評価。</dd></div><div><dt>実悪用</dt><dd>報告なし（Cisco PSIRT）</dd></div><div><dt>CISA KEV</dt><dd>確認できず</dd></div><div><dt>公開PoC</dt><dd>十分に検索した範囲では、実装を伴う公開PoCを確認できず</dd></div><div><dt>影響バージョン</dt><dd>Cisco Secure Workload 3.10以前および4.0系の修正版未満。SaaS/オンプレミス双方が対象。</dd></div><div><dt>修正版</dt><dd class="is-ok">3.10.9.1 / 4.0.4.16。SaaSではCiscoがClusterを更新済みで、顧客側はAgent/Connectorの更新が必要。</dd></div></dl>
+      <div class="block"><h4>推奨対処</h4><p>回避策はありません。3.10系は3.10.9.1、4.0系は4.0.4.16へ更新してください。オンプレミスはCluster/Agent/Connectorを更新し、SaaSはAgent/Connectorを更新してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>セキュリティ管理基盤そのものの認証不備であり、侵害時にセグメンテーションやワークロード制御へ影響する可能性があります。認証不要・ネットワーク経由のCritical評価かつ回避策なしのためP1としました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Cisco Secure WorkloadのSaaS/オンプレミス利用有無とバージョンを確認</span></label></li><li><label><input type="checkbox"><span>Cluster、Agent、Connectorの各コンポーネントの更新状況を個別に確認</span></label></li><li><label><input type="checkbox"><span>管理アクセス・API操作・ポリシー変更ログから不審な操作を確認</span></label></li><li><label><input type="checkbox"><span>異常なAgent/Connector登録、削除、設定変更がないか確認</span></label></li><li><label><input type="checkbox"><span>不審操作が見つかった場合は管理者資格情報・APIトークンのローテーションを検討</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>Cisco Advisory cisco-sa-hardening-csw1-shSvndWP</li><li><a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-hardening-csw1-shSvndWP" target="_blank" rel="noopener noreferrer">Cisco公式セキュリティアドバイザリ</a></li></ul></div>
+    </article>
+  </section>
+  <p class="disclaimer"><strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong> CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。</p>
+  <footer class="report-footer"><p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p><p><a href="../index.html">レポート一覧へ戻る</a></p></footer>
+</main>
+</body>
+</html>
