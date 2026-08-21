@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-08-22 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-08-22" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年8月22日（土）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-08-22 08:00 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-15 〜 2026-08-22</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-08-21.html" rel="prev">← 前日 2026-08-21</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>TrueConf ServerとZimbra Collaborationの公開サーバーを最優先で確認してください。</strong>
+      TrueConf ServerのCVE-2026-72529はCISA KEV掲載・実悪用確認済みで、認証不要かつ4307/TCP経由で任意スクリプト実行につながります。ZimbraのCVE-2026-73570も実悪用とKEV追加を確認しており、条件を満たすメールサーバーでは認証不要のOSコマンド実行が可能です。Microsoft Entra IDのCVE-2026-69836はCVSS 10.0かつ実悪用確認済みですが、Microsoft側で完全に緩和済みで利用者の修正作業は不要です。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>TrueConf Server / Zimbra Collaboration Suite</dd></div>
+      <div><dt>推奨アクション</dt><dd>外部公開状況を確認し、TrueConfは修正版へ更新、Zimbraは10.1.20以降へ更新して侵害痕跡を確認</dd></div>
+      <div><dt>対応期限</dt><dd>TrueConf CVE-2026-72529: 2026-08-23 ／ Zimbra・Entra ID: 2026-08-24（CISA KEV期限）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>Entra IDとZimbraが8月21日にKEVへ追加され、TrueConfも8月20日のKEV追加後に短い是正期限が設定されているため</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+      <a class="summary-card" href="#CVE-2026-72529" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-72529</span>
+        <span class="card-product">TrueConf Server 5.3.x / 5.4.x / 5.5.x</span>
+        <span class="card-lead">認証なしで到達可能な未公開機能を悪用し、4307/TCP経由で任意スクリプトを実行できる脆弱性。CISA KEV掲載・実悪用確認済みです。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載</span><span class="badge off" data-glyph="○">公開PoC確認できず</span></span>
+        <span class="card-fixed"><span>修正版:</span> 5.3.9 / 5.4.9 / 5.5.5 以降</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-73570" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-73570</span>
+        <span class="card-product">Zimbra Collaboration Suite 10.1.20未満</span>
+        <span class="card-lead">SNMP通知処理の入力検証不備により、条件を満たす環境で認証不要のSMTPリクエストからOSコマンド実行が可能。実悪用とKEV追加を確認しています。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載</span><span class="badge warn" data-glyph="●">公開PoCあり</span></span>
+        <span class="card-fixed"><span>修正版:</span> ZCS 10.1.20 以降</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-69836" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-69836</span>
+        <span class="card-product">Microsoft Entra ID</span>
+        <span class="card-lead">信頼できないデータのデシリアライズに起因する認証不要のリモートコード実行。実悪用とKEV掲載を確認していますが、Microsoftはサービス側で完全緩和済みとしています。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載</span><span class="badge off" data-glyph="○">公開PoC確認できず</span></span>
+        <span class="card-fixed"><span>修正版:</span> Microsoft側で完全緩和済み</span>
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-72529"
+      data-cve="CVE-2026-72529"
+      data-priority="P1"
+      data-product="TrueConf Server"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="false"
+      data-cvss="9.8"
+      data-fixed="5.3.9 / 5.4.9 / 5.5.5 以降">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-72529</h3></div>
+      <p class="product">TrueConf Server（オンプレミス映像会議・ユニファイドコミュニケーション基盤）</p>
+      <p class="lead">TrueConf Serverの重要機能に認証が欠落しており、4307/TCPへ到達可能な認証前のリモート攻撃者が未公開機能を呼び出して任意スクリプトを実行できます。CISA KEVに掲載され、実悪用が確認されています。</p>
+      <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge off" data-glyph="○">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)、9.3 / Critical (CVSS v4.0)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・ユーザー操作不要。4307/TCPへ到達できる必要があります。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり。CISA KEV掲載およびKaspersky関連調査で実悪用を確認。</dd></div>
+        <div><dt>CISA KEV</dt><dd>掲載あり（2026-08-20追加、期限2026-08-23）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">確認できず。GitHub等を検索したが、実装を伴う再現コードを十分な確度で確認できませんでした。</dd></div>
+        <div><dt>影響バージョン</dt><dd>5.3系は5.3.9未満、5.4系は5.4.9未満、5.5系は5.5.5未満、および5.3未満。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">5.3.9 / 5.4.9 / 5.5.5 以降。利用系列に応じてベンダー提供の修正版へ更新。</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>直ちに対象バージョンを修正版へ更新してください。更新までの間は4307/TCPの外部公開を停止または信頼済み送信元に限定し、TrueConf Serverをインターネットから直接到達できない構成にしてください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>認証不要・低攻撃複雑度・ネットワーク経由で任意スクリプト実行が可能なうえ、CISA KEV掲載済みで実悪用が確認されています。オンプレミス会議基盤は社内ネットワークへの足掛かりや配布元として悪用される可能性があるためP1としました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>TrueConf Serverの資産台帳と実バージョンを照合し、影響範囲に含まれるサーバーを特定</span></label></li>
+        <li><label><input type="checkbox"><span>4307/TCPのインターネット公開・外部到達性をFW/NAT/ロードバランサ設定で確認</span></label></li>
+        <li><label><input type="checkbox"><span>5.3.9 / 5.4.9 / 5.5.5以降への更新完了とサービス再起動後のバージョンを確認</span></label></li>
+        <li><label><input type="checkbox"><span>TrueConf Server上の不審なスクリプト実行、Webシェル、想定外ファイル変更、子プロセス生成をEDR/監査ログで確認</span></label></li>
+        <li><label><input type="checkbox"><span>サーバーから配布されるクライアントインストーラや更新ファイルのハッシュ・更新履歴に不審な変更がないか確認</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources">
+        <li>KLCERT-26-057: TrueConf Server. Missing Authentication for Critical Function</li>
+        <li><a href="https://ics-cert.kaspersky.com/advisories/2026/08/11/trueconf-server-missing-authentication-for-critical-function/" target="_blank" rel="noopener noreferrer">Kaspersky ICS CERT</a></li>
+        <li><a href="https://trueconf.com/blog/news/security-fixes-updates-and-advisories" target="_blank" rel="noopener noreferrer">TrueConf Security Vulnerabilities, Fixes and Advisories</a></li>
+        <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-72529" target="_blank" rel="noopener noreferrer">CISA Known Exploited Vulnerabilities Catalog</a></li>
+        <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-72529" target="_blank" rel="noopener noreferrer">NVD CVE-2026-72529</a></li>
+      </ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-73570"
+      data-cve="CVE-2026-73570"
+      data-priority="P1"
+      data-product="Zimbra Collaboration Suite"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="true"
+      data-cvss="8.9"
+      data-fixed="ZCS 10.1.20 以降">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-73570</h3></div>
+      <p class="product">Zimbra Collaboration Suite (ZCS) 10.1.20未満（メール・グループウェア基盤）</p>
+      <p class="lead">zimbra-snmpパッケージが導入されSNMP通知が有効な環境で、SMTP入力の不適切なサニタイズにより、認証不要の攻撃者がZimbraユーザー権限で任意OSコマンドを実行できます。実悪用とCISA KEV追加を確認しています。</p>
+      <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge warn" data-glyph="●">公開PoCあり</span><span class="badge na" data-glyph="■">CVSS 8.9</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>8.9 / High (CVSS v3.1)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要。zimbra-snmpパッケージが導入され、SNMP通知が有効であることが条件です。攻撃複雑度はHigh。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり。CERT Polskaが実際の攻撃キャンペーンを報告。</dd></div>
+        <div><dt>CISA KEV</dt><dd>掲載あり（2026-08-21追加、期限2026-08-24）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">あり。GitHub上で検証用スクリプトと脆弱・修正版のテスト環境、具体的な再現手順を含む公開リポジトリを確認。安全性を確認済みという意味ではありません。</dd></div>
+        <div><dt>影響バージョン</dt><dd>Zimbra Collaboration Suite 10.1.20未満。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">ZCS 10.1.20以降。</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>ZCS 10.1.20以降へ更新してください。更新前にSNMP通知機能の利用状況を確認し、不要な場合は無効化を検討してください。すでに外部公開されていた脆弱なサーバーは、パッチ適用だけで終了せず侵害痕跡の確認を実施してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>メール基盤は外部公開されることが多く、本脆弱性は認証不要でOSコマンド実行に至ります。さらに実悪用、KEV掲載、公開PoCの3条件が揃っているため、CVSS 8.9でもSOC運用上はP1と判断しました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>Zimbraのバージョン、zimbra-snmp導入有無、snmp_notify設定、swatchdog稼働状況を確認</span></label></li>
+        <li><label><input type="checkbox"><span>10.1.20以降への更新を完了し、インターネット公開中のSMTPサーバーを優先して対処</span></label></li>
+        <li><label><input type="checkbox"><span>/var/log/zimbra.logで不審なService status changeエントリや異常なSMTP入力に関連するイベントを確認</span></label></li>
+        <li><label><input type="checkbox"><span>/opt/zimbra/jetty/webapps/、/opt/zimbra/jetty_base/webapps/、/tmp/配下のzimbraユーザーによる最近の不審ファイル作成を確認</span></label></li>
+        <li><label><input type="checkbox"><span>EDRでZimbra関連プロセスからのシェル起動、外向き通信、永続化操作を確認</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources">
+        <li>Zimbra Security Advisories / CERT Polska active exploitation advisory</li>
+        <li><a href="https://wiki.zimbra.com/wiki/Zimbra_Security_Advisories" target="_blank" rel="noopener noreferrer">Zimbra Security Advisories</a></li>
+        <li><a href="https://moje.cert.pl/komunikaty/2026/145/aktywnie-wykorzystywana-podatnosc-w-zimbra-collaboration-suite/" target="_blank" rel="noopener noreferrer">CERT Polska</a></li>
+        <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-73570" target="_blank" rel="noopener noreferrer">CISA Known Exploited Vulnerabilities Catalog</a></li>
+        <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-73570" target="_blank" rel="noopener noreferrer">NVD CVE-2026-73570</a></li>
+        <li><a href="https://github.com/fankh/vulnerability-poc/tree/main/2026/CVE-2026-73570" target="_blank" rel="noopener noreferrer">公開PoCリポジトリ（安全性を確認済みという意味ではありません）</a></li>
+      </ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-69836"
+      data-cve="CVE-2026-69836"
+      data-priority="P1"
+      data-product="Microsoft Entra ID"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="false"
+      data-cvss="10.0"
+      data-fixed="Microsoft側で完全緩和済み">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-69836</h3></div>
+      <p class="product">Microsoft Entra ID（クラウドID・認証基盤）</p>
+      <p class="lead">信頼できないデータのデシリアライズに起因し、認証なしの攻撃者がネットワーク経由でコード実行できる脆弱性です。実悪用とCISA KEV掲載を確認していますが、Microsoftはサービス側で完全に緩和済みで利用者の修正作業は不要としています。</p>
+      <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge off" data-glyph="○">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 10.0</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>10.0 / Critical (CVSS v3.1)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・低攻撃複雑度・ユーザー操作不要。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり。MicrosoftおよびCISA KEV情報で確認。</dd></div>
+        <div><dt>CISA KEV</dt><dd>掲載あり（2026-08-21追加、期限2026-08-24。クラウドサービス向けBOD 26-04ガイダンス対象）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">確認できず。Microsoftは公開時点でオンライン上のエクスプロイトコードを確認していないとしています。GitHub検索でも実装を伴うPoCは確認できませんでした。</dd></div>
+        <div><dt>影響バージョン</dt><dd>Microsoft Entra IDクラウドサービス。影響した内部ビルド範囲は確認できず。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Microsoft側で完全に緩和済み。利用者側のパッチ適用は不要。</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>Microsoftによるサービス側緩和のため、利用者側の修正作業は不要です。SOCでは侵害確認の観点から、対象期間のEntra監査ログ・サインインログで説明できない高権限操作やサービスプリンシパル関連変更がないか確認してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>クラウドID基盤に対するCVSS 10.0の認証不要RCEで、実悪用とKEV掲載が確認されているためP1です。ただし既にMicrosoft側で完全緩和済みであり、主なSOCアクションはパッチ適用ではなく、サービス健全性確認と事後のログレビューです。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>Microsoft 365 / Azure Service HealthでEntra IDの緩和完了と関連通知を確認</span></label></li>
+        <li><label><input type="checkbox"><span>Entra監査ログで不審なロール付与、アプリ登録、サービスプリンシパル、資格情報追加を確認</span></label></li>
+        <li><label><input type="checkbox"><span>サインインログで通常と異なる送信元、トークン利用、管理操作の前後関係を確認</span></label></li>
+        <li><label><input type="checkbox"><span>重大な不審操作が見つかった場合は影響アカウント・アプリ資格情報・トークンの失効やローテーションを検討</span></label></li>
+        <li><label><input type="checkbox"><span>Microsoftから追加IOCや調査ガイダンスが公開されていないか継続確認</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources">
+        <li>Microsoft Entra ID Remote Code Execution Vulnerability</li>
+        <li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-69836" target="_blank" rel="noopener noreferrer">Microsoft Security Response Center</a></li>
+        <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-69836" target="_blank" rel="noopener noreferrer">CISA Known Exploited Vulnerabilities Catalog</a></li>
+        <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-69836" target="_blank" rel="noopener noreferrer">NVD CVE-2026-69836</a></li>
+      </ul></div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
