@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-08-23 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-08-23" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年8月23日（日）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-08-23 07:58 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-16 〜 2026-08-23</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-08-22.html" rel="prev">← 前日 2026-08-22</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body"><strong>Oracle E-Business SuiteとOracle Enterprise Managerの8月Critical Security Patch Update適用状況を最優先で確認してください。</strong>Oracleは2026年8月19日に、認証不要かつネットワーク経由で製品の完全侵害または重要データ改ざんにつながる複数の脆弱性を修正しました。インターネットや外部ネットワークから到達可能な構成では、未修正環境の露出確認を優先してください。</p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Oracle E-Business Suite / Oracle Enterprise Manager</dd></div>
+      <div><dt>推奨アクション</dt><dd>August 2026 Critical Security Patch Updateの適用状況と外部到達性を確認</dd></div>
+      <div><dt>対応期限</dt><dd>設定なし（Oracleは速やかな適用を強く推奨）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>8月19日公開のOracle公式更新で、認証不要の9.8級脆弱性が複数新規修正されたため</dd></div>
+    </dl>
+  </section>
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head"><h2 id="summaryHeading">優先度サマリー</h2><p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p></div>
+    <div class="summary-list">
+      <a class="summary-card" href="#CVE-2026-60782" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-60782</span><span class="card-product">Oracle Payments / Oracle E-Business Suite 12.2.3-12.2.15</span><span class="card-lead">File Transmissionコンポーネントの脆弱性。認証不要の攻撃者がHTTP経由でOracle Paymentsを侵害し、製品の完全な乗っ取りに至る可能性があります。</span><span class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC確認できず</span></span><span class="card-fixed"><span>修正版:</span> August 2026 Critical Security Patch Update</span></a>
+      <a class="summary-card" href="#CVE-2026-70926" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-70926</span><span class="card-product">Oracle Workflow / Oracle E-Business Suite 12.2.3-12.2.15</span><span class="card-lead">Workflow Notification Mailerの脆弱性。認証不要の攻撃者がSMTP経由でOracle Workflowを侵害し、完全な乗っ取りに至る可能性があります。</span><span class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC確認できず</span></span><span class="card-fixed"><span>修正版:</span> August 2026 Critical Security Patch Update</span></a>
+      <a class="summary-card" href="#CVE-2026-2332" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-2332</span><span class="card-product">Oracle Enterprise Manager Base Platform 13.5 / 24.1</span><span class="card-lead">API Gateway、Agent Next Gen、Monitoring Serviceで影響する認証不要のHTTP経由脆弱性。重要データの読み取り・改ざんにつながる可能性があります。</span><span class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC確認できず</span></span><span class="card-fixed"><span>修正版:</span> August 2026 Critical Security Patch Update</span></a>
+    </div>
+  </section>
+  <section aria-labelledby="detailHeading">
+    <div class="section-head"><h2 id="detailHeading">詳細</h2><p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p></div>
+    <article class="case" id="CVE-2026-60782" data-cve="CVE-2026-60782" data-priority="P1" data-product="Oracle Payments / Oracle E-Business Suite" data-exploited="false" data-kev="false" data-poc="false" data-cvss="9.8" data-fixed="August 2026 Critical Security Patch Update">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-60782</h3></div>
+      <p class="product">Oracle Payments / Oracle E-Business Suite 12.2.3-12.2.15（File Transmission）</p>
+      <p class="lead">認証不要の攻撃者がHTTP経由でOracle Paymentsを侵害できる脆弱性です。Oracleは成功時にOracle Paymentsの完全な乗っ取りが可能としています。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div>
+      <dl class="facts"><div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・HTTP・認証不要・低複雑度・ユーザー操作不要</dd></div><div><dt>実悪用</dt><dd>報告を確認できず</dd></div><div><dt>CISA KEV</dt><dd>未掲載</dd></div><div><dt>公開PoC</dt><dd>十分に検索したが実装を伴うPoCを確認できず</dd></div><div><dt>影響バージョン</dt><dd>Oracle E-Business Suite 12.2.3-12.2.15</dd></div><div><dt>修正版</dt><dd class="is-ok">August 2026 Critical Security Patch Update（具体的パッチ番号はMy Oracle Support参照）</dd></div></dl>
+      <div class="block"><h4>推奨対処</h4><p>Oracle August 2026 Critical Security Patch Updateを速やかに適用してください。直ちに適用できない場合は、Oracle PaymentsのHTTP/HTTPS到達元を必要最小限に制限し、外部公開を避けてください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>実悪用は未確認ですが、認証不要・ネットワーク経由・ユーザー操作不要で製品の完全な乗っ取りに至るため、CVSSとは別にSOC PriorityをP1と判断しました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Oracle E-Business SuiteでOracle Paymentsを利用しているか確認</span></label></li><li><label><input type="checkbox"><span>12.2.3-12.2.15に該当するか確認</span></label></li><li><label><input type="checkbox"><span>File Transmission関連HTTP/HTTPSエンドポイントの外部到達性を確認</span></label></li><li><label><input type="checkbox"><span>August 2026 CSPUの適用状況を確認</span></label></li><li><label><input type="checkbox"><span>未修正期間のWebアクセスログで不審な送信・管理操作を確認</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>Oracle Critical Security Patch Update Advisory - August 2026</li><li><a href="https://www.oracle.com/security-alerts/cspuaug2026.html" target="_blank" rel="noopener noreferrer">Oracle公式アドバイザリ</a></li><li><a href="https://www.oracle.com/security-alerts/cspuaug2026verbose.html" target="_blank" rel="noopener noreferrer">Oracle公式Risk Matrix</a></li></ul></div>
+    </article>
+    <article class="case" id="CVE-2026-70926" data-cve="CVE-2026-70926" data-priority="P1" data-product="Oracle Workflow / Oracle E-Business Suite" data-exploited="false" data-kev="false" data-poc="false" data-cvss="9.8" data-fixed="August 2026 Critical Security Patch Update">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-70926</h3></div>
+      <p class="product">Oracle Workflow / Oracle E-Business Suite 12.2.3-12.2.15（Workflow Notification Mailer）</p>
+      <p class="lead">認証不要の攻撃者がSMTP経由でOracle Workflowを侵害できる脆弱性です。Oracleは成功時にOracle Workflowの完全な乗っ取りが可能としています。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div>
+      <dl class="facts"><div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・SMTP・認証不要・低複雑度・ユーザー操作不要</dd></div><div><dt>実悪用</dt><dd>報告を確認できず</dd></div><div><dt>CISA KEV</dt><dd>未掲載</dd></div><div><dt>公開PoC</dt><dd>十分に検索したが実装を伴うPoCを確認できず</dd></div><div><dt>影響バージョン</dt><dd>Oracle E-Business Suite 12.2.3-12.2.15</dd></div><div><dt>修正版</dt><dd class="is-ok">August 2026 Critical Security Patch Update（具体的パッチ番号はMy Oracle Support参照）</dd></div></dl>
+      <div class="block"><h4>推奨対処</h4><p>Oracle August 2026 Critical Security Patch Updateを適用してください。適用までの間はWorkflow Notification MailerへのSMTP接続元を信頼済みメール基盤に限定し、不要な外部経路を遮断してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>メール連携経路であるSMTPから認証不要で到達でき、成功時はWorkflow全体の乗っ取りにつながります。境界FWだけでなくメール経路を介した到達性があるためP1と判断しました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Workflow Notification Mailerの利用有無を確認</span></label></li><li><label><input type="checkbox"><span>E-Business Suiteの対象バージョンを確認</span></label></li><li><label><input type="checkbox"><span>Notification MailerへのSMTP接続元と中継経路を確認</span></label></li><li><label><input type="checkbox"><span>August 2026 CSPU適用前後のメール処理ログを確認</span></label></li><li><label><input type="checkbox"><span>不審なWorkflow変更・管理操作・異常メール処理の有無を確認</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>Oracle Critical Security Patch Update Advisory - August 2026</li><li><a href="https://www.oracle.com/security-alerts/cspuaug2026.html" target="_blank" rel="noopener noreferrer">Oracle公式アドバイザリ</a></li><li><a href="https://www.oracle.com/security-alerts/cspuaug2026verbose.html" target="_blank" rel="noopener noreferrer">Oracle公式Risk Matrix</a></li></ul></div>
+    </article>
+    <article class="case" id="CVE-2026-2332" data-cve="CVE-2026-2332" data-priority="P1" data-product="Oracle Enterprise Manager Base Platform" data-exploited="false" data-kev="false" data-poc="false" data-cvss="9.1" data-fixed="August 2026 Critical Security Patch Update">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-2332</h3></div>
+      <p class="product">Oracle Enterprise Manager Base Platform 13.5 / 24.1（API Gateway / Agent Next Gen / Monitoring Service）</p>
+      <p class="lead">認証不要の攻撃者がHTTP経由でEnterprise Managerの複数コンポーネントを侵害できる脆弱性です。重要データの完全な読み取りや作成・変更・削除につながる可能性があります。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 9.1</span></div>
+      <dl class="facts"><div><dt>CVSS</dt><dd>9.1 / Critical (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・HTTP・認証不要・低複雑度・ユーザー操作不要</dd></div><div><dt>実悪用</dt><dd>報告を確認できず</dd></div><div><dt>CISA KEV</dt><dd>未掲載</dd></div><div><dt>公開PoC</dt><dd>十分に検索したが実装を伴うPoCを確認できず</dd></div><div><dt>影響バージョン</dt><dd>API Gateway: 24.1、Agent Next Gen / Monitoring Service: 13.5および24.1</dd></div><div><dt>修正版</dt><dd class="is-ok">August 2026 Critical Security Patch Update（具体的パッチ番号はMy Oracle Support参照）</dd></div></dl>
+      <div class="block"><h4>推奨対処</h4><p>Oracle August 2026 Critical Security Patch Updateを適用してください。Enterprise Managerの管理インターフェースとエージェント通信をインターネットへ直接公開せず、管理ネットワークと許可済み送信元に限定してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>Enterprise Managerは多数の管理対象へ接続する管理基盤です。認証不要のネットワーク攻撃で重要データの読み取り・改ざんが可能なため、実悪用未確認でも侵害時の波及範囲を重視してP1と判断しました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Enterprise Manager 13.5 / 24.1の利用有無を確認</span></label></li><li><label><input type="checkbox"><span>API Gateway、Agent Next Gen、Monitoring Serviceの到達性を確認</span></label></li><li><label><input type="checkbox"><span>管理ポートがインターネットや利用者ネットワークから到達可能でないか確認</span></label></li><li><label><input type="checkbox"><span>August 2026 CSPUの適用状況を確認</span></label></li><li><label><input type="checkbox"><span>管理データ変更、構成変更、未知の接続元からのHTTPアクセスを確認</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>Oracle Critical Security Patch Update Advisory - August 2026</li><li><a href="https://www.oracle.com/security-alerts/cspuaug2026.html" target="_blank" rel="noopener noreferrer">Oracle公式アドバイザリ</a></li><li><a href="https://www.oracle.com/security-alerts/cspuaug2026verbose.html" target="_blank" rel="noopener noreferrer">Oracle公式Risk Matrix</a></li></ul></div>
+    </article>
+  </section>
+  <p class="disclaimer"><strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong> CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。</p>
+  <footer class="report-footer"><p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p><p><a href="../index.html">レポート一覧へ戻る</a></p></footer>
+</main>
+</body>
+</html>
