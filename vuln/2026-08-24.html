@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-08-24 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-08-24" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年8月24日（月）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-08-24 08:06 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-17 〜 2026-08-24</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-08-23.html" rel="prev">← 前日 2026-08-23</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>Oracle Internet DirectoryとPeopleSoft PeopleToolsの8月Critical Security Patch Update適用状況を最優先で確認してください。</strong>
+      いずれも認証不要・ネットワーク経由で基盤の完全侵害につながる脆弱性です。加えて、Dell OpenManage Enterpriseは管理基盤上で低権限アカウントからOSコマンド実行に至るため、4.7.0未満の環境を速やかに洗い出してください。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Oracle Internet Directory / PeopleSoft Enterprise PeopleTools</dd></div>
+      <div><dt>推奨アクション</dt><dd>Oracle August 2026 CSPU適用状況とLDAP/HTTPの到達性を確認。Dell OpenManage Enterpriseは4.7.0以降へ更新</dd></div>
+      <div><dt>対応期限</dt><dd>設定なし（各ベンダーの修正版を速やかに適用）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>8月18〜21日に公開・NVD分析された認証不要のCritical脆弱性と、管理基盤のコマンド実行脆弱性を優先整理</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      <a class="summary-card" href="#CVE-2026-61241" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-61241</span>
+        <span class="card-product">Oracle Internet Directory 12.2.1.4.0 / 14.1.2.1.0</span>
+        <span class="card-lead">OID LDAP Serverの脆弱性。認証不要の攻撃者がLDAP経由でOracle Internet Directoryを侵害し、完全な乗っ取りに至る可能性があります。</span>
+        <span class="badges">
+          <span class="badge off" data-glyph="○">実悪用確認できず</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge na" data-glyph="■">公開PoC unknown</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> Oracle August 2026 Critical Security Patch Update</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-60821" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-60821</span>
+        <span class="card-product">PeopleSoft Enterprise PeopleTools 8.61-8.63</span>
+        <span class="card-lead">Business Interlinkの脆弱性。認証不要の攻撃者がHTTP経由でPeopleToolsを侵害し、完全な乗っ取りに至る可能性があります。</span>
+        <span class="badges">
+          <span class="badge off" data-glyph="○">実悪用確認できず</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge na" data-glyph="■">公開PoC unknown</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> Oracle August 2026 Critical Security Patch Update</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-54795" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-54795</span>
+        <span class="card-product">Dell OpenManage Enterprise 4.7.0未満</span>
+        <span class="card-lead">管理基盤のOSコマンドインジェクション。低権限の認証済み攻撃者がネットワーク経由で任意コマンドを実行できる可能性があります。</span>
+        <span class="badges">
+          <span class="badge off" data-glyph="○">実悪用確認できず</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge na" data-glyph="■">公開PoC unknown</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> Dell OpenManage Enterprise 4.7.0以降</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-61241"
+      data-cve="CVE-2026-61241"
+      data-priority="P1"
+      data-product="Oracle Internet Directory"
+      data-exploited="false"
+      data-kev="false"
+      data-poc="unknown"
+      data-cvss="10.0"
+      data-fixed="Oracle August 2026 Critical Security Patch Update">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-61241</h3>
+      </div>
+      <p class="product">Oracle Internet Directory 12.2.1.4.0 / 14.1.2.1.0（OID LDAP Server）</p>
+      <p class="lead">認証不要の攻撃者がLDAP経由でOracle Internet Directoryを侵害できる脆弱性です。Oracleは成功時にOIDの完全な乗っ取りと、他製品への重大な影響が生じ得るとしています。</p>
+      <div class="badges">
+        <span class="badge off" data-glyph="○">実悪用確認できず</span>
+        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+        <span class="badge na" data-glyph="■">公開PoC unknown</span>
+        <span class="badge on" data-glyph="●">CVSS 10.0</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>10.0 / Critical (CVSS v3.1)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・LDAP・認証不要・低複雑度・ユーザー操作不要</dd></div>
+        <div><dt>実悪用</dt><dd>報告を確認できず</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">unknown（検索結果に言及はあるが、実装を伴う公開PoCを直接確認できず）</dd></div>
+        <div><dt>影響バージョン</dt><dd>12.2.1.4.0、14.1.2.1.0</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Oracle August 2026 Critical Security Patch Update（具体的パッチ番号はMy Oracle Support参照）</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>Oracle August 2026 Critical Security Patch Updateを適用してください。直ちに適用できない場合は、OID LDAPサービスへの到達元を必要最小限に制限し、外部・利用者セグメントから直接到達できない構成にしてください。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>認証不要でLDAP経由の完全侵害が可能で、認証・ディレクトリ基盤そのものに影響します。さらにスコープ変更により他製品への波及が示されているため、SOC PriorityをP1と判断しました。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>Oracle Internet Directory 12.2.1.4.0 / 14.1.2.1.0の利用有無を確認</span></label></li>
+          <li><label><input type="checkbox"><span>LDAP/LDAPSポートのインターネット・利用者セグメントからの到達性を確認</span></label></li>
+          <li><label><input type="checkbox"><span>August 2026 CSPUの適用状況を確認</span></label></li>
+          <li><label><input type="checkbox"><span>OID管理ログとLDAPアクセスログで未修正期間の異常なバインド・設定変更を確認</span></label></li>
+          <li><label><input type="checkbox"><span>OIDと連携する認証基盤・アプリケーションで不審な権限変更や認証異常を確認</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>Oracle Critical Security Patch Update Advisory - August 2026</li>
+          <li><a href="https://www.oracle.com/security-alerts/cspuaug2026.html" target="_blank" rel="noopener noreferrer">Oracle公式アドバイザリ</a></li>
+          <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-61241" target="_blank" rel="noopener noreferrer">NVD CVE-2026-61241</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-60821"
+      data-cve="CVE-2026-60821"
+      data-priority="P1"
+      data-product="Oracle PeopleSoft Enterprise PeopleTools"
+      data-exploited="false"
+      data-kev="false"
+      data-poc="unknown"
+      data-cvss="9.8"
+      data-fixed="Oracle August 2026 Critical Security Patch Update">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-60821</h3>
+      </div>
+      <p class="product">PeopleSoft Enterprise PeopleTools 8.61-8.63（Business Interlink）</p>
+      <p class="lead">認証不要の攻撃者がHTTP経由でPeopleSoft Enterprise PeopleToolsを侵害できる脆弱性です。成功時はPeopleToolsの完全な乗っ取りにつながります。</p>
+      <div class="badges">
+        <span class="badge off" data-glyph="○">実悪用確認できず</span>
+        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+        <span class="badge na" data-glyph="■">公開PoC unknown</span>
+        <span class="badge on" data-glyph="●">CVSS 9.8</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・HTTP・認証不要・低複雑度・ユーザー操作不要</dd></div>
+        <div><dt>実悪用</dt><dd>報告を確認できず</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">unknown（実装を伴う公開PoCを直接確認できず）</dd></div>
+        <div><dt>影響バージョン</dt><dd>PeopleTools 8.61-8.63</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Oracle August 2026 Critical Security Patch Update（具体的パッチ番号はMy Oracle Support参照）</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>Oracle August 2026 Critical Security Patch Updateを適用してください。未修正環境ではBusiness Interlink関連HTTPエンドポイントの公開範囲を確認し、外部からの不要なアクセスを制限してください。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>認証不要・HTTP経由・ユーザー操作不要でPeopleTools全体の乗っ取りに至るため、実悪用が未確認でも攻撃条件が現実的です。業務基盤への影響の大きさからP1と判断しました。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>PeopleSoft PeopleTools 8.61-8.63の利用有無を確認</span></label></li>
+          <li><label><input type="checkbox"><span>Business Interlink関連HTTP/HTTPSエンドポイントの外部公開状況を確認</span></label></li>
+          <li><label><input type="checkbox"><span>August 2026 CSPUの適用状況を確認</span></label></li>
+          <li><label><input type="checkbox"><span>Web/PeopleToolsログで未認証状態からの不審な要求や管理操作を確認</span></label></li>
+          <li><label><input type="checkbox"><span>PeopleSoft管理アカウント・権限設定に不審な変更がないか確認</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>Oracle Critical Security Patch Update Advisory - August 2026</li>
+          <li><a href="https://www.oracle.com/security-alerts/cspuaug2026.html" target="_blank" rel="noopener noreferrer">Oracle公式アドバイザリ</a></li>
+          <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-60821" target="_blank" rel="noopener noreferrer">NVD CVE-2026-60821</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-54795"
+      data-cve="CVE-2026-54795"
+      data-priority="P1"
+      data-product="Dell OpenManage Enterprise"
+      data-exploited="false"
+      data-kev="false"
+      data-poc="unknown"
+      data-cvss="8.8"
+      data-fixed="Dell OpenManage Enterprise 4.7.0以降">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-54795</h3>
+      </div>
+      <p class="product">Dell OpenManage Enterprise 4.7.0未満（システム管理基盤）</p>
+      <p class="lead">低権限の認証済み攻撃者がネットワーク経由でOSコマンドインジェクションを実行できる脆弱性です。サーバ管理基盤が侵害されると、多数の管理対象システムへ影響が波及する可能性があります。</p>
+      <div class="badges">
+        <span class="badge off" data-glyph="○">実悪用確認できず</span>
+        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+        <span class="badge na" data-glyph="■">公開PoC unknown</span>
+        <span class="badge warn" data-glyph="●">CVSS 8.8</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>8.8 / High (CVSS v3.1, Dell CNA)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・低権限アカウント必要・低複雑度・ユーザー操作不要</dd></div>
+        <div><dt>実悪用</dt><dd>報告を確認できず</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">unknown（実装を伴う公開PoCを直接確認できず）</dd></div>
+        <div><dt>影響バージョン</dt><dd>Dell OpenManage Enterprise 4.7.0未満</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Dell OpenManage Enterprise 4.7.0以降</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>Dell OpenManage Enterprise 4.7.0以降へ更新してください。更新までの間は管理UI/APIへのアクセスを管理ネットワークに限定し、低権限ユーザーを含むアカウントの棚卸しと不要アカウント停止を行ってください。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>認証は必要ですが、サーバ群を統合管理するOpenManage Enterprise上でOSコマンド実行が可能です。管理基盤の侵害は多数の管理対象へ波及し得るため、CVSS 8.8でもP1と判断しました。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>OpenManage Enterpriseの利用有無とバージョンを確認</span></label></li>
+          <li><label><input type="checkbox"><span>4.7.0未満の環境を4.7.0以降へ更新</span></label></li>
+          <li><label><input type="checkbox"><span>管理UI/APIの到達元が管理ネットワークに限定されているか確認</span></label></li>
+          <li><label><input type="checkbox"><span>低権限を含む管理アカウントのログイン履歴と不審な操作を確認</span></label></li>
+          <li><label><input type="checkbox"><span>アプライアンス上のプロセス・監査ログで不審なコマンド実行や設定変更を確認</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>DSA-2026-359: Security Update for Dell OpenManage Enterprise Vulnerabilities</li>
+          <li><a href="https://www.dell.com/support/kbdoc/en-us/000500910/dsa-2026-359-security-update-for-dell-openmanage-enterprise-vulnerabilities" target="_blank" rel="noopener noreferrer">Dell公式アドバイザリ</a></li>
+          <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-54795" target="_blank" rel="noopener noreferrer">NVD CVE-2026-54795</a></li>
+        </ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
