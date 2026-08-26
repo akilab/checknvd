@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-08-27 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-08-27" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年8月27日（木）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-08-27 07:58 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-20 〜 2026-08-27</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-08-26.html" rel="prev">← 前日 2026-08-26</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>インターネット公開されたNetScaler ADC/Gatewayを最優先で確認し、CVE-2026-8452の修正版へ更新してください。</strong>
+      2026年8月26日にCISA KEVへ追加され、実悪用が確認されています。あわせて、同日KEV入りしたAjax.NET Professionalの認証不要RCEとMicrosoft SQL ServerのRCEについて、利用有無と修正状況を確認してください。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>NetScaler ADC / NetScaler Gateway</dd></div>
+      <div><dt>推奨アクション</dt><dd>Gateway/AAA構成の有無を確認し、該当インスタンスを修正版以降へ更新。更新前の異常終了・コアダンプ・不審アクセスも確認</dd></div>
+      <div><dt>対応期限</dt><dd>CISA KEV: 2026-08-29</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>8月26日に6件が新たにKEVへ追加され、NetScaler・SQL Server・AjaxProで実悪用が公的に確認されたため</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      <a class="summary-card" href="#CVE-2026-8452" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-8452</span>
+        <span class="card-product">NetScaler ADC / NetScaler Gateway</span>
+        <span class="card-lead">GatewayまたはAAA仮想サーバ構成で、認証不要のネットワーク攻撃によりメモリ破壊と異常動作・DoSを引き起こす脆弱性。8月26日にCISA KEVへ追加されました。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載あり</span><span class="badge na" data-glyph="■">公開PoC不明</span></span>
+        <span class="card-fixed"><span>修正版:</span> 14.1-72.61 / 13.1-63.18 以降ほか</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2021-23758" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2021-23758</span>
+        <span class="card-product">Ajax.NET Professional / AjaxPro.2</span>
+        <span class="card-lead">任意の.NETクラスをデシリアライズでき、認証不要でリモートコード実行につながる脆弱性。8月26日にCISA KEVへ追加され、公開PoCも確認されています。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載あり</span><span class="badge warn" data-glyph="●">公開PoCあり</span></span>
+        <span class="card-fixed"><span>修正版:</span> AjaxNetProfessional 21.11.29.1（公式Advisory記載）</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2019-1068" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2019-1068</span>
+        <span class="card-product">Microsoft SQL Server 2014 / 2016 / 2017</span>
+        <span class="card-lead">SQL Serverの内部関数処理に起因するRCE。低権限の認証済み攻撃者がDatabase Engineサービスのコンテキストでコードを実行でき、8月26日にCISA KEVへ追加されました。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載あり</span><span class="badge na" data-glyph="■">公開PoC不明</span></span>
+        <span class="card-fixed"><span>修正版:</span> Microsoft 2019年7月セキュリティ更新以降</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-8452"
+      data-cve="CVE-2026-8452"
+      data-priority="P1"
+      data-product="NetScaler ADC / NetScaler Gateway"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="unknown"
+      data-cvss="8.8"
+      data-fixed="14.1-72.61 / 13.1-63.18 以降ほか">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-8452</h3></div>
+      <p class="product">NetScaler ADC / NetScaler Gateway（Gateway / AAA構成）</p>
+      <p class="lead">メモリ境界の不適切な制御により、認証不要のネットワーク攻撃から異常動作やDoSを引き起こす可能性があります。CISAは2026年8月26日に実悪用を根拠としてKEVへ追加しました。</p>
+      <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載あり</span><span class="badge na" data-glyph="■">公開PoC不明</span><span class="badge na" data-glyph="■">CVSS 8.8</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>8.8 / High (CVSS v4.0, NetScaler)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要。Gateway（SSL VPN / ICA Proxy / CVPN / RDP Proxy）またはAAA仮想サーバとして構成されていること</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり（CISA KEV追加を根拠）</dd></div>
+        <div><dt>CISA KEV</dt><dd>掲載あり（2026-08-26追加、対応期限2026-08-29）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">unknown：GitHub上にCVE情報・PoC収集リポジトリは確認したが、今回の確認範囲では実装を伴う再現コードを直接確認できず</dd></div>
+        <div><dt>影響バージョン</dt><dd>ADC 14.1 &lt; 72.61、13.1 &lt; 63.18、14.1 FIPS &lt; 72.61、13.1 FIPS/NDcPP &lt; 37.272。Gateway 14.1 &lt; 72.61、13.1 &lt; 63.18</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">14.1-72.61、13.1-63.18、14.1-72.61 FIPS、13.1-37.272 FIPS/NDcPP以降。運用上は後続脆弱性も含め最新の修正版を推奨</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>対象ビルドを修正版以降へ更新してください。Gateway/AAA用途でインターネット公開している装置を最優先とし、更新を待つ間は公開範囲の最小化とアクセス制御を強化してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>VPN/認証境界に配置される製品で、認証不要・ネットワーク到達可能かつ実悪用が確認されています。CVSSだけでなく、境界装置としての露出度とCISAの短い是正期限を重視してP1としました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>NetScaler ADC/Gatewayの利用有無と実行ビルドを資産台帳・管理コンソールで確認</span></label></li>
+        <li><label><input type="checkbox"><span>GatewayまたはAAA仮想サーバ構成、およびインターネット公開状況を確認</span></label></li>
+        <li><label><input type="checkbox"><span>14.1-72.61 / 13.1-63.18以降への更新状況を確認し、可能なら後続CVEも修正した最新ビルドへ更新</span></label></li>
+        <li><label><input type="checkbox"><span>更新前期間の異常終了、コアダンプ、Gateway/AAAの不安定化、通常と異なる接続元を確認</span></label></li>
+        <li><label><input type="checkbox"><span>境界装置監視でNetScalerへの異常なリクエスト集中やサービス再起動を確認</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources">
+        <li>NetScaler Security Bulletin CTX696604</li>
+        <li><a href="https://support.citrix.com/external/article/CTX696604/netscaler-adc-and-netscaler-gateway-secu.html" target="_blank" rel="noopener noreferrer">NetScaler公式セキュリティブリテン</a></li>
+        <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-8452" target="_blank" rel="noopener noreferrer">NVD CVE-2026-8452</a></li>
+        <li><a href="https://www.cisa.gov/news-events/alerts/2026/08/26/cisa-adds-six-known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEV追加アラート（2026-08-26）</a></li>
+      </ul></div>
+    </article>
+
+    <article class="case" id="CVE-2021-23758"
+      data-cve="CVE-2021-23758"
+      data-priority="P1"
+      data-product="Ajax.NET Professional / AjaxPro.2"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="true"
+      data-cvss="9.8"
+      data-fixed="AjaxNetProfessional 21.11.29.1（公式Advisory記載）">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2021-23758</h3></div>
+      <p class="product">Ajax.NET Professional / AjaxPro.2（.NET Webアプリケーション）</p>
+      <p class="lead">信頼できないデータのデシリアライズにより任意の.NETクラスを生成でき、認証不要でリモートコード実行につながります。2026年8月26日にCISA KEVへ追加されました。</p>
+      <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載あり</span><span class="badge warn" data-glyph="●">公開PoCあり</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1, NVD)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・ユーザー操作不要。脆弱なAjaxProハンドラへ到達可能であること</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり（CISA KEV追加を根拠）</dd></div>
+        <div><dt>CISA KEV</dt><dd>掲載あり（2026-08-26追加、対応期限2026-09-09）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">true：具体的なHTTPリクエスト、デシリアライズ用ペイロード、再現手順を含む公開PoCを確認。安全性を確認したものではありません</dd></div>
+        <div><dt>影響バージョン</dt><dd>公式GitHub AdvisoryではAjaxNetProfessional / AjaxPro系の21.12.21.1未満を影響対象として記載。NVDのCPE情報ではAjaxPro.2の21.10.30.1未満を影響対象としており、パッケージごとに差異があるため実装単位で確認が必要</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">AjaxNetProfessional 21.11.29.1（公式GitHub AdvisoryのPatched versions記載）。利用パッケージに応じて最新安全版へ更新</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>アプリケーションの依存関係と配置ファイルからAjax.NET Professional / AjaxPro系ライブラリの利用を確認し、公式Advisoryを基準に最新安全版へ更新してください。更新困難な場合はAjaxProハンドラの外部到達性を制限してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>認証不要RCEで、公開PoCが存在し、さらにCISAが実悪用を確認してKEVへ追加しました。古い.NET業務Webアプリに組み込まれたまま可視化されにくい可能性もあり、資産探索を含めP1と判断しました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>WebアプリのNuGet依存関係、bin配下DLL、SBOMからAjaxNetProfessional / AjaxPro.2利用有無を確認</span></label></li>
+        <li><label><input type="checkbox"><span>外部公開Webアプリで /ajaxpro/ 配下や .ashx ハンドラへの到達性を確認</span></label></li>
+        <li><label><input type="checkbox"><span>利用パッケージとバージョンを公式Advisoryと照合し、最新安全版へ更新</span></label></li>
+        <li><label><input type="checkbox"><span>Web/IISログでAjaxProハンドラへの不審なPOST、異常な型指定を含むリクエストを確認</span></label></li>
+        <li><label><input type="checkbox"><span>Webサーバ上でIISワーカープロセスからの不審な子プロセス生成やEDRアラートを確認</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources">
+        <li>GHSA-6r7c-6w96-8pvw</li>
+        <li><a href="https://github.com/michaelschwarz/Ajax.NET-Professional/security/advisories/GHSA-6r7c-6w96-8pvw" target="_blank" rel="noopener noreferrer">Ajax.NET Professional公式GitHub Security Advisory</a></li>
+        <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2021-23758" target="_blank" rel="noopener noreferrer">NVD CVE-2021-23758</a></li>
+        <li><a href="https://github.com/numanturle/CVE-2021-23758-POC" target="_blank" rel="noopener noreferrer">公開PoC（安全性未確認）</a></li>
+        <li><a href="https://www.cisa.gov/news-events/alerts/2026/08/26/cisa-adds-six-known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEV追加アラート（2026-08-26）</a></li>
+      </ul></div>
+    </article>
+
+    <article class="case" id="CVE-2019-1068"
+      data-cve="CVE-2019-1068"
+      data-priority="P1"
+      data-product="Microsoft SQL Server"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="unknown"
+      data-cvss="8.8"
+      data-fixed="Microsoft 2019年7月セキュリティ更新以降">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2019-1068</h3></div>
+      <p class="product">Microsoft SQL Server 2014 SP2/SP3、2016 SP1/SP2、2017（該当GDR/CU）</p>
+      <p class="lead">SQL Serverが内部関数を不適切に処理することで発生するRCE。ネットワーク経由で低権限の認証済み攻撃者がDatabase Engineサービスのコンテキストでコード実行につながる可能性があり、8月26日にKEVへ追加されました。</p>
+      <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載あり</span><span class="badge na" data-glyph="■">公開PoC不明</span><span class="badge na" data-glyph="■">CVSS 8.8</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>8.8 / High (CVSS v3.0, NVD)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・低権限の認証が必要・ユーザー操作不要</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり（CISA KEV追加を根拠）</dd></div>
+        <div><dt>CISA KEV</dt><dd>掲載あり（2026-08-26追加、対応期限2026-08-29）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">unknown：GitHub検索でCVE番号を含む資料は確認したが、今回の確認範囲ではCVE-2019-1068の実装を伴う再現コードを確証できず</dd></div>
+        <div><dt>影響バージョン</dt><dd>Microsoft SQL Server 2014 SP2/SP3、2016 SP1/SP2、2017の該当GDR/CU。正確なビルドはMSRCの製品別更新表で確認</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Microsoftが2019年7月に公開した各SQL Server向けセキュリティ更新、またはそれを含む後続の累積更新</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>対象SQL Serverに2019年7月セキュリティ更新またはそれを含む後続更新が適用されていることを確認してください。古いSQL Serverを継続運用している場合はネットワーク到達性と認証アカウントを併せて点検してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>攻撃には認証が必要ですが、SQL Serverは重要データを保持する基盤であり、成功時はDatabase Engineサービス権限でのコード実行につながります。実悪用と短いKEV期限を重視してP1としました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>SQL Server 2014/2016/2017の稼働インスタンスとビルド番号を棚卸し</span></label></li>
+        <li><label><input type="checkbox"><span>2019年7月更新または後続CU/GDRへの包含状況をMSRC情報と照合</span></label></li>
+        <li><label><input type="checkbox"><span>インターネット・DMZ・パートナーネットワークからTCP 1433等への到達性を確認し不要な公開を遮断</span></label></li>
+        <li><label><input type="checkbox"><span>SQL監査ログとWindowsログで通常と異なる低権限アカウントのクエリ実行・権限利用を確認</span></label></li>
+        <li><label><input type="checkbox"><span>sqlservr.exeからの不審な子プロセス生成、外部通信、EDR検知を確認</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources">
+        <li>Microsoft SQL Server Remote Code Execution Vulnerability</li>
+        <li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2019-1068" target="_blank" rel="noopener noreferrer">Microsoft Security Response Center</a></li>
+        <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2019-1068" target="_blank" rel="noopener noreferrer">NVD CVE-2019-1068</a></li>
+        <li><a href="https://www.cisa.gov/news-events/alerts/2026/08/26/cisa-adds-six-known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEV追加アラート（2026-08-26）</a></li>
+      </ul></div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
