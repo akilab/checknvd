@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-08-28 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-08-28" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年8月28日（金）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-08-28 07:58 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-21 〜 2026-08-28</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-08-27.html" rel="prev">← 前日 2026-08-27</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>ownCloud Server、Linuxコンテナ基盤、JFrog Artifactoryの利用有無と修正状況を即時確認してください。</strong>
+      3件はいずれも2026年8月27日にCISA KEVへ追加され、実悪用が確認されています。特にownCloudは認証不要でファイルの閲覧・変更・削除が可能で、Linuxの脆弱性はコンテナからホストroot権限への脱出につながるため、外部公開資産とコンテナ基盤を優先して確認してください。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>ownCloud Server</dd></div>
+      <div><dt>推奨アクション</dt><dd>対象バージョン、外部公開状況、修正版適用、侵害痕跡を確認</dd></div>
+      <div><dt>対応期限</dt><dd>JFrog ArtifactoryはCISA期限 2026-09-10。その他は期限を確認できず</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>3件が2026年8月27日にCISA KEVへ新規追加され、実悪用が確認されたため</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+      <a class="summary-card" href="#CVE-2023-49105" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2023-49105</span>
+        <span class="card-product">ownCloud Server 10.6.0〜10.13.0</span>
+        <span class="card-lead">認証不要でWebDAVの事前署名URLを悪用し、被害者ユーザー名が判明している場合にファイルの閲覧・変更・削除が可能です。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載あり</span><span class="badge warn" data-glyph="●">公開PoCあり</span></span>
+        <span class="card-fixed"><span>修正版:</span> ownCloud Server 10.13.1以降</span>
+      </a>
+      <a class="summary-card" href="#CVE-2026-53362" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-53362</span>
+        <span class="card-product">Linux Kernel（IPv6 fragmentation）</span>
+        <span class="card-lead">IPv6フラグメンテーション処理の境界外書き込みにより、低権限ローカルユーザーやコンテナ内ユーザーから権限昇格・コンテナ脱出につながる可能性があります。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載あり</span><span class="badge warn" data-glyph="●">公開PoCあり</span></span>
+        <span class="card-fixed"><span>修正版:</span> 各ディストリビューションの修正済みkernelへ更新</span>
+      </a>
+      <a class="summary-card" href="#CVE-2026-66384" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-66384</span>
+        <span class="card-product">JFrog Artifactory</span>
+        <span class="card-lead">認証済み低権限ユーザーが特定のremote repository条件でDocker cache path外へデータを書き込めるパストラバーサル脆弱性です。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載あり</span><span class="badge off" data-glyph="○">公開PoC確認できず</span></span>
+        <span class="card-fixed"><span>修正版:</span> 7.146.35 / 7.161.16</span>
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2023-49105" data-cve="CVE-2023-49105" data-priority="P1" data-product="ownCloud Server" data-exploited="true" data-kev="true" data-poc="true" data-cvss="9.8" data-fixed="10.13.1以降">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2023-49105</h3></div>
+      <p class="product">ownCloud Server 10.6.0〜10.13.0（ファイル共有／WebDAV）</p>
+      <p class="lead">被害者のユーザー名が判明し、signing-keyが設定されていない場合、認証不要で事前署名URLを悪用して任意ファイルの閲覧・変更・削除が可能です。</p>
+      <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載あり</span><span class="badge warn" data-glyph="●">公開PoCあり</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要。被害者ユーザー名が既知で、対象ユーザーにsigning-keyが設定されていないこと</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり（CISA KEV掲載）</dd></div><div><dt>CISA KEV</dt><dd>掲載あり（2026-08-27追加）</dd></div><div><dt>公開PoC</dt><dd class="is-warn">あり。GitHub上に実装を伴うPython PoCを確認</dd></div><div><dt>影響バージョン</dt><dd>ownCloud Server core 10.6.0〜10.13.0</dd></div><div><dt>修正版</dt><dd class="is-ok">10.13.1以降</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>ownCloud Serverを10.13.1以降へ更新してください。更新までの間は、事前署名URL機能の利用状況と外部公開範囲を確認し、不要な公開を制限してください。WebDAVアクセスログを遡及確認し、不審なファイル操作があればアカウントと関連認証情報の保護措置を実施してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>認証不要で機密性・完全性・可用性のすべてに高い影響があり、CISA KEVへ新規追加され実悪用が確認されています。公開PoCも存在し、インターネット公開されたファイル共有基盤では優先度が非常に高いためP1と判断します。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>ownCloud Serverの利用有無と10.6.0〜10.13.0の存在を確認</span></label></li><li><label><input type="checkbox"><span>WebDAVエンドポイントのインターネット公開状況を確認</span></label></li><li><label><input type="checkbox"><span>10.13.1以降への更新状況を確認</span></label></li><li><label><input type="checkbox"><span>WebDAVログで不審な事前署名URL・大量ファイル操作・削除を確認</span></label></li><li><label><input type="checkbox"><span>侵害疑いがある場合は対象ユーザーのセッション・認証情報を失効し、ファイル改ざんを確認</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>ownCloud Security Advisory: WebDAV Api Authentication Bypass using Pre-Signed URLs</li><li><a href="https://owncloud.com/security-advisories/webdav-api-authentication-bypass-using-pre-signed-urls/" target="_blank" rel="noopener noreferrer">ownCloud公式アドバイザリ</a></li><li><a href="https://www.cisa.gov/news-events/alerts/2026/08/27/cisa-adds-three-known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEV追加情報</a></li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2023-49105" target="_blank" rel="noopener noreferrer">NVD</a></li><li><a href="https://github.com/rix4uni/cvemapping/blob/b9b5e0847fd490849571b7c305facf30d94fe111/2023/CVE-2023-49105/pwncloud-webdav.py" target="_blank" rel="noopener noreferrer">公開PoC（安全性未確認）</a></li></ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-53362" data-cve="CVE-2026-53362" data-priority="P1" data-product="Linux Kernel" data-exploited="true" data-kev="true" data-poc="true" data-cvss="7.8" data-fixed="各ディストリビューションの修正済みkernel">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-53362</h3></div>
+      <p class="product">Linux Kernel 6.0以降の影響範囲（IPv6 networking / コンテナ基盤）</p>
+      <p class="lead">IPv6 fragmentation処理の境界外書き込みにより、低権限ユーザーがkernelメモリ破壊を引き起こせます。Red HatはRHEL 10でコンテナ脱出とhost root権限取得につながることを説明しています。</p>
+      <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載あり</span><span class="badge warn" data-glyph="●">公開PoCあり</span><span class="badge na" data-glyph="■">CVSS 7.8</span></div>
+      <dl class="facts"><div><dt>CVSS</dt><dd>7.8 / High (CVSS v3.1, kernel.org CNA)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ローカル低権限アクセス。IPv6、MSG_MORE、MSG_SPLICE_PAGESを利用可能な環境。コンテナ内ユーザーからの悪用が成立する構成あり</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり（CISA KEV掲載）</dd></div><div><dt>CISA KEV</dt><dd>掲載あり（2026-08-27追加）</dd></div><div><dt>公開PoC</dt><dd class="is-warn">あり。GitHub上にC実装とビルド用Makefileを確認</dd></div><div><dt>影響バージョン</dt><dd>kernel.orgでは6.0以降の複数系統が影響。修正済み例: 6.1.177、6.6.144、6.12.95、6.18.38、7.1.3以降。ディストリビューションごとの提供kernelを確認</dd></div><div><dt>修正版</dt><dd class="is-ok">各Linuxディストリビューションの修正済みkernel</dd></div></dl>
+      <div class="block"><h4>推奨対処</h4><p>利用ディストリビューションのセキュリティアドバイザリに従い修正済みkernelへ更新してください。RHEL 10では修正済み更新が提供されています。更新が難しい場合、要件を確認したうえでunprivileged user namespaceを制限する緩和策を検討してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>CVSSは7.8ですが、コンテナ環境でhost root権限まで到達し得るため、クラウド・CI/CD・コンテナ基盤では影響が大きい脆弱性です。CISA KEVへの新規追加と公開PoCの存在を重視してP1と判断します。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Linuxホスト、特にRHEL 10やコンテナホストのkernelバージョンを確認</span></label></li><li><label><input type="checkbox"><span>修正済みkernelの適用と再起動完了を確認</span></label></li><li><label><input type="checkbox"><span>unprivileged user namespaceおよびコンテナ実行権限の利用状況を確認</span></label></li><li><label><input type="checkbox"><span>コンテナからhostへの異常な権限昇格、SELinux違反、kernel crash/oopsを確認</span></label></li><li><label><input type="checkbox"><span>EDR・auditログで不審なnamespace作成やroot権限獲得の痕跡を確認</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>kernel.org / Red Hat RHSB-2026-009</li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-53362" target="_blank" rel="noopener noreferrer">NVD / kernel.org CNA情報</a></li><li><a href="https://access.redhat.com/security/vulnerabilities/RHSB-2026-009" target="_blank" rel="noopener noreferrer">Red Hat公式アドバイザリ</a></li><li><a href="https://www.cisa.gov/news-events/alerts/2026/08/27/cisa-adds-three-known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEV追加情報</a></li><li><a href="https://github.com/sgkdev/ipv6_frag_escape" target="_blank" rel="noopener noreferrer">公開PoC（安全性未確認）</a></li></ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-66384" data-cve="CVE-2026-66384" data-priority="P1" data-product="JFrog Artifactory" data-exploited="true" data-kev="true" data-poc="false" data-cvss="5.3" data-fixed="7.146.35 / 7.161.16">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-66384</h3></div>
+      <p class="product">JFrog Artifactory Self-Hosted（Docker remote repository）</p>
+      <p class="lead">認証済み低権限ユーザーが特定のremote repository条件下で、意図されたDocker cache path外へデータを書き込める脆弱性です。</p>
+      <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載あり</span><span class="badge off" data-glyph="○">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 5.3</span></div>
+      <dl class="facts"><div><dt>CVSS</dt><dd>5.3 / Medium (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・低権限認証済み・特定のDocker remote repository条件</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり（CISA KEV掲載）</dd></div><div><dt>CISA KEV</dt><dd>掲載あり（2026-08-27追加、対応期限 2026-09-10）</dd></div><div><dt>公開PoC</dt><dd>確認できず。GitHub検索ではCVEデータ・KEVミラー等のみ確認</dd></div><div><dt>影響バージョン</dt><dd>Artifactory &lt; 7.146.35、および 7.161.0〜7.161.15</dd></div><div><dt>修正版</dt><dd class="is-ok">7.146.35 / 7.161.16</dd></div></dl>
+      <div class="block"><h4>推奨対処</h4><p>Self-Hosted環境は使用中のリリース系列に応じて7.146.35または7.161.16へ更新してください。JFrog Cloud環境はベンダー側で対処済みです。Docker remote repositoryの設定と低権限アカウントのアクセス履歴を確認してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>ベースCVSSは5.3と中程度ですが、Artifactoryはソフトウェア供給網の中核となる管理基盤であり、CISA KEVへ追加され実悪用が確認されています。侵害時には成果物やキャッシュ領域の完全性へ影響し得るため、SOC運用上はP1と判断します。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>JFrog Artifactory Self-Hostedの利用有無とバージョンを確認</span></label></li><li><label><input type="checkbox"><span>Docker remote repositoryの利用状況と対象リポジトリを特定</span></label></li><li><label><input type="checkbox"><span>7.146.35または7.161.16への更新状況を確認</span></label></li><li><label><input type="checkbox"><span>低権限ユーザーによる不審な書き込み・repository操作・path異常を監査ログで確認</span></label></li><li><label><input type="checkbox"><span>不審な成果物やDocker cacheの改変がないかハッシュ・履歴を照合</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>JFrog Security Advisory CVE-2026-66384</li><li><a href="https://docs.jfrog.com/releases/docs/jfrog-security-advisories" target="_blank" rel="noopener noreferrer">JFrog公式セキュリティアドバイザリ</a></li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-66384" target="_blank" rel="noopener noreferrer">NVD</a></li><li><a href="https://www.cisa.gov/news-events/alerts/2026/08/27/cisa-adds-three-known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEV追加情報</a></li></ul></div>
+    </article>
+  </section>
+
+  <p class="disclaimer"><strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong> CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。</p>
+  <footer class="report-footer"><p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p><p><a href="../index.html">レポート一覧へ戻る</a></p></footer>
+</main>
+</body>
+</html>
