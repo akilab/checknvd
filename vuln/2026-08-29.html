@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-08-29 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-08-29" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年8月29日（土）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-08-29 07:58 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-22 〜 2026-08-29</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-08-28.html" rel="prev">← 前日 2026-08-28</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>PaperCut NG/MFを最優先で確認し、Emergency Patch Release 2の適用と外部公開制限を実施してください。</strong>
+      PaperCutは実悪用を伴うインシデントを確認しており、8月28日に認証回避とRCEにつながる2件のCVEを公開しました。初回Emergency Patchは迂回可能だったため、すでに適用済みでもRelease 2への更新が必要です。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>PaperCut NG / PaperCut MF</dd></div>
+      <div><dt>推奨アクション</dt><dd>Emergency Patch Release 2を適用し、インターネット公開を信頼済みIPのみに制限</dd></div>
+      <div><dt>対応期限</dt><dd>即時</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>8月28日にCVE詳細とRelease 2が公開され、初回Emergency Patchの迂回可能性も明らかになったため</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head"><h2 id="summaryHeading">優先度サマリー</h2><p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p></div>
+    <div class="summary-list">
+      <a class="summary-card" href="#CVE-2026-81578" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-81578</span><span class="card-product">PaperCut NG / MF（全バージョンが潜在的影響）</span><span class="card-lead">Web管理インターフェースの認証回避。未認証のリモート攻撃者が特定の管理機能を呼び出し、システム設定を変更できる可能性があります。</span><span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge warn" data-glyph="●">公開再現手順あり</span></span><span class="card-fixed"><span>修正版:</span> Emergency Patch Release 2</span>
+      </a>
+      <a class="summary-card" href="#CVE-2026-82078" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-82078</span><span class="card-product">PaperCut NG / MF（全バージョンが潜在的影響）</span><span class="card-lead">データベース接続処理のunsafe dynamic class loading。認証回避と組み合わせることでPaperCutサーバープロセス権限でコード実行へつながります。</span><span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge warn" data-glyph="●">公開再現手順あり</span></span><span class="card-fixed"><span>修正版:</span> Emergency Patch Release 2</span>
+      </a>
+      <a class="summary-card" href="#CVE-2026-77537" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-77537</span><span class="card-product">UniFi Protect Application 7.1.87以前</span><span class="card-lead">ネットワーク到達可能な未認証攻撃者がホスト上でコマンドインジェクションを実行できるCVSS 10.0の脆弱性です。</span><span class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC確認できず</span></span><span class="card-fixed"><span>修正版:</span> UniFi Protect Application 7.2.105以降</span>
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head"><h2 id="detailHeading">詳細</h2><p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p></div>
+
+    <article class="case" id="CVE-2026-81578" data-cve="CVE-2026-81578" data-priority="P1" data-product="PaperCut NG / PaperCut MF" data-exploited="true" data-kev="false" data-poc="true" data-cvss="8.8" data-fixed="Emergency Patch Release 2">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-81578</h3></div>
+      <p class="product">PaperCut NG / PaperCut MF（全バージョンが潜在的影響）</p>
+      <p class="lead">Web管理インターフェースの不適切なアクセス制御により、特定条件下で未認証リモート要求が認証完了前に管理機能を呼び出せます。攻撃チェーンでは設定変更に利用され、後段のRCEにつながります。</p>
+      <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge warn" data-glyph="●">公開再現手順あり</span><span class="badge na" data-glyph="■">CVSS 8.8</span></div>
+      <dl class="facts"><div><dt>CVSS</dt><dd>8.8 / High (CVSS v4.0)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・ユーザー操作不要</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり。PaperCutが顧客インシデントを確認</dd></div><div><dt>CISA KEV</dt><dd>未掲載（2026-08-29確認時点）</dd></div><div><dt>公開PoC</dt><dd class="is-warn">具体的なHTTPリクエストパスと再現手順が公開済み</dd></div><div><dt>影響バージョン</dt><dd>PaperCutは全バージョンのNG/MFを潜在的影響対象として案内</dd></div><div><dt>修正版</dt><dd class="is-ok">PaperCut NG/MF Emergency Patch Release 2（v24/v25/v26向け）</dd></div></dl>
+      <div class="block"><h4>推奨対処</h4><p>Emergency Patch Release 2を適用してください。初回Emergency Patchのみでは不十分で、Release 2への更新が必要です。外部公開中のApplication Serverは信頼済みIP以外からのWebアクセスを遮断してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>未認証・インターネット経由で管理設定変更が可能で、実際の侵害事例が確認されています。単独でも重大ですが、CVE-2026-82078と連鎖してRCEへ到達するため最優先です。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>PaperCut NG/MFの利用有無とApplication Serverの公開状況を確認</span></label></li><li><label><input type="checkbox"><span>Emergency Patch Release 2適用済みか確認</span></label></li><li><label><input type="checkbox"><span>初回Emergency Patchのみの環境をRelease 2へ更新</span></label></li><li><label><input type="checkbox"><span>server.logの欠損・切断・削除、およびPaperCut公開IOC文字列を確認</span></label></li><li><label><input type="checkbox"><span>pc-app.exeに関連する不審な子プロセス・EDRアラートを確認</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>PaperCut URGENT Security Advisory (27 Aug 2026, updated 28 Aug)</li><li><a href="https://www.papercut.com/kb/Main/security-bulletin-27-aug-2026-urgent-security-advisory/" target="_blank" rel="noopener noreferrer">PaperCut公式アドバイザリ</a></li><li><a href="https://www.rapid7.com/blog/post/etr-papercut-ng-mf-critical-zero-day-exploited-in-the-wild/" target="_blank" rel="noopener noreferrer">Rapid7 技術分析</a></li></ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-82078" data-cve="CVE-2026-82078" data-priority="P1" data-product="PaperCut NG / PaperCut MF" data-exploited="true" data-kev="false" data-poc="true" data-cvss="9.4" data-fixed="Emergency Patch Release 2">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-82078</h3></div>
+      <p class="product">PaperCut NG / PaperCut MF（全バージョンが潜在的影響）</p>
+      <p class="lead">データベース接続ユーティリティが設定可能なドライバ名を許可リスト検証せずに動的ロードするため、設定を操作できる攻撃者がPaperCutサーバープロセス権限で任意Javaバイトコードを実行できます。</p>
+      <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge warn" data-glyph="●">公開再現手順あり</span><span class="badge na" data-glyph="■">CVSS 9.4</span></div>
+      <dl class="facts"><div><dt>CVSS</dt><dd>9.4 / Critical (CVSS v4.0)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由。単独では高権限設定操作が前提だが、CVE-2026-81578との連鎖で未認証RCEへ到達可能</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり。2件のCVEで構成される攻撃チェーンとして実悪用が報告</dd></div><div><dt>CISA KEV</dt><dd>未掲載（2026-08-29確認時点）</dd></div><div><dt>公開PoC</dt><dd class="is-warn">具体的な再現フローが公開済み</dd></div><div><dt>影響バージョン</dt><dd>PaperCutは全バージョンのNG/MFを潜在的影響対象として案内</dd></div><div><dt>修正版</dt><dd class="is-ok">PaperCut NG/MF Emergency Patch Release 2（v24/v25/v26向け）</dd></div></dl>
+      <div class="block"><h4>推奨対処</h4><p>Emergency Patch Release 2を適用し、外部公開を必要最小限に制限してください。v23以前は最新バージョンへのアップグレードを推奨します。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>印刷管理サーバー上でコード実行に至る脆弱性であり、認証回避と組み合わせることで未認証リモートRCEチェーンになります。すでに実悪用が発生しており、サーバー侵害後の横展開リスクも高いと評価します。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>PaperCut NG/MFのバージョンとRelease 2適用状況を確認</span></label></li><li><label><input type="checkbox"><span>外部データベースを使ったCard/ID lookup設定の利用有無を確認</span></label></li><li><label><input type="checkbox"><span>PaperCut公開IOCに一致するserver.logエラーを検索</span></label></li><li><label><input type="checkbox"><span>Application Serverから外部DB・不審ホストへの新規通信を確認</span></label></li><li><label><input type="checkbox"><span>pc-app.exeから起動された不審プロセスをEDRで確認</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>PaperCut CVE-2026-82078</li><li><a href="https://www.papercut.com/kb/Main/security-bulletin-27-aug-2026-urgent-security-advisory/" target="_blank" rel="noopener noreferrer">PaperCut公式アドバイザリ</a></li><li><a href="https://www.rapid7.com/blog/post/etr-papercut-ng-mf-critical-zero-day-exploited-in-the-wild/" target="_blank" rel="noopener noreferrer">Rapid7 技術分析</a></li></ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-77537" data-cve="CVE-2026-77537" data-priority="P1" data-product="Ubiquiti UniFi Protect Application" data-exploited="false" data-kev="false" data-poc="false" data-cvss="10.0" data-fixed="UniFi Protect Application 7.2.105以降">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-77537</h3></div>
+      <p class="product">Ubiquiti UniFi Protect Application 7.1.87以前</p>
+      <p class="lead">ネットワーク到達可能な未認証攻撃者が、UniFi Protect Applicationの入力検証不備を悪用し、ホストデバイス上でコマンドインジェクションを実行できる脆弱性です。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 10.0</span></div>
+      <dl class="facts"><div><dt>CVSS</dt><dd>10.0 / Critical (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・ユーザー操作不要</dd></div><div><dt>実悪用</dt><dd>確認できず</dd></div><div><dt>CISA KEV</dt><dd>未掲載（2026-08-29確認時点）</dd></div><div><dt>公開PoC</dt><dd>十分に検索したが実装付きPoCを確認できず</dd></div><div><dt>影響バージョン</dt><dd>UniFi Protect Application 7.1.87以前</dd></div><div><dt>修正版</dt><dd class="is-ok">UniFi Protect Application 7.2.105以降</dd></div></dl>
+      <div class="block"><h4>推奨対処</h4><p>UniFi Protect Applicationを7.2.105以降へ更新してください。管理UIや関連サービスをインターネットへ直接公開している場合は、更新完了までアクセス元制限を実施してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>実悪用は未確認ですが、認証不要・ネットワーク経由・CVSS 10.0でホスト上のコマンド実行に至るため、監視・ネットワーク基盤としての影響範囲を重視してP1としました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>UniFi Protect Applicationの利用有無とバージョンを確認</span></label></li><li><label><input type="checkbox"><span>7.2.105以降への更新状況を確認</span></label></li><li><label><input type="checkbox"><span>管理・アプリケーションインターフェースの外部公開状況を確認</span></label></li><li><label><input type="checkbox"><span>UniFiホスト上の不審なプロセス生成・コマンド実行痕跡を確認</span></label></li><li><label><input type="checkbox"><span>更新前期間の認証不要アクセスや異常HTTPリクエストを確認</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>Ubiquiti Security Advisory Bulletin 067</li><li><a href="https://community.ui.com/releases/Security-Advisory-Bulletin-067/fc4a3488-7c43-4628-8bab-f715e96dbfc9" target="_blank" rel="noopener noreferrer">Ubiquiti公式アドバイザリ</a></li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-77537" target="_blank" rel="noopener noreferrer">NVD</a></li></ul></div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer"><strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong> CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。</p>
+  <footer class="report-footer"><p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p><p><a href="../index.html">レポート一覧へ戻る</a></p></footer>
+
+</main>
+</body>
+</html>
