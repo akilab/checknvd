@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-08-31 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-08-31" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年8月31日（月）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-08-31 08:02 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-24 〜 2026-08-31</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 2 ／ P2: 1 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-08-30.html" rel="prev">← 前日 2026-08-30</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>argocd-mcp 0.8.0を利用している環境では、HTTPリスナーの外部到達性を直ちに確認し、0.8.1以降へ更新してください。</strong>
+      認証なしでMCPセッションを確立し、保存済みArgo CDトークンの権限でアプリケーション作成・同期・リソース変更が可能になるCVSS 10.0の脆弱性です。あわせて、TLS有効Redisの認証不要RCEと、LangflowのA2A公開エンドポイント経由RCEも確認対象です。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>argocd-mcp</dd></div>
+      <div><dt>推奨アクション</dt><dd>0.8.1以降へ更新し、MCP HTTPリスナーの外部公開有無とArgo CDトークン権限を確認</dd></div>
+      <div><dt>対応期限</dt><dd>即時</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>8月29日に公開されたCVSS 10.0の認証欠如により、GitOps管理基盤への直接操作が可能なため</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head"><h2 id="summaryHeading">優先度サマリー</h2><p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p></div>
+    <div class="summary-list">
+      <a class="summary-card" href="#CVE-2026-82456" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-82456</span><span class="card-product">argocd-mcp 0.8.0</span><span class="card-lead">HTTPトランスポートが全インターフェースへバインドされ、認証なしで保存済みArgo CDトークンの権限を利用できる脆弱性。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge warn" data-glyph="●">公開PoCあり</span></span><span class="card-fixed"><span>修正版:</span> 0.8.1以降</span>
+      </a>
+      <a class="summary-card" href="#CVE-2026-81934" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-81934</span><span class="card-product">Redis（TLS有効構成）</span><span class="card-lead">TLS pending-data処理のuse-after-freeにより、認証不要のリモート攻撃者がRedisサーバ権限で任意コマンドを実行できる可能性。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge warn" data-glyph="●">公開PoCあり</span></span><span class="card-fixed"><span>修正版:</span> 8.2.9 / 8.4.6 / 8.6.6 / 8.8.2 / 8.10.1</span>
+      </a>
+      <a class="summary-card" href="#CVE-2026-19286" data-priority="P2">
+        <span class="badge p2" data-glyph="■">P2 速やかに確認</span><span class="card-cve">CVE-2026-19286</span><span class="card-product">Langflow OSS 1.0.0〜1.11.1</span><span class="card-lead">A2A公開エンドポイントの実行制御不足により、条件を満たす公開フローへ認証なしでアクセスし、バックエンド上で任意コードを実行できる脆弱性。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge na" data-glyph="■">公開PoC確認不十分</span></span><span class="card-fixed"><span>修正版:</span> 1.11.2</span>
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head"><h2 id="detailHeading">詳細</h2><p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p></div>
+
+    <article class="case" id="CVE-2026-82456" data-cve="CVE-2026-82456" data-priority="P1" data-product="argocd-mcp" data-exploited="false" data-kev="false" data-poc="true" data-cvss="10.0" data-fixed="0.8.1以降">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-82456</h3></div>
+      <p class="product">argocd-mcp 0.8.0（Argo CD向けMCPサーバ）</p>
+      <p class="lead">HTTPトランスポートが0.0.0.0へバインドされ、ARGOCD_API_TOKEN設定時でもMCPセッションに呼び出し元認証を要求しません。到達可能な攻撃者は、保存済みトークンの権限でArgo CDリソースを操作できます。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge warn" data-glyph="●">公開PoCあり</span><span class="badge na" data-glyph="■">CVSS 10.0</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>10.0 / Critical (CVSS v4.0)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・HTTPリスナーへ到達可能</dd></div><div><dt>実悪用</dt><dd>確認できず</dd></div><div><dt>CISA KEV</dt><dd>未掲載</dd></div><div><dt>公開PoC</dt><dd class="is-warn">あり（検出用スクリプトとテスト環境を確認）</dd></div><div><dt>影響バージョン</dt><dd>0.8.0</dd></div><div><dt>修正版</dt><dd class="is-ok">0.8.1以降</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>0.8.1以降へ更新してください。更新までの間はHTTPリスナーを外部ネットワークへ公開せず、FWやSecurity Groupで接続元を管理ネットワークに限定し、設定済みArgo CDトークンの権限を最小化してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>GitOps管理基盤へ接続するMCPサーバで認証が欠落し、攻撃者がオペレータの保存済みトークン権限をそのまま利用できます。CVSS 10.0に加え、アプリケーション作成・同期・リソース変更へ直接波及するためP1としました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>argocd-mcp 0.8.0の利用有無を確認</span></label></li><li><label><input type="checkbox"><span>HTTP/SSEトランスポートの待受アドレスと外部到達性を確認</span></label></li><li><label><input type="checkbox"><span>ARGOCD_API_TOKENの権限範囲とローテーション要否を確認</span></label></li><li><label><input type="checkbox"><span>不審なApplication作成・Sync・Resource変更履歴を監査</span></label></li><li><label><input type="checkbox"><span>0.8.1以降への更新完了を確認</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>GitHub Advisory Database / GHSA-rp45-5x3v-48mr</li><li><a href="https://github.com/advisories/GHSA-p2x5-x87w-v2xj" target="_blank" rel="noopener noreferrer">GitHub Advisory Database: CVE-2026-82456</a></li><li><a href="https://github.com/argoproj-labs/mcp-for-argocd" target="_blank" rel="noopener noreferrer">argoproj-labs/mcp-for-argocd</a></li><li><a href="https://github.com/fankh/vulnerability-poc/tree/main/2026/CVE-2026-82456" target="_blank" rel="noopener noreferrer">公開PoC（安全性確認済みではありません）</a></li></ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-81934" data-cve="CVE-2026-81934" data-priority="P1" data-product="Redis" data-exploited="false" data-kev="false" data-poc="true" data-cvss="9.8" data-fixed="8.2.9 / 8.4.6 / 8.6.6 / 8.8.2 / 8.10.1">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-81934</h3></div>
+      <p class="product">Redis（TLS有効構成、修正版未満）</p>
+      <p class="lead">tlsProcessPendingData()のuse-after-freeにより、TLSを有効化したRedisへネットワーク到達可能な認証前攻撃者が、Redisサーバプロセス権限で任意コマンドを実行できる可能性があります。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge warn" data-glyph="●">公開PoCあり</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div>
+      <dl class="facts"><div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・RedisのTLS機能が有効</dd></div><div><dt>実悪用</dt><dd>確認できず</dd></div><div><dt>CISA KEV</dt><dd>未掲載</dd></div><div><dt>公開PoC</dt><dd class="is-warn">あり（GitHub上の実装参照を確認）</dd></div><div><dt>影響バージョン</dt><dd>修正版未満のTLS対応Redis。影響範囲の詳細は利用ブランチごとに確認</dd></div><div><dt>修正版</dt><dd class="is-ok">8.2.9 / 8.4.6 / 8.6.6 / 8.8.2 / 8.10.1</dd></div></dl>
+      <div class="block"><h4>推奨対処</h4><p>利用中ブランチに対応する修正版以上へ更新してください。更新までの間はRedis TLSポートの公開範囲を限定し、インターネットや非信頼ネットワークから到達できないよう制御してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>データストアとして広く利用されるRedisに対する認証不要RCEであり、公開PoCも確認されています。TLS有効構成に限定されますが、条件を満たす環境ではサーバプロセス権限でのコード実行につながるためP1としました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Redisの利用有無とバージョンを確認</span></label></li><li><label><input type="checkbox"><span>tls-port等のTLS設定有無を確認</span></label></li><li><label><input type="checkbox"><span>Redis TLSポートの外部公開状況と接続元制御を確認</span></label></li><li><label><input type="checkbox"><span>異常終了・クラッシュ・不審な子プロセス生成を監視</span></label></li><li><label><input type="checkbox"><span>修正版への更新完了を確認</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>CVE-2026-81934 / Redis TLS pending-data list use-after-free</li><li><a href="https://github.com/advisories/GHSA-32xw-c2hw-m34g" target="_blank" rel="noopener noreferrer">GitHub Advisory Database: CVE-2026-81934</a></li><li><a href="https://github.com/redis/redis/blob/8.10/00-RELEASENOTES" target="_blank" rel="noopener noreferrer">Redis 8.10 release notes</a></li><li><a href="https://github.com/v12-security/pocs/tree/main/redis/server_ssl" target="_blank" rel="noopener noreferrer">公開PoC（安全性確認済みではありません）</a></li></ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-19286" data-cve="CVE-2026-19286" data-priority="P2" data-product="Langflow OSS" data-exploited="false" data-kev="false" data-poc="unknown" data-cvss="9.8" data-fixed="1.11.2">
+      <div class="case-head"><span class="badge p2" data-glyph="■">P2 速やかに確認</span><h3>CVE-2026-19286</h3></div>
+      <p class="product">Langflow OSS 1.0.0〜1.11.1（A2A公開エンドポイント）</p>
+      <p class="lead">A2A公開実行パスが、他の認証不要公開実行面で使われるコード実行防止チェックを適用しないため、A2A有効かつauth_type=noneの公開Agent Flowに対し、認証なしのネットワーク攻撃者がバックエンドでPythonコードを実行できる脆弱性です。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge na" data-glyph="■">公開PoC確認不十分</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div>
+      <dl class="facts"><div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・A2A有効・auth_type=noneのAgent Flowが公開されている</dd></div><div><dt>実悪用</dt><dd>確認できず</dd></div><div><dt>CISA KEV</dt><dd>未掲載</dd></div><div><dt>公開PoC</dt><dd class="is-warn">確認不十分</dd></div><div><dt>影響バージョン</dt><dd>Langflow OSS 1.0.0〜1.11.1</dd></div><div><dt>修正版</dt><dd class="is-ok">1.11.2</dd></div></dl>
+      <div class="block"><h4>推奨対処</h4><p>Langflow OSS 1.11.2以上へ更新してください。更新までの間はA2A公開エンドポイントを無効化または外部から到達不能にし、auth_type=noneで公開されたAgent Flowが存在しないか確認してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>AIワークフロー基盤の公開エンドポイントから認証なしでサーバ側コード実行へ到達できる点が重大です。現時点で実悪用やKEV掲載を確認できないためP2としましたが、公開A2A構成がある環境では即時対応相当です。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Langflow OSSの利用有無とバージョンを確認</span></label></li><li><label><input type="checkbox"><span>A2A機能とauth_type=noneの公開Agent Flow有無を確認</span></label></li><li><label><input type="checkbox"><span>Langflow公開ポートのインターネット到達性を確認</span></label></li><li><label><input type="checkbox"><span>Langflowプロセスからの不審なコマンド実行・外部通信を確認</span></label></li><li><label><input type="checkbox"><span>1.11.2以上への更新完了を確認</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>IBM Security Bulletin / UID ibm17284733</li><li><a href="https://www.ibm.com/support/pages/node/7284733" target="_blank" rel="noopener noreferrer">IBM Security Bulletin: Langflow multiple RCE vulnerabilities</a></li><li><a href="https://github.com/advisories/GHSA-8ffw-jjx8-5788" target="_blank" rel="noopener noreferrer">GitHub Advisory Database: CVE-2026-19286</a></li></ul></div>
+    </article>
+  </section>
+
+  <p class="disclaimer"><strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong> CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。</p>
+  <footer class="report-footer"><p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p><p><a href="../index.html">レポート一覧へ戻る</a></p></footer>
+</main>
+</body>
+</html>
