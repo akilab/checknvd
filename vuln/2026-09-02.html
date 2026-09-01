@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-09-02 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-09-02" data-case-count="2">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年9月2日（水）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-09-02 08:00 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-26 〜 2026-09-02</dd></div>
+      <div><dt>掲載件数</dt><dd>2 件（P1: 2 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-09-01.html" rel="prev">← 前日 2026-09-01</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>最優先は、自己ホスト型JFrog ArtifactoryのCVE-2026-82329への即時対応です。</strong>
+      9月1日に実悪用が報告され、認証不要で管理者権限を取得できるため、CI/CDやソフトウェア供給網への波及リスクが高い状況です。Ruby on RailsのCVE-2026-66066も実悪用観測が新たに報告されており、Active Storageとlibvipsを使い外部から画像アップロードを受ける環境は優先確認が必要です。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>JFrog Artifactory（Self-Hosted）</dd></div>
+      <div><dt>推奨アクション</dt><dd>影響バージョンの即時更新、外部公開状況確認、管理者トークン・監査ログの精査</dd></div>
+      <div><dt>対応期限</dt><dd>設定なし（実悪用確認のため即時対応推奨）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>JFrog ArtifactoryとRuby on Railsについて、9月1日に実悪用情報が新たに確認されたため</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      <a class="summary-card" href="#CVE-2026-82329" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-82329</span>
+        <span class="card-product">JFrog Artifactory（Self-Hosted）</span>
+        <span class="card-lead">デフォルト構成で、ネットワーク到達可能な未認証攻撃者が管理者権限を取得し得る認証回避。9月1日に実悪用が報告された。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge na" data-glyph="■">公開PoC確認不十分</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 7.111.21 / 7.117.28 / 7.125.20 / 7.133.29 / 7.146.38 / 7.161.20</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-66066" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-66066</span>
+        <span class="card-product">Ruby on Rails Active Storage / libvips</span>
+        <span class="card-lead">未認証の画像アップロードから任意ファイル読み取り、秘密情報の窃取を経てRCEへ発展し得る脆弱性。8月末から実悪用観測が報告された。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> Rails 7.2.3.2 / 8.0.5.1 / 8.1.3.1</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-82329"
+      data-cve="CVE-2026-82329"
+      data-priority="P1"
+      data-product="JFrog Artifactory"
+      data-exploited="true"
+      data-kev="false"
+      data-poc="unknown"
+      data-cvss="9.8"
+      data-fixed="7.111.21 / 7.117.28 / 7.125.20 / 7.133.29 / 7.146.38 / 7.161.20">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-82329</h3>
+      </div>
+      <p class="product">JFrog Artifactory Self-Hosted（アーティファクト／パッケージ管理・CI/CD基盤）</p>
+      <p class="lead">デフォルト構成で、Artifactoryへネットワーク到達可能な未認証攻撃者が認証を回避し、管理者権限を取得できる可能性がある。9月1日に実悪用が報告され、管理者トークン生成を伴う攻撃活動が確認されたと報じられている。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+        <span class="badge na" data-glyph="■">公開PoC確認不十分</span>
+        <span class="badge na" data-glyph="■">CVSS 9.8</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・デフォルト構成で成立し得る</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり。2026-09-01にwatchTowrによる実悪用観測が報告</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載（2026-09-02確認）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">確認不十分。公開PoCの存在を示す情報はあるが、今回のGitHub確認では実装を伴うPoCを直接確認できず</dd></div>
+        <div><dt>影響バージョン</dt><dd>Self-Hosted Artifactoryの複数系列。7.111系は7.111.21未満、7.117系は7.117.28未満、7.125系は7.125.20未満、7.133系は7.133.29未満、7.146系は7.146.38未満、7.161系は7.161.20未満。JFrog Cloudはベンダー側で対処済み</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">7.111.21 / 7.117.28 / 7.125.20 / 7.133.29 / 7.146.38 / 7.161.20</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>Self-Hosted環境は該当系列の修正版以上へ即時更新する。インターネット公開または信頼されていないネットワークから到達可能な場合は更新までアクセスを制限する。脆弱期間中に稼働していた環境では、管理者権限・アクセストークン・APIキー・新規ユーザー／権限変更の監査を行い、不審な管理者トークンが確認された場合は関連資格情報の失効・再発行を検討する。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>認証不要で管理者権限を取得可能なうえ実悪用が報告されている。Artifactoryはソフトウェア成果物やコンテナイメージ、パッケージを集中管理しCI/CDと接続されるため、単一システム侵害からビルド成果物改ざんやサプライチェーンへの波及につながり得る。CVSSだけでなく管理基盤としての影響範囲を重視しP1とした。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>Self-Hosted JFrog Artifactoryの利用有無とバージョンを確認</span></label></li>
+          <li><label><input type="checkbox"><span>Artifactoryのインターネット公開、VPN外アクセス、CI/CDネットワークからの到達性を確認</span></label></li>
+          <li><label><input type="checkbox"><span>2026-08-28以降の管理者トークン生成、新規ユーザー、権限変更、認証イベントを監査</span></label></li>
+          <li><label><input type="checkbox"><span>不審なパッケージ／アーティファクトの追加・差し替え、リポジトリ設定変更を確認</span></label></li>
+          <li><label><input type="checkbox"><span>影響期間中に生成・利用された管理者トークンや高権限APIキーの失効・再発行要否を判断</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>JFrog Security Advisory: CVE-2026-82329</li>
+          <li><a href="https://docs.jfrog.com/releases/docs/jfrog-security-advisories" target="_blank" rel="noopener noreferrer">JFrog Security Advisories</a></li>
+          <li><a href="https://www.securityweek.com/critical-jfrog-artifactory-vulnerability-reportedly-exploited-in-the-wild/" target="_blank" rel="noopener noreferrer">SecurityWeek: exploitation report (2026-09-01)</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-66066"
+      data-cve="CVE-2026-66066"
+      data-priority="P1"
+      data-product="Ruby on Rails Active Storage"
+      data-exploited="true"
+      data-kev="false"
+      data-poc="true"
+      data-cvss="9.5"
+      data-fixed="7.2.3.2 / 8.0.5.1 / 8.1.3.1">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-66066</h3>
+      </div>
+      <p class="product">Ruby on Rails Active Storage（libvipsを用いた画像処理、外部から画像アップロードを受け付ける構成）</p>
+      <p class="lead">Active Storageとlibvipsの組み合わせで、未認証攻撃者が細工した画像をアップロードして任意ファイルを読み取り、secret_key_baseや各種資格情報を窃取し、条件次第でRCEへ発展させられる。8月末から実悪用観測が報告された。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+        <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 9.5</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.5 / Critical (CVSS v4.0)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要。Active Storageでlibvipsを使用し、信頼できない利用者から画像アップロードを受け付ける構成が主対象</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり。VulnCheckが2026-08-30以降に複数地域のcanary環境で攻撃を観測したと報告</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載（2026-09-02確認）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">あり。GitHub上で実装を伴うPoCおよび具体的な検証コードを確認。安全性を確認したものではない</dd></div>
+        <div><dt>影響バージョン</dt><dd>Rails 7.2.3.2未満、8.0.5.1未満、8.1.3.1未満の該当系列。libvipsによるActive Storage variant処理と信頼できない画像アップロードを組み合わせる環境で特に影響</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Rails 7.2.3.2 / 8.0.5.1 / 8.1.3.1。libvips 8.13以上、ruby-vips 2.2.1以上を確認</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>対象Rails系列を7.2.3.2、8.0.5.1、8.1.3.1以上へ更新し、libvips 8.13以上・ruby-vips 2.2.1以上を確認する。更新まで信頼できない利用者からの画像アップロードやvariant生成を制限する。脆弱期間中に外部公開していた場合は、Active Storageのアップロード・variant処理ログを確認し、secret_key_base、RAILS_MASTER_KEY、DB／クラウド資格情報など読み取り可能だった秘密情報のローテーション要否を判断する。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>公開PoCが存在し、実悪用観測が新たに確認された。未認証のファイル読み取りからRailsの署名秘密やクラウド資格情報を窃取でき、アプリケーション侵害だけでなく接続先サービスへの横展開につながる。Railsは広く利用されており、インターネット公開Webアプリに現実的な攻撃経路があるためP1とした。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>RailsアプリでActive Storageとlibvipsを使用しているか確認</span></label></li>
+          <li><label><input type="checkbox"><span>外部・未認証ユーザーから画像や添付ファイルをアップロード可能か確認</span></label></li>
+          <li><label><input type="checkbox"><span>2026-07-29以降のActive Storage direct upload、variant生成、異常な画像形式／MATLAB・HDF5系ファイルの痕跡を確認</span></label></li>
+          <li><label><input type="checkbox"><span>Railsプロセスから参照可能なsecret_key_base、RAILS_MASTER_KEY、DB・クラウド資格情報の漏えい可能性を評価</span></label></li>
+          <li><label><input type="checkbox"><span>不審なプロセス生成、外向きC2通信、SSH・シェル履歴、クラウドAPI利用など侵害後活動をEDR／ネットワークログで確認</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>Rails Security Advisory / CVE-2026-66066</li>
+          <li><a href="https://rubyonrails.org/2026/7/29/Rails-Versions-7-2-3-2-8-0-5-1-and-8-1-3-1-have-been-released" target="_blank" rel="noopener noreferrer">Ruby on Rails: Security releases 7.2.3.2 / 8.0.5.1 / 8.1.3.1</a></li>
+          <li><a href="https://github.com/rails/rails-forensics-CVE-2026-66066" target="_blank" rel="noopener noreferrer">Rails公式フォレンジック支援リポジトリ</a></li>
+          <li><a href="https://thehackernews.com/2026/09/attackers-exploit-critical-langflow-and.html" target="_blank" rel="noopener noreferrer">The Hacker News: active exploitation report (2026-09-01)</a></li>
+          <li><a href="https://github.com/shinthink/CVE-2026-66066" target="_blank" rel="noopener noreferrer">公開PoC（安全性確認済みではありません）</a></li>
+        </ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
