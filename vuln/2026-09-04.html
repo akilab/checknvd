@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-09-04 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-09-04" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年9月4日（金）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-09-04 07:58 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-29 〜 2026-09-04</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 2 ／ P2: 1 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-09-03.html" rel="prev">← 前日 2026-09-03</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body"><strong>最優先はCisco Nexus 9000 SeriesのCVE-2026-20212とHPE Aruba Networking AOS-CXのCVE-2026-73749です。</strong> いずれも認証不要・ネットワーク経由で基盤ネットワーク機器上のコード実行に至るCritical脆弱性です。実悪用やCISA KEV掲載は確認されていませんが、侵害時の影響範囲と攻撃条件から、資産・到達性・修正状況を優先確認してください。</p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Cisco Nexus 9000 Series（Silicon One ASIC） / HPE Aruba Networking AOS-CX</dd></div>
+      <div><dt>推奨アクション</dt><dd>対象機器とバージョンを特定し、修正版適用を計画。更新まで管理・制御プレーンへの到達性を制限し、不審通信を監視</dd></div>
+      <div><dt>対応期限</dt><dd>設定なし</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>9月1〜3日にネットワーク基盤・仮想化製品の新規Critical脆弱性が相次いで公開され、認証不要RCEおよびゲストからホストへのコード実行が含まれるため</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head"><h2 id="summaryHeading">優先度サマリー</h2><p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p></div>
+    <div class="summary-list">
+      <a class="summary-card" href="#CVE-2026-20212" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-20212</span><span class="card-product">Cisco Nexus 9000 Series（Silicon One ASIC / NX-OS）</span><span class="card-lead">TCP 43210/43211への細工した入力により、認証不要の遠隔攻撃者がroot権限でコードを実行できる。ネットワーク基盤の直接侵害につながる。</span><span class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span><span class="card-fixed"><span>修正版:</span> Cisco Software Checkerで対象リリースのFirst Fixedを確認</span>
+      </a>
+      <a class="summary-card" href="#CVE-2026-73749" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-73749</span><span class="card-product">HPE Aruba Networking AOS-CX 10.10 / 10.13 / 10.16 / 10.17 / 10.18</span><span class="card-lead">AOS-CXデーモンの不正入力処理により、認証不要の遠隔攻撃者が細工したパケットから昇格権限でRCEを実行できる。</span><span class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span><span class="card-fixed"><span>修正版:</span> 10.18.1002 / 10.17.1030 / 10.16.1060 / 10.13.1190 / 10.10.1181 以降</span>
+      </a>
+      <a class="summary-card" href="#CVE-2026-59346" data-priority="P2">
+        <span class="badge p2" data-glyph="■">P2 優先対応</span><span class="card-cve">CVE-2026-59346</span><span class="card-product">VMware Workstation / Fusion 25H2・26H1</span><span class="card-lead">VMXNET3の整数オーバーフローにより、仮想マシン内で管理者権限を持つ攻撃者がホスト側でコードを実行できる。</span><span class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span><span class="card-fixed"><span>修正版:</span> VMware Workstation / Fusion 26H1u1</span>
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head"><h2 id="detailHeading">詳細</h2><p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p></div>
+
+    <article class="case" id="CVE-2026-20212" data-cve="CVE-2026-20212" data-priority="P1" data-product="Cisco Nexus 9000 Series" data-exploited="false" data-kev="false" data-poc="false" data-cvss="9.8" data-fixed="Cisco Software Checkerで対象リリースのFirst Fixedを確認">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-20212</h3></div>
+      <p class="product">Cisco Nexus 9000 Series Switches（Silicon One ASIC搭載モデル / NX-OS）</p>
+      <p class="lead">Silicon One統合の不備により、デフォルトL3 VRFから到達可能なTCP 43210/43211へ細工した入力を送ることで、認証不要の遠隔攻撃者がroot権限でコードを実行できる。S1HALのクラッシュと機器再起動も発生し得る。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・低攻撃複雑度。対象機器のTCP 43210/43211へ到達可能であること</dd></div>
+        <div><dt>実悪用</dt><dd>報告なし。Cisco PSIRTは公開時点で悪用を認識していない</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載（2026-09-04確認）</dd></div>
+        <div><dt>公開PoC</dt><dd>GitHubを検索したが、実装を伴う公開PoCを確認できず</dd></div>
+        <div><dt>影響バージョン</dt><dd>Silicon One ASIC搭載のN9324C-SE1U、N9348Y2C6D-SE1U、N9364E-SG2-O/Q、N9396T12C-SE1、N9348Y12C-SE1、N9396Y12C-SE1、N9336C-SE1、N9K-C9804、N9K-C9808。影響NX-OSリリースはCisco Software Checkerで確認</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Cisco Software Checkerで使用中リリースに対するFirst Fixedを確認しアップグレード</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>対象PIDとNX-OSリリースを確認し、Cisco Software Checkerが示す修正済みリリースへ更新する。更新までの一時緩和として、iACLで必要な管理・制御プレーントラフィックだけを許可するか、ローカルIP宛TCP 43210/43211を明示拒否する。対応可能な環境ではLive Protect Shieldも一時緩和として検討する。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>実悪用・KEV・PoCは未確認だが、認証不要・ネットワーク経由・CVSS 9.8で、成功時にネットワークスイッチ上のrootコード実行へ直結する。ネットワーク基盤の侵害は通信制御・可用性・横展開に大きな影響を与えるためP1。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>対象PIDのNexus 9000 / Silicon One ASIC搭載機器の利用有無を資産台帳と実機で確認</span></label></li>
+        <li><label><input type="checkbox"><span>NX-OSリリースとCisco Software CheckerのFirst Fixedを照合</span></label></li>
+        <li><label><input type="checkbox"><span>TCP 43210/43211への到達性とiACL適用状況を確認</span></label></li>
+        <li><label><input type="checkbox"><span>S1HAL異常終了、予期しないリロード、該当ポートへの不審接続をネットワーク/SIEMログで確認</span></label></li>
+        <li><label><input type="checkbox"><span>Live Protect Shield利用時はヒットログとsyslogを監視し、恒久対策として修正版へ更新</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>Cisco Security Advisory cisco-sa-n9k-s1-rce-EH8dEtr</li><li><a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-n9k-s1-rce-EH8dEtr" target="_blank" rel="noopener noreferrer">Cisco公式アドバイザリ</a></li></ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-73749" data-cve="CVE-2026-73749" data-priority="P1" data-product="HPE Aruba Networking AOS-CX" data-exploited="false" data-kev="false" data-poc="false" data-cvss="9.8" data-fixed="10.18.1002 / 10.17.1030 / 10.16.1060 / 10.13.1190 / 10.10.1181 以降">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-73749</h3></div>
+      <p class="product">HPE Aruba Networking AOS-CX 10.10 / 10.13 / 10.16 / 10.17 / 10.18（エンタープライズスイッチOS）</p>
+      <p class="lead">AOS-CXのデーモンが不正な入力を適切に処理できず、認証不要の遠隔攻撃者が細工したパケットを送信することで、昇格権限でリモートコード実行に至る。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・低攻撃複雑度・ユーザー操作不要。影響デーモンへ細工したパケットを送信可能であること</dd></div>
+        <div><dt>実悪用</dt><dd>報告なし。HPEは公開時点で実悪用を認識していない</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載（2026-09-04確認）</dd></div>
+        <div><dt>公開PoC</dt><dd>HPEは公開時点で公開PoCを認識しておらず、GitHub検索でも実装を伴うPoCを確認できず</dd></div>
+        <div><dt>影響バージョン</dt><dd>10.18.0000〜10.18.0001、10.17.0000〜10.17.1021、10.16.0000〜10.16.1051、10.13.0000〜10.13.1180、10.10.0000〜10.10.1180</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">10.18.1002 / 10.17.1030 / 10.16.1060 / 10.13.1190 / 10.10.1181 以降</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>利用中のAOS-CXリリースを確認し、該当ブランチの修正版以上へ更新する。直ちに更新できない場合は、管理・制御プレーンサービスへの到達範囲を信頼済み管理セグメントに限定し、不要な到達経路を遮断する。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>実悪用・KEV・PoCは未確認だが、認証不要・ネットワーク経由でスイッチOS上の昇格権限RCEが成立する。基幹LAN、データセンター、キャンパスネットワーク等で利用されるネットワーク基盤製品のため、侵害時の可用性と横展開影響を重視してP1。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>AOS-CX搭載スイッチの利用有無と稼働リリースを資産台帳・管理システムで確認</span></label></li>
+        <li><label><input type="checkbox"><span>影響範囲と修正版を照合し、ネットワーク影響を考慮した緊急更新計画を作成</span></label></li>
+        <li><label><input type="checkbox"><span>管理・制御プレーンへの到達元を信頼済みセグメントに限定できているか確認</span></label></li>
+        <li><label><input type="checkbox"><span>スイッチ上の異常なプロセスクラッシュ、再起動、設定変更、不審な管理通信を確認</span></label></li>
+        <li><label><input type="checkbox"><span>更新前後で設定バックアップと正常性確認を実施し、不審事象があればネットワーク機器侵害として調査</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>HPE Security Bulletin HPESBNW05134 rev.1</li><li><a href="https://support.hpe.com/hpesc/public/docDisplay?docId=hpesbnw05134en_us&amp;docLocale=en_US" target="_blank" rel="noopener noreferrer">HPE公式セキュリティブリテン</a></li><li><a href="https://www.bleepingcomputer.com/news/security/hpe-patches-critical-arubaos-cx-remote-code-execution-flaw/" target="_blank" rel="noopener noreferrer">BleepingComputer（修正版一覧・HPEブリテン参照）</a></li></ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-59346" data-cve="CVE-2026-59346" data-priority="P2" data-product="VMware Workstation / Fusion" data-exploited="false" data-kev="false" data-poc="false" data-cvss="9.3" data-fixed="26H1u1">
+      <div class="case-head"><span class="badge p2" data-glyph="■">P2 優先対応</span><h3>CVE-2026-59346</h3></div>
+      <p class="product">VMware Workstation / VMware Fusion 25H2・26H1（デスクトップ仮想化）</p>
+      <p class="lead">VMXNET3の整数オーバーフローにより、VMXNET3仮想NICを使用する仮想マシン内で管理者権限を持つ攻撃者が、仮想化境界を越えてホスト上でコードを実行できる。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span><span class="badge na" data-glyph="■">CVSS 9.3</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.3 / Critical (CVSS v3.1)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-warn">ローカル攻撃。VMXNET3仮想ネットワークアダプタを持つゲストVM内で管理者権限が必要</dd></div>
+        <div><dt>実悪用</dt><dd>報告なし</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載（2026-09-04確認）</dd></div>
+        <div><dt>公開PoC</dt><dd>GitHubを検索したが、実装を伴う公開PoCを確認できず</dd></div>
+        <div><dt>影響バージョン</dt><dd>VMware Workstation 25H2 / 26H1、VMware Fusion 25H2 / 26H1</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">VMware Workstation 26H1u1 / VMware Fusion 26H1u1</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>Workstation/Fusionを26H1u1へ更新する。Broadcomは回避策なしとしているため、更新まで信頼できないVMイメージの実行を避け、特にVMXNET3を利用する開発・検証VMや外部提供VMの取り扱いを制限する。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>CVSS 9.3でゲストからホストへのコード実行に至るため影響は重大。ただし攻撃には対象VM内の管理者権限が必要で、実悪用・KEV・公開PoCも確認されていないためP2とした。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>Workstation / Fusion 25H2・26H1の利用端末をソフトウェア資産管理から抽出</span></label></li>
+        <li><label><input type="checkbox"><span>26H1u1未満の端末を更新対象として優先順位付け</span></label></li>
+        <li><label><input type="checkbox"><span>VMXNET3を利用するVMと、信頼できないVMイメージ・検証用途の利用状況を確認</span></label></li>
+        <li><label><input type="checkbox"><span>ゲスト管理者権限取得後にホスト側で不審プロセス生成・権限変化がないかEDRで監視</span></label></li>
+        <li><label><input type="checkbox"><span>更新完了まで外部由来VMの実行制限を開発・検証利用者へ周知</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>Broadcom VMSA-2026-0007</li><li><a href="https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/38288" target="_blank" rel="noopener noreferrer">Broadcom / VMware公式セキュリティアドバイザリ</a></li></ul></div>
+    </article>
+  </section>
+
+  <p class="disclaimer"><strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong> CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。</p>
+  <footer class="report-footer"><p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p><p><a href="../index.html">レポート一覧へ戻る</a></p></footer>
+</main>
+</body>
+</html>
