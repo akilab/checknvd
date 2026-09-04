@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-09-05 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-09-05" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年9月5日（土）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-09-05 08:00 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-30 〜 2026-09-05</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-09-04.html" rel="prev">← 前日 2026-09-04</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>最優先は、実悪用・KEV追加が確認されたGoogle ChromeのCVE-2026-85046と、実悪用試行が観測されたNetScalerのCVE-2026-19490です。</strong>
+      Chromeは多数端末へ波及しやすく、NetScalerはVPN/認証境界に位置するため侵害時の影響が大きいです。あわせて、認証不要で管理基盤を完全侵害し得るHPE Networking Fabric Composerも即時確認対象とします。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Google Chrome / NetScaler ADC・Gateway / HPE Networking Fabric Composer</dd></div>
+      <div><dt>推奨アクション</dt><dd>対象資産とバージョンを即時特定し、Chrome・NetScaler・Fabric Composerを修正版へ更新。インターネット公開・管理面到達性と不審ログを確認</dd></div>
+      <div><dt>対応期限</dt><dd>ChromeはCISA KEV掲載のため最優先で対応。その他はベンダー修正版を即時適用</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>9月4日にChromeの実悪用とKEV追加が確定し、NetScalerでも公開PoCに一致する攻撃試行が9月3日に観測されたため</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+      <a class="summary-card" href="#CVE-2026-85046" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-85046</span>
+        <span class="card-product">Google Chrome 152.0.7977.82未満</span>
+        <span class="card-lead">V8の型混同により、細工したHTMLを閲覧した利用者のChromeでサンドボックス内の任意コード実行が可能。Googleが実悪用を確認し、CISA KEVへ追加。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載</span><span class="badge warn" data-glyph="●">公開PoCあり</span></span>
+        <span class="card-fixed"><span>修正版:</span> Windows/Mac 152.0.7977.82/.83、Linux 152.0.7977.82 以降</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-19490" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-19490</span>
+        <span class="card-product">NetScaler ADC / NetScaler Gateway 14.1・13.1</span>
+        <span class="card-lead">Gateway/AAA構成で認証を迂回できるCritical脆弱性。9月3日に公開PoCと一致する攻撃リクエストが複数地域から観測された。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用試行あり</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge warn" data-glyph="●">公開PoCあり</span></span>
+        <span class="card-fixed"><span>修正版:</span> 14.1-73.32 / 13.1-63.21 / 14.1-73.32 FIPS / 13.1-37.277 FIPS・NDcPP 以降</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-76658" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-76658</span>
+        <span class="card-product">HPE Networking Fabric Composer 7.0.0〜7.3.3</span>
+        <span class="card-lead">SSHデーモンの認証不備により、認証不要の遠隔攻撃者が管理者アクセスを取得し、特権ユーザーとして任意コマンドを実行できる。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span>
+        <span class="card-fixed"><span>修正版:</span> 7.3.4 以降、または 7.4.0 以降</span>
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-85046"
+      data-cve="CVE-2026-85046"
+      data-priority="P1"
+      data-product="Google Chrome"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="true"
+      data-cvss="8.8"
+      data-fixed="Windows/Mac 152.0.7977.82/.83、Linux 152.0.7977.82 以降">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-85046</h3></div>
+      <p class="product">Google Chrome 152.0.7977.82未満（Windows / macOS / Linux）</p>
+      <p class="lead">V8 JavaScript/WebAssemblyエンジンの型混同により、細工したHTMLページを開いた利用者のChromeでサンドボックス内の任意コード実行が可能。Googleは実悪用を確認し、CISAは9月4日にKEVへ追加した。</p>
+      <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge warn" data-glyph="●">公開PoCあり</span><span class="badge na" data-glyph="■">CVSS 8.8</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>8.8 / High (CVSS v3.1)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・利用者操作あり。細工したHTMLページの閲覧が必要</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり。Googleが「exploit exists in the wild」と公表</dd></div>
+        <div><dt>CISA KEV</dt><dd>掲載あり（2026-09-04追加）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">あり。GitHub上でPoC実装ファイルと検証環境を含む公開リポジトリを確認。安全性確認済みではない</dd></div>
+        <div><dt>影響バージョン</dt><dd>Google Chrome 152.0.7977.82未満</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Windows/Mac 152.0.7977.82/.83、Linux 152.0.7977.82 以降</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>企業管理端末のChrome更新状況を確認し、修正版以上へ強制更新する。更新完了まで不審なWeb誘導・フィッシングへの警戒を強化し、ブラウザクラッシュや不審な子プロセス生成をEDRで監視する。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>実悪用確認済み・CISA KEV掲載・公開PoCありに加え、一般端末へ広く展開されるブラウザであるため影響母数が大きい。CVSS 8.8でもSOC運用上は即時対応が必要なP1。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>端末管理基盤でChrome 152.0.7977.82未満の残存台数を確認</span></label></li>
+        <li><label><input type="checkbox"><span>Windows/Mac/Linuxそれぞれの修正版適用率を確認</span></label></li>
+        <li><label><input type="checkbox"><span>ブラウザ更新ポリシーが無効化・遅延されている端末を抽出</span></label></li>
+        <li><label><input type="checkbox"><span>直近のChrome異常終了、Renderer/GPU関連クラッシュ、不審な子プロセス生成をEDR/SIEMで確認</span></label></li>
+        <li><label><input type="checkbox"><span>Webプロキシで不審な新規ドメインやフィッシング誘導と端末イベントを相関確認</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources">
+        <li>Google Chrome Stable Channel Update / CISA KEV</li>
+        <li><a href="https://chromereleases.googleblog.com/2026/09/stable-channel-update-for-desktop_01882797386.html" target="_blank" rel="noopener noreferrer">Google Chrome Releases</a></li>
+        <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2026-85046" target="_blank" rel="noopener noreferrer">CISA KEV</a></li>
+        <li><a href="https://github.com/HORKimhab/CVE-2026-85046" target="_blank" rel="noopener noreferrer">公開PoC確認先（GitHub）</a></li>
+      </ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-19490"
+      data-cve="CVE-2026-19490"
+      data-priority="P1"
+      data-product="NetScaler ADC / NetScaler Gateway"
+      data-exploited="true"
+      data-kev="false"
+      data-poc="true"
+      data-cvss="9.3"
+      data-fixed="14.1-73.32 / 13.1-63.21 / 14.1-73.32 FIPS / 13.1-37.277 FIPS・NDcPP 以降">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-19490</h3></div>
+      <p class="product">NetScaler ADC / NetScaler Gateway 14.1・13.1（Gateway / AAA構成）</p>
+      <p class="lead">代替パスを利用した認証回避。Gateway（SSL VPN、ICA Proxy、CVPN、RDP Proxy）またはAAA virtual server構成が主な前提で、9月3日に公開PoCと一致する攻撃リクエストが複数地域から観測された。</p>
+      <div class="badges"><span class="badge on" data-glyph="●">実悪用試行あり</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge warn" data-glyph="●">公開PoCあり</span><span class="badge na" data-glyph="■">CVSS 9.3</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.3 / Critical (CVSS v4.0)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・利用者操作不要。GatewayまたはAAA virtual server等の該当構成が必要</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">攻撃試行あり。2026-09-03に公開PoCと一致するリクエストを複数センサーで観測。成功侵害の確認まではされていない</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載（2026-09-05確認）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">あり。GitHub上でpoc.pyを含む公開リポジトリを確認。安全性確認済みではない</dd></div>
+        <div><dt>影響バージョン</dt><dd>14.1-73.32未満、13.1-63.21未満、14.1-73.32 FIPS未満、13.1-37.277 FIPS/NDcPP未満</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">14.1-73.32 / 13.1-63.21 / 14.1-73.32 FIPS / 13.1-37.277 FIPS・NDcPP 以降</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>該当するcustomer-managed NetScalerを修正版へ即時更新する。NetScaler ConsoleのCVE Detectionが利用可能なら対象インスタンスをスキャンし、Gateway/AAA/SAML構成とインターネット公開状況を確認する。ベンダーが提供する防御シグネチャを利用可能な環境では更新までの補助対策として適用する。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>VPN・認証境界に置かれる製品の認証不要Critical脆弱性であり、公開PoC後に実際の攻撃試行が観測された。KEV未掲載でも、インターネット到達性と侵害時の認証基盤への影響からP1。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>NetScaler ADC / Gatewayの利用有無とcustomer-managedインスタンスを特定</span></label></li>
+        <li><label><input type="checkbox"><span>14.1 / 13.1系のビルド番号を修正版と照合</span></label></li>
+        <li><label><input type="checkbox"><span>Gateway、AAA virtual server、SAML Actionの構成と外部公開状況を確認</span></label></li>
+        <li><label><input type="checkbox"><span>9月3日前後からの認証ログ、異常セッション、不審なHTTPリクエスト、未知IPからのアクセスを確認</span></label></li>
+        <li><label><input type="checkbox"><span>公開PoCと一致する探索・試行の兆候があれば、更新だけでなく侵害調査へ移行</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources">
+        <li>Citrix / NetScaler Security Bulletin CTX696939</li>
+        <li><a href="https://support.citrix.com/external/article/CTX696939/netscaler-adc-and-netscaler-gateway-secu.html" target="_blank" rel="noopener noreferrer">NetScaler公式セキュリティブリテン</a></li>
+        <li><a href="https://www.netscaler.com/en-us/netscaler-console-service/instance-advisory/remediate-vulnerabilities-cve-2026-19490.html" target="_blank" rel="noopener noreferrer">NetScaler Console remediation guidance</a></li>
+        <li><a href="https://github.com/TarPeg007/CVE-2026-19490" target="_blank" rel="noopener noreferrer">公開PoC確認先（GitHub）</a></li>
+      </ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-76658"
+      data-cve="CVE-2026-76658"
+      data-priority="P1"
+      data-product="HPE Networking Fabric Composer"
+      data-exploited="false"
+      data-kev="false"
+      data-poc="false"
+      data-cvss="10.0"
+      data-fixed="7.3.4 以降、または 7.4.0 以降">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-76658</h3></div>
+      <p class="product">HPE Networking Fabric Composer 7.0.0〜7.3.3（データセンターネットワーク管理基盤）</p>
+      <p class="lead">Fabric ComposerのSSHデーモンに認証不備があり、認証不要の遠隔攻撃者が管理者アクセスを取得し、基盤OS上で特権ユーザーとして任意コマンドを実行できる。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span><span class="badge na" data-glyph="■">CVSS 10.0</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>10.0 / Critical (CVSS v3.1)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・低攻撃複雑度・利用者操作不要。SSHサービスへ到達可能であること</dd></div>
+        <div><dt>実悪用</dt><dd>報告なし（2026-09-05確認）</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載（2026-09-05確認）</dd></div>
+        <div><dt>公開PoC</dt><dd>GitHub等を検索したが、実装を伴う公開PoCを確認できず</dd></div>
+        <div><dt>影響バージョン</dt><dd>HPE Networking Fabric Composer 7.0.0〜7.3.3</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">7.3.4 以降、または 7.4.0 以降</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>7.3系は7.3.4以上、7.4系は7.4.0以上へ更新する。更新完了までSSHおよび管理面へのアクセスを信頼済み管理ネットワークに限定し、不要な外部・一般ユーザーセグメントからの到達性を遮断する。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>実悪用・KEV・PoCは未確認だが、認証不要・ネットワーク経由・CVSS 10.0で、成功時にネットワークファブリック管理基盤の特権OSコマンド実行へ至る。基盤管理製品への侵害は広範なネットワーク制御へ波及し得るためP1。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>HPE Networking Fabric Composerの利用有無と管理ホストを資産台帳で特定</span></label></li>
+        <li><label><input type="checkbox"><span>7.0.0〜7.3.3の残存有無を確認し、7.3.4/7.4.0以上への更新を実施</span></label></li>
+        <li><label><input type="checkbox"><span>SSH管理面がインターネットまたは一般サーバー/ユーザーセグメントから到達可能でないか確認</span></label></li>
+        <li><label><input type="checkbox"><span>SSH認証ログ、管理者ログイン、未知IPからの接続、異常な特権コマンド実行を確認</span></label></li>
+        <li><label><input type="checkbox"><span>不審な管理操作があればFabric Composer配下ネットワーク機器の設定変更も併せて監査</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources">
+        <li>HPE Security Bulletin HPESBNW05133 rev.1</li>
+        <li><a href="https://support.hpe.com/hpesc/public/docDisplay?docId=hpesbnw05133en_us&amp;docLocale=en_US" target="_blank" rel="noopener noreferrer">HPE公式セキュリティアドバイザリ</a></li>
+      </ul></div>
+    </article>
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+</main>
+</body>
+</html>
