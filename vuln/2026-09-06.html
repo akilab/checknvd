@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-09-06 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-09-06" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年9月6日（日）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-09-06 08:02 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-08-31 〜 2026-09-06</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-09-05.html" rel="prev">← 前日 2026-09-05</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>最優先は、ASUS Control Center EnterpriseのCVE-2026-75754です。</strong>
+      認証不要・ネットワーク経由で暗号鍵取得、SSH有効化、ハードコード認証情報を経てrootシェルへ到達し、管理下のサーバ・PC・ワークステーションまで遠隔制御され得ます。あわせてMicrosoft Entra ID B2CとCopilot Studioの認証不要権限昇格を確認対象とします。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>ASUS Control Center Enterprise / Microsoft Azure Active Directory B2C / Microsoft Copilot Studio</dd></div>
+      <div><dt>推奨アクション</dt><dd>ACCの利用有無とバージョンを即時確認し管理面を隔離、ASUS最新セキュリティ更新を適用。Microsoftクラウドサービスはテナント影響情報と管理操作・監査ログを確認</dd></div>
+      <div><dt>対応期限</dt><dd>設定なし。ACCは認証不要の管理基盤完全侵害につながるため即時対応を推奨</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>9月3〜4日に公開されたCritical脆弱性のうち、管理基盤・認証基盤・AI管理基盤への重大影響が確認されたため</dd></div>
+    </dl>
+  </section>
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head"><h2 id="summaryHeading">優先度サマリー</h2><p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p></div>
+    <div class="summary-list">
+      <a class="summary-card" href="#CVE-2026-75754" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-75754</span>
+        <span class="card-product">ASUS Control Center Enterprise (ACC) 4.0.0.2以下</span>
+        <span class="card-lead">認証不要のHTTPアクセスから暗号鍵を取得し、SSHを有効化してハードコード認証情報でrootシェルを得られる。管理対象端末全体への波及が可能。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span>
+        <span class="card-fixed"><span>修正版:</span> ASUS Security Advisoryの最新修正版（具体的版数は確認できず）</span>
+      </a>
+      <a class="summary-card" href="#CVE-2026-83711" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-83711</span>
+        <span class="card-product">Microsoft Azure Active Directory B2C / Entra</span>
+        <span class="card-lead">ユーザー制御キーを介した認可回避により、認証なしの攻撃者がネットワーク経由で権限昇格できる。CVSS 10.0。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span>
+        <span class="card-fixed"><span>修正版:</span> Microsoftホスト型サービスのため個別版数なし／MSRC対策を確認</span>
+      </a>
+      <a class="summary-card" href="#CVE-2026-80098" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-80098</span>
+        <span class="card-product">Microsoft Copilot Studio</span>
+        <span class="card-lead">暗号署名の不適切な検証により、認証なしの攻撃者がネットワーク経由で権限昇格できる。CVSS 9.3。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span>
+        <span class="card-fixed"><span>修正版:</span> Microsoftホスト型サービスのため個別版数なし／MSRC対策を確認</span>
+      </a>
+    </div>
+  </section>
+  <section aria-labelledby="detailHeading">
+    <div class="section-head"><h2 id="detailHeading">詳細</h2><p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p></div>
+    <article class="case" id="CVE-2026-75754" data-cve="CVE-2026-75754" data-priority="P1" data-product="ASUS Control Center Enterprise (ACC)" data-exploited="false" data-kev="false" data-poc="false" data-cvss="10.0" data-fixed="ASUS Security Advisoryの最新修正版（具体的版数は確認できず）">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-75754</h3></div>
+      <p class="product">ASUS Control Center Enterprise (ACC) 4.0.0.2以下（IT管理基盤）</p>
+      <p class="lead">認証不要の攻撃者がHTTP経由で暗号鍵を取得し、ローカルサービスを介してSSH/2222を有効化、ハードコード認証情報でrootシェルを取得できる。管理下のサーバ・PC・ワークステーションへの遠隔制御につながる。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span><span class="badge na" data-glyph="■">CVSS 10.0</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>10.0 / Critical (CVSS v4.0)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・低複雑度・ユーザー操作不要</dd></div>
+        <div><dt>実悪用</dt><dd>確認できず。CISA VulnrichmentはExploitation: none</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載（2026-09-06確認）</dd></div>
+        <div><dt>公開PoC</dt><dd>GitHub等を検索したが、実装を伴う再現コードは確認できず</dd></div>
+        <div><dt>影響バージョン</dt><dd>Control Center Enterprise (ACC) 0〜4.0.0.2</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">ASUS Security Advisoryの最新修正版。CVEレコード上で具体的版数は確認できず</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>ASUS Security Advisoryを確認し最新修正版へ更新する。更新完了までACC管理インターフェースへの到達元を管理セグメント・踏み台に限定し、外部または一般ユーザーセグメントからのHTTPアクセスを遮断する。SSH/2222の予期しない待受がないかも確認する。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>CVSS 10.0に加え、認証不要で管理基盤のroot権限を取得し、さらに管理対象端末群へ波及可能という製品特性上の影響が極めて大きい。実悪用未確認でもSOC PriorityはP1。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>ASUS Control Center Enterpriseの利用有無と4.0.0.2以下の残存を確認</span></label></li>
+        <li><label><input type="checkbox"><span>ACC管理画面へのインターネット／一般セグメントからの到達性を確認</span></label></li>
+        <li><label><input type="checkbox"><span>対象サーバでTCP/2222の待受開始・接続履歴・SSH認証ログを確認</span></label></li>
+        <li><label><input type="checkbox"><span>ACCから管理対象端末への通常外のリモート操作・配布・設定変更を確認</span></label></li>
+        <li><label><input type="checkbox"><span>ASUS Security Advisoryに従い修正版適用後、管理用認証情報とアクセス制御を再確認</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>ASUS CVE Record / Security Advisory</li><li><a href="https://www.asus.com/security-advisory" target="_blank" rel="noopener noreferrer">ASUS Security Advisory</a></li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-75754" target="_blank" rel="noopener noreferrer">NVD CVE-2026-75754</a></li></ul></div>
+    </article>
+    <article class="case" id="CVE-2026-83711" data-cve="CVE-2026-83711" data-priority="P1" data-product="Microsoft Azure Active Directory B2C / Entra" data-exploited="false" data-kev="false" data-poc="false" data-cvss="10.0" data-fixed="Microsoftホスト型サービスのため個別版数なし／MSRC対策を確認">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-83711</h3></div>
+      <p class="product">Microsoft Azure Active Directory B2C / Entra（クラウド認証基盤）</p>
+      <p class="lead">ユーザー制御キーを介した認可回避により、認証なしの攻撃者がネットワーク経由で権限昇格できる。MicrosoftのCVEレコードはCVSS 10.0、ホスト型サービスとして公開。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span><span class="badge na" data-glyph="■">CVSS 10.0</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>10.0 / Critical (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・低複雑度・ユーザー操作不要</dd></div>
+        <div><dt>実悪用</dt><dd>確認できず。CISA VulnrichmentはExploitation: none</dd></div><div><dt>CISA KEV</dt><dd>未掲載（2026-09-06確認）</dd></div>
+        <div><dt>公開PoC</dt><dd>GitHub検索では説明・収集データは確認したが、実装を伴う再現コードは確認できず</dd></div><div><dt>影響バージョン</dt><dd>Microsoft Entra / Azure Active Directory B2C。具体的バージョンは確認できず</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Microsoftホスト型サービスのため個別版数なし。MSRCの対策状況を確認</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>MSRCのCVEページでサービス側の緩和・修正状況を確認する。顧客側でパッチ適用が不要な場合でも、B2Cテナントの管理者・高権限ロール、アプリ登録、ポリシー、ユーザー属性の不審な変更を監査する。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>認証不要で認証基盤の権限昇格に至るCritical脆弱性であり、アイデンティティ基盤侵害は複数サービスへ横展開する起点となる。管理・認証基盤という製品特性を重視してP1。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>Azure AD B2C / Entra External IDの利用有無を確認</span></label></li><li><label><input type="checkbox"><span>MSRCでサービス側の修正・緩和状況と顧客側対応有無を確認</span></label></li>
+        <li><label><input type="checkbox"><span>直近の管理者ロール変更、アプリ登録、シークレット・証明書変更を監査</span></label></li><li><label><input type="checkbox"><span>異常なサインイン、トークン利用、通常と異なるIP・ユーザーエージェントを確認</span></label></li>
+        <li><label><input type="checkbox"><span>B2Cポリシーやユーザー属性の不審変更がないか確認</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>Microsoft MSRC / CVE Record</li><li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-83711" target="_blank" rel="noopener noreferrer">Microsoft MSRC CVE-2026-83711</a></li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-83711" target="_blank" rel="noopener noreferrer">NVD CVE-2026-83711</a></li></ul></div>
+    </article>
+    <article class="case" id="CVE-2026-80098" data-cve="CVE-2026-80098" data-priority="P1" data-product="Microsoft Copilot Studio" data-exploited="false" data-kev="false" data-poc="false" data-cvss="9.3" data-fixed="Microsoftホスト型サービスのため個別版数なし／MSRC対策を確認">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-80098</h3></div>
+      <p class="product">Microsoft Copilot Studio（クラウドAI／エージェント管理基盤）</p>
+      <p class="lead">暗号署名の不適切な検証により、認証なしの攻撃者がネットワーク経由で権限昇格できる。MicrosoftはCVSS 9.3のCriticalとして公開。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span><span class="badge na" data-glyph="■">CVSS 9.3</span></div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.3 / Critical (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・低複雑度・ユーザー操作不要</dd></div>
+        <div><dt>実悪用</dt><dd>確認できず。CISA VulnrichmentはExploitation: none</dd></div><div><dt>CISA KEV</dt><dd>未掲載（2026-09-06確認）</dd></div>
+        <div><dt>公開PoC</dt><dd>GitHub検索では説明・収集データは確認したが、実装を伴う再現コードは確認できず</dd></div><div><dt>影響バージョン</dt><dd>Microsoft Copilot Studio。具体的バージョンは確認できず</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Microsoftホスト型サービスのため個別版数なし。MSRCの対策状況を確認</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>MSRCでサービス側の修正状況を確認する。Copilot Studio環境で高権限操作、環境設定、接続・コネクタ、エージェント公開設定、認証関連設定に不審変更がないか監査する。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>認証なし・ネットワーク経由で権限昇格でき、AIエージェントや各種コネクタを統合する管理基盤であるため、侵害時に接続先サービスや業務データへ波及する可能性がある。管理基盤への重大影響としてP1。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+        <li><label><input type="checkbox"><span>Copilot Studioの利用テナント・環境を特定</span></label></li><li><label><input type="checkbox"><span>MSRCでサービス側の修正・顧客側対応有無を確認</span></label></li>
+        <li><label><input type="checkbox"><span>環境ロール・所有者・管理者の不審な変更を監査</span></label></li><li><label><input type="checkbox"><span>コネクタ、接続参照、エージェント公開設定の直近変更を確認</span></label></li>
+        <li><label><input type="checkbox"><span>Microsoft 365 / Power Platform監査ログで通常外の操作元・時刻・IPを確認</span></label></li>
+      </ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>Microsoft MSRC / CVE Record</li><li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-80098" target="_blank" rel="noopener noreferrer">Microsoft MSRC CVE-2026-80098</a></li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-80098" target="_blank" rel="noopener noreferrer">NVD CVE-2026-80098</a></li></ul></div>
+    </article>
+  </section>
+  <p class="disclaimer"><strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong> CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。</p>
+  <footer class="report-footer"><p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p><p><a href="../index.html">レポート一覧へ戻る</a></p></footer>
+</main>
+</body>
+</html>
