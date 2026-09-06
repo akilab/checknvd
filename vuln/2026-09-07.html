@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-09-07 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-09-07" data-case-count="2">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年9月7日（月）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-09-07 08:00 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-09-01 〜 2026-09-07</dd></div>
+      <div><dt>掲載件数</dt><dd>2 件（P1: 2 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-09-06.html" rel="prev">← 前日 2026-09-06</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>最優先は、MikroTik RouterOSのCVE-2026-67276とCVE-2026-86060です。</strong>
+      CERT Polskaは、両脆弱性を組み合わせた攻撃により、インターネットからSSHへ到達可能なRouterOS機器が認証なしで完全侵害されていることを確認しました。修正版への即時更新と、更新後のFlagged状態・未知のユーザー・スクリプト・設定変更の確認が必要です。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>MikroTik RouterOS</dd></div>
+      <div><dt>推奨アクション</dt><dd>7.24.2 / 7.23.4 / 6.49.21以降へ即時更新し、公開SSHを遮断。更新後にFlagged状態、未知のユーザー・スクリプト・スケジューラ・プロキシ・トンネルを確認</dd></div>
+      <div><dt>対応期限</dt><dd>ベンダー期限設定なし。実悪用確認済みのため即時対応を推奨</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>9月5日にCERT Polskaが実悪用を公表し、攻撃が少なくとも9月2日から継続していることを確認したため</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      <a class="summary-card" href="#CVE-2026-67276" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-67276</span>
+        <span class="card-product">MikroTik RouterOS 6.x / 7.x（修正版未満）</span>
+        <span class="card-lead">SSH公開鍵認証の検証不備により、条件を満たす攻撃者が秘密鍵なしで対象ユーザーとしてSSHログイン可能。CVE-2026-86060との連鎖で認証前の完全侵害が実悪用されています。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 7.24.2 / 7.23.4 / 6.49.21（7.25 beta 3にも修正含む）</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-86060" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-86060</span>
+        <span class="card-product">MikroTik RouterOS 6.x / 7.x（修正版未満）</span>
+        <span class="card-lead">SSHログイン処理の引数処理不備により、認証不要のSSHセッションから権限ポリシーを変更し完全な管理者権限を取得可能。実際の攻撃で悪用されています。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge off" data-glyph="○">公開PoC未確認</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 7.24.2 / 7.23.4 / 6.49.21（7.25 beta 3にも修正含む）</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-67276"
+      data-cve="CVE-2026-67276"
+      data-priority="P1"
+      data-product="MikroTik RouterOS"
+      data-exploited="true"
+      data-kev="false"
+      data-poc="true"
+      data-cvss="9.2"
+      data-fixed="7.24.2 / 7.23.4 / 6.49.21">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-67276</h3>
+      </div>
+      <p class="product">MikroTik RouterOS 7.24未満の7.24系、7.0.0〜7.23.3、6.0.0〜6.49.20（ネットワーク機器／管理基盤）</p>
+      <p class="lead">RouterOSがSSH公開鍵認証時にRSA公開鍵全体を正しく比較しないため、対象ユーザー名と公開RSA modulusを把握した攻撃者が秘密鍵なしで対象ユーザーとして認証できます。CVE-2026-86060との連鎖で、インターネット公開SSHから機器完全侵害に至る攻撃が確認されています。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+        <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 9.2</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.2 / Critical（CERT Polska / CVSS v4.0）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由。SSH到達可能、対象ユーザー名と登録RSA公開鍵のmodulusを把握していることが前提</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり。CERT PolskaがCVE-2026-86060との連鎖による実機侵害を確認。少なくとも2026-09-02から攻撃を観測</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載（2026-09-07確認）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">あり。GitHub上に実装付き研究用PoCを確認。安全性確認済みを意味しない</dd></div>
+        <div><dt>影響バージョン</dt><dd>7.24以上7.24.2未満、7.0.0以上7.23.4未満、6.0.0以上6.49.21未満</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">7.24.2 / 7.23.4 / 6.49.21、または7.25 beta 3以降</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>修正版へ即時更新してください。更新までの暫定策として、SSH・WWW/WWW-SSL・bandwidth-testをインターネットから遮断し、信頼済み管理ネットワークのみに限定します。更新後はRouterOSのFlagged状態とログ、未知のユーザー・スクリプト・スケジューラ・プロキシ・トンネルを確認し、侵害兆候がある場合は設定バックアップを盲目的に復元せず、ログ等を保全したうえで初期化と信頼できる設定からの再構築、資格情報・鍵の交換を実施します。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>ルータ／境界ネットワーク機器に対する実悪用済み脆弱性であり、CVE-2026-86060との連鎖により認証なしの完全管理権限取得へ発展します。インターネット公開SSHという現実的な攻撃面と、侵害後に通信経路・認証・設定全体を支配される影響を重視してP1と判定しました。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>MikroTik RouterOSの利用有無と対象バージョンを棚卸し</span></label></li>
+          <li><label><input type="checkbox"><span>SSH/22がインターネットまたは非信頼ネットワークから到達可能か確認</span></label></li>
+          <li><label><input type="checkbox"><span>更新後のFlagged状態とcriticalログを確認し、Flaggedなしでも侵害なしと断定しない</span></label></li>
+          <li><label><input type="checkbox"><span>未知の高権限ユーザー、スクリプト、scheduler、proxy、tunnel、設定変更を確認</span></label></li>
+          <li><label><input type="checkbox"><span>CERT Polska公開IOCとSSHログを照合し、不審な新規ユーザー作成やログイン失敗を調査</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>MikroTik September 2026 vulnerability / CERT Polska advisory</li>
+          <li><a href="https://mikrotik.com/supportsec/september-2026-vulnerability/" target="_blank" rel="noopener noreferrer">MikroTik Security Advisory</a></li>
+          <li><a href="https://cert.pl/en/posts/2026/09/vulnerabilities-in-mikrotik-routeros-actively-exploited/" target="_blank" rel="noopener noreferrer">CERT Polska: actively exploited RouterOS vulnerabilities</a></li>
+          <li><a href="https://cert.pl/en/posts/2026/09/mikrotik-routeros-cve/" target="_blank" rel="noopener noreferrer">CERT Polska CVE details</a></li>
+          <li><a href="https://github.com/dinosn/mikrotrick-poc" target="_blank" rel="noopener noreferrer">GitHub research PoC（安全性未確認）</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-86060"
+      data-cve="CVE-2026-86060"
+      data-priority="P1"
+      data-product="MikroTik RouterOS"
+      data-exploited="true"
+      data-kev="false"
+      data-poc="false"
+      data-cvss="9.2"
+      data-fixed="7.24.2 / 7.23.4 / 6.49.21">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-86060</h3>
+      </div>
+      <p class="product">MikroTik RouterOS 7.24未満の7.24系、7.0.0〜7.23.3、6.0.0〜6.49.20（ネットワーク機器／管理基盤）</p>
+      <p class="lead">SSHログイン処理で禁止文字から始まるユーザー名を不適切に扱い、認証不要のSSHセッションからRouterOSの権限ポリシーを変更して完全な管理者権限を得られる脆弱性です。CVE-2026-67276と組み合わせた攻撃が実際に観測されています。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+        <span class="badge off" data-glyph="○">公開PoC未確認</span>
+        <span class="badge na" data-glyph="■">CVSS 9.2</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.2 / Critical（CVSS v4.0）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・事前認証不要。SSHサービスへ到達可能で、SSHログインヘルパーまでセッションが進むことが必要</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり。CERT PolskaがCVE-2026-67276との連鎖による完全侵害を確認</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載（2026-09-07確認）</dd></div>
+        <div><dt>公開PoC</dt><dd>GitHub等を十分検索したが、このCVE単体の実装付き再現コードは確認できず</dd></div>
+        <div><dt>影響バージョン</dt><dd>7.24以上7.24.2未満、7.0.0以上7.23.4未満、6.0.0以上6.49.21未満</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">7.24.2 / 7.23.4 / 6.49.21、または7.25 beta 3以降</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>修正版へ即時更新し、更新までSSH等の管理サービスを外部公開しないでください。更新後はFlagged状態、SSHログ、ユーザー追加履歴、設定変更を確認します。侵害の疑いがある場合は機器を隔離し、ログ・設定を保全した後に初期化・再構築し、管理用パスワード、SSH鍵、API資格情報など関連シークレットを交換します。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>認証前のSSH処理から完全な管理者権限へ至るネットワーク機器の脆弱性で、既に実悪用が確認されています。境界ルータが侵害されると通信監視、転送、認証情報窃取、内部ネットワーク侵入の足掛かりになり得るため、CVSSとは別にSOC運用上P1と判定しました。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>RouterOSのバージョンとSSH公開状況を即時確認</span></label></li>
+          <li><label><input type="checkbox"><span>SSHログで禁止文字から始まる不審ユーザー名のログイン試行を確認</span></label></li>
+          <li><label><input type="checkbox"><span>高権限の未知ユーザーや直近のユーザー追加・権限変更を確認</span></label></li>
+          <li><label><input type="checkbox"><span>更新後のFlagged状態と設定差分を確認し、異常があればインシデントとして扱う</span></label></li>
+          <li><label><input type="checkbox"><span>侵害疑い時は周辺FW/VPN/認証ログも横断し、RouterOS経由の内部アクセスを追跡</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>MikroTik September 2026 vulnerability / CERT Polska advisory / NVD</li>
+          <li><a href="https://mikrotik.com/supportsec/september-2026-vulnerability/" target="_blank" rel="noopener noreferrer">MikroTik Security Advisory</a></li>
+          <li><a href="https://cert.pl/en/posts/2026/09/vulnerabilities-in-mikrotik-routeros-actively-exploited/" target="_blank" rel="noopener noreferrer">CERT Polska: actively exploited RouterOS vulnerabilities</a></li>
+          <li><a href="https://cert.pl/en/posts/2026/09/mikrotik-routeros-cve/" target="_blank" rel="noopener noreferrer">CERT Polska CVE details</a></li>
+          <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-86060" target="_blank" rel="noopener noreferrer">NVD CVE-2026-86060</a></li>
+        </ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
