@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-09-09 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-09-09" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年9月9日（水）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-09-09 08:01 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-09-03 〜 2026-09-09</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-09-08.html" rel="prev">← 前日 2026-09-08</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>Windowsの実悪用中2件（CVE-2026-81963 / CVE-2026-85880）を最優先でパッチ適用対象へ入れてください。</strong>
+      両方ともローカル権限昇格ですが、Microsoftが実悪用を確認し、CISA KEVへ2026年9月8日に追加されています。あわせて、RMM/遠隔支援製品ScreenConnectでは、アクティブなリモートセッションからホスト確認なしにファイル転送・実行が可能となるCritical脆弱性が公開されており、管理端末への波及を考慮して即時確認対象とします。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Microsoft Windows / ConnectWise ScreenConnect</dd></div>
+      <div><dt>推奨アクション</dt><dd>Windows September 2026更新の展開、ScreenConnect 26.6.5以降への更新とクライアント再導入確認</dd></div>
+      <div><dt>対応期限</dt><dd>Windows KEV 2件: 2026-09-22 ／ ScreenConnect: ベンダー修正版を即時適用</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>Windows 2件が実悪用確認・KEV追加。ScreenConnectはRMMクライアント側でCVSS 9.9の新規公開。</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+      <a class="summary-card" href="#CVE-2026-81963" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-81963</span>
+        <span class="card-product">Microsoft Windows Update Stack</span>
+        <span class="card-lead">低権限のローカル攻撃者がSYSTEM権限へ昇格可能。実悪用が確認され、CISA KEVへ追加済み。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span>
+        <span class="card-fixed"><span>修正版:</span> September 2026 security updates</span>
+      </a>
+      <a class="summary-card" href="#CVE-2026-85880" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-85880</span>
+        <span class="card-product">Microsoft Windows ALPC</span>
+        <span class="card-lead">Windows ALPCのヒープベースバッファオーバーフローによりSYSTEM権限へ昇格可能。実悪用・KEV掲載あり。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span>
+        <span class="card-fixed"><span>修正版:</span> September 2026 security updates</span>
+      </a>
+      <a class="summary-card" href="#CVE-2026-84869" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-84869</span>
+        <span class="card-product">ConnectWise ScreenConnect Client &lt; 26.6.5</span>
+        <span class="card-lead">アクティブなリモートセッションから、ホスト確認なしにファイル転送・実行が可能となるCritical脆弱性。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span>
+        <span class="card-fixed"><span>修正版:</span> ScreenConnect client 26.6.5以降</span>
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head"><h2 id="detailHeading">詳細</h2><p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p></div>
+
+    <article class="case" id="CVE-2026-81963" data-cve="CVE-2026-81963" data-priority="P1" data-product="Microsoft Windows Update Stack" data-exploited="true" data-kev="true" data-poc="false" data-cvss="7.8" data-fixed="September 2026 security updates">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-81963</h3></div>
+      <p class="product">Microsoft Windows 11 23H2 / 24H2 / 25H2 / 26H1、Windows Server 2025（権限昇格）</p>
+      <p class="lead">Windows Update Stackのリンク解決不備により、低権限のローカル攻撃者が権限昇格できます。Microsoftが実悪用を確認し、CISAは2026年9月8日にKEVへ追加しました。</p>
+      <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span><span class="badge na" data-glyph="■">CVSS 7.8</span></div>
+      <dl class="facts"><div><dt>CVSS</dt><dd>7.8 / High (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ローカル・低権限が必要・ユーザー操作不要</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり（Microsoft/CISAが確認）</dd></div><div><dt>CISA KEV</dt><dd>掲載あり（2026-09-08追加、期限2026-09-22）</dd></div><div><dt>公開PoC</dt><dd>十分検索した範囲では実装付きPoCを確認できず</dd></div><div><dt>影響バージョン</dt><dd>Windows 11 23H2: &lt; 22631.7582、24H2: &lt; 26100.9445、25H2: &lt; 26200.9445、26H1: &lt; 28000.2954、Windows Server 2025: &lt; 26100.33438</dd></div><div><dt>修正版</dt><dd class="is-ok">Microsoft September 2026 security updates（各OSの上記修正ビルド以降）</dd></div></dl>
+      <div class="block"><h4>推奨対処</h4><p>Microsoftの2026年9月セキュリティ更新を優先展開し、対象端末が修正済みビルドへ到達したことを確認してください。パッチ適用までの間は、低権限ユーザーで任意コードが実行される端末・VDI・共有端末を優先監視対象としてください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>CVSSは7.8ですが、実悪用確認とCISA KEV掲載があり、侵入後にSYSTEM権限へ昇格する手段として利用されるリスクがあります。CVSSより実運用上の緊急性を重視してP1としました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>対象Windows 11 / Windows Server 2025の資産数と適用状況を確認</span></label></li><li><label><input type="checkbox"><span>修正ビルド未満の端末を抽出し優先パッチ対象化</span></label></li><li><label><input type="checkbox"><span>標準ユーザーからSYSTEM権限へ昇格した不審プロセス・サービス作成をEDRで確認</span></label></li><li><label><input type="checkbox"><span>Windows Update関連ディレクトリやリンク操作に伴う不審挙動を調査</span></label></li><li><label><input type="checkbox"><span>CISA期限2026-09-22までの完了状況を追跡</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>Microsoft Security Response Center / CISA KEV</li><li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-81963" target="_blank" rel="noopener noreferrer">Microsoft CVE-2026-81963</a></li><li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2026-81963" target="_blank" rel="noopener noreferrer">CISA KEV</a></li></ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-85880" data-cve="CVE-2026-85880" data-priority="P1" data-product="Microsoft Windows ALPC" data-exploited="true" data-kev="true" data-poc="false" data-cvss="7.8" data-fixed="September 2026 security updates">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-85880</h3></div>
+      <p class="product">Microsoft Windows 10 / Windows Server 2012〜2022（権限昇格）</p>
+      <p class="lead">Windows Advanced Local Procedure Call（ALPC）のヒープベースバッファオーバーフローにより、低権限コード実行からSYSTEM権限への昇格が可能です。実悪用が確認され、CISA KEVへ追加されています。</p>
+      <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span><span class="badge na" data-glyph="■">CVSS 7.8</span></div>
+      <dl class="facts"><div><dt>CVSS</dt><dd>7.8 / High (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ローカル・低権限が必要・ユーザー操作不要</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり（Microsoft/CISAが確認）</dd></div><div><dt>CISA KEV</dt><dd>掲載あり（2026-09-08追加、期限2026-09-22）</dd></div><div><dt>公開PoC</dt><dd>十分検索した範囲では実装付きPoCを確認できず</dd></div><div><dt>影響バージョン</dt><dd>Windows 10 1607/1809/21H2/22H2、Windows Server 2012/2012 R2/2016/2019/2022。例: Windows 10 22H2 &lt; 19045.7725、Server 2019 &lt; 17763.9245、Server 2022 &lt; 20348.5622</dd></div><div><dt>修正版</dt><dd class="is-ok">Microsoft September 2026 security updates（各OSの修正ビルド以降）</dd></div></dl>
+      <div class="block"><h4>推奨対処</h4><p>対象Windowsへ2026年9月セキュリティ更新を適用してください。特にRDS、VDI、共有端末、サーバ運用端末など、低権限ユーザーやAppContainer由来コードが動く可能性がある環境を優先してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>実悪用とKEV掲載が確認されており、侵害済み端末での権限昇格・防御回避・永続化に利用される可能性があります。Windows 10から複数世代のWindows Serverまで影響範囲が広いためP1です。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>対象Windows 10 / Windows Serverの資産とパッチ状況を確認</span></label></li><li><label><input type="checkbox"><span>修正ビルド未満のRDS・VDI・サーバを優先順位付け</span></label></li><li><label><input type="checkbox"><span>低権限プロセスからSYSTEM権限プロセスへの不審な遷移をEDRで確認</span></label></li><li><label><input type="checkbox"><span>不審なサービス・タスク作成、資格情報アクセス、EDR停止試行を確認</span></label></li><li><label><input type="checkbox"><span>CISA期限2026-09-22までの完了状況を追跡</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>Microsoft Security Response Center / CISA KEV</li><li><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-85880" target="_blank" rel="noopener noreferrer">Microsoft CVE-2026-85880</a></li><li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2026-85880" target="_blank" rel="noopener noreferrer">CISA KEV</a></li></ul></div>
+    </article>
+
+    <article class="case" id="CVE-2026-84869" data-cve="CVE-2026-84869" data-priority="P1" data-product="ConnectWise ScreenConnect" data-exploited="false" data-kev="false" data-poc="false" data-cvss="9.9" data-fixed="ScreenConnect client 26.6.5以降">
+      <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-84869</h3></div>
+      <p class="product">ConnectWise ScreenConnect Client 26.6.5未満（RMM / 遠隔支援）</p>
+      <p class="lead">アクティブなリモートセッションにおいて、権限を持つゲスト側からホスト確認なしにファイル転送・実行が可能となる脆弱性です。ScreenConnectサーバ自体は影響を受けません。</p>
+      <div class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span><span class="badge na" data-glyph="■">CVSS 9.9</span></div>
+      <dl class="facts"><div><dt>CVSS</dt><dd>9.9 / Critical (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・低権限が必要・アクティブなリモートセッション・ユーザー操作不要</dd></div><div><dt>実悪用</dt><dd>確認できず</dd></div><div><dt>CISA KEV</dt><dd>未掲載</dd></div><div><dt>公開PoC</dt><dd>十分検索した範囲では実装付きPoCを確認できず</dd></div><div><dt>影響バージョン</dt><dd>ScreenConnect client 26.6.5未満</dd></div><div><dt>修正版</dt><dd class="is-ok">ScreenConnect client 26.6.5以降</dd></div></dl>
+      <div class="block"><h4>推奨対処</h4><p>オンプレミス環境はScreenConnect client 26.6.5以降へ更新してください。Cloudは更新済みですが、ConnectWiseはホストクライアントの再インストールとAccess Agent更新を推奨しています。即時更新できない場合は各ロールからTransferFiles権限を外す暫定緩和を適用してください。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>RMM/遠隔支援製品は多数端末への管理経路を持ちます。本脆弱性はアクティブセッションという前提があるものの、ホスト確認なしのファイル転送・実行により管理端末上で任意コード実行へつながるため、実悪用未確認でもP1としました。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>ScreenConnectのCloud / On-Prem / Automate統合の利用有無を確認</span></label></li><li><label><input type="checkbox"><span>ScreenConnect clientが26.6.5未満の端末を抽出</span></label></li><li><label><input type="checkbox"><span>更新完了までTransferFiles権限の無効化を検討</span></label></li><li><label><input type="checkbox"><span>リモートセッション履歴とファイル転送履歴を確認し、想定外の転送・実行を調査</span></label></li><li><label><input type="checkbox"><span>ホスト端末のEDRでScreenConnectセッション中に生成された不審プロセスを確認</span></label></li></ul></div>
+      <div class="block"><h4>情報源</h4><ul class="sources"><li>ConnectWise Security Bulletin / CVE record</li><li><a href="https://www.connectwise.com/company/trust/security-bulletins/2026-09-08-screenconnect-bulletin" target="_blank" rel="noopener noreferrer">ConnectWise ScreenConnect Security Bulletin</a></li><li><a href="https://github.com/ConnectWise-Advisories/Disclosures/tree/main/CVE-2026-84869" target="_blank" rel="noopener noreferrer">ConnectWise CVE Disclosure</a></li></ul></div>
+    </article>
+  </section>
+
+  <p class="disclaimer"><strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong> CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。</p>
+  <footer class="report-footer"><p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p><p><a href="../index.html">レポート一覧へ戻る</a></p></footer>
+</main>
+</body>
+</html>
