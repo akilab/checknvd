@@ -1,0 +1,321 @@
+<!doctype html>
+<!--
+  日次脆弱性ブリーフ テンプレート
+  ==========================================================================
+  使い方: このファイルを vuln/YYYY-MM-DD.html としてコピーし、置換対象 を置換する。
+  ファイル名が YYYY-MM-DD.html 形式でないHTMLは、トップページの一覧に載らない。
+
+  トップページ（assets/app.js）が解析する要素:
+    article.case              … 脆弱性1件。data-* 属性を最優先で読む。
+      data-cve                … CVE番号（例: CVE-2026-18577）
+      data-priority           … P1 / P2 / P3
+      data-product            … 対象製品名
+      data-exploited          … true / false / unknown
+      data-kev                … true / false / unknown
+      data-poc                … true / false / unknown
+      data-cvss / data-fixed  … 任意（表示用）
+    .case h3                  … 見出し（data-cve が無い場合のフォールバック）
+    .product                  … 対象製品（data-product が無い場合のフォールバック）
+    .lead                     … 1〜2行の概要（一覧カードに表示）
+    .badge                    … 状態バッジ（data-* が無い場合のフォールバック解析対象）
+    .summary-card             … 優先度サマリーのカード
+
+  data-* を省略した場合はバッジ文言から推定するが、判定精度が落ちる。
+  可能な限り data-* を付けること。
+  ==========================================================================
+-->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-10-24 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-10-24" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年10月24日（土）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-10-24 08:00 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-10-17 〜 2026-10-24</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <!-- 前日・翌日のファイルが存在しない場合は <a> ではなく
+         <span class="nav-btn is-disabled" aria-disabled="true"> を使う -->
+    <nav class="report-nav" aria-label="レポートの移動">
+      <span class="nav-btn is-disabled" aria-disabled="true">← 前日レポートなし</span>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>国内で実悪用・KEV登録が確認されたSiteGuard Server Editionを証拠保全のうえ緊急点検し、PHPの認証前RCE 2件にも直ちに対処する。</strong>
+      SiteGuardは10月20日にKEVへ追加され、米連邦機関向け期限は10月23日で経過済み。PHPは10月21日に緊急修正版が公開され、公開PoCも確認できる。Webサーバー基盤の侵害と証拠消失を避けるため、保全と修正適用を並行して進める。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>SiteGuard Server Edition ／ PHP</dd></div>
+      <div><dt>推奨アクション</dt><dd>SiteGuardの診断情報を保全後に更新・侵害調査。PHP 8.2.35／8.3.36／8.4.27／8.5.12へ更新し全ワーカー再起動。</dd></div>
+      <div><dt>対応期限</dt><dd>SiteGuard：KEV期限2026-10-23（経過）／PHP：公式期限設定なし・即時対応推奨</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>10/20 SiteGuardがKEV追加。10/21 PHPの認証前RCE 2件に緊急修正版、10/23 PHPが関連設定の追加注意喚起。</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      <!-- 脆弱性1件につき1枚。badge のクラスは p1 / p2 / p3、
+           状態は on（該当・危険） / warn（注意） / off（非該当） / na（不明） -->
+      <a class="summary-card" href="#CVE-2026-106931" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-106931</span>
+        <span class="card-product">EGセキュアソリューションズ SiteGuard Server Edition ／ Ver8.00 Update5／FreeBSD Ver7.00 Update6（個別パッチあり）</span>
+        <span class="card-lead">統計機能のOSコマンドインジェクションにより、Webサーバー上でroot/SYSTEM権限のコマンド実行が可能。ベンダーが実悪用を確認し、10月20日にCISA KEVへ追加。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge on" data-glyph="●">CISA KEV掲載</span>
+          <span class="badge off" data-glyph="○">公開PoC未確認</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> Ver8.00 Update5／FreeBSD Ver7.00 Update6（個別パッチあり）</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-109618" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-109618</span>
+        <span class="card-product">PHP（PHP Core / mod_php / PHP-FPM等） ／ PHP 8.2.35／8.3.36／8.4.27／8.5.12</span>
+        <span class="card-lead">メモリ不足時の例外処理と未初期化状態の不整合から、認証不要のリモートコード実行が可能。特にApache mod_phpではアプリケーション処理前の攻撃経路が実証されている。</span>
+        <span class="badges">
+          <span class="badge na" data-glyph="■">実悪用未確定</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> PHP 8.2.35／8.3.36／8.4.27／8.5.12</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-109619" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-109619</span>
+        <span class="card-product">PHP（PHP Core / mod_php / PHP-FPM等） ／ PHP 8.2.35／8.3.36／8.4.27／8.5.12</span>
+        <span class="card-lead">リクエスト間で残存するグローバル状態が解放済みメモリを参照し、後続リクエストで認証不要RCEに至る可能性。mod_phpと条件付きPHP-FPM経路で実証されている。</span>
+        <span class="badges">
+          <span class="badge na" data-glyph="■">実悪用未確定</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> PHP 8.2.35／8.3.36／8.4.27／8.5.12</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-106931"
+      data-cve="CVE-2026-106931"
+      data-priority="P1"
+      data-product="EGセキュアソリューションズ SiteGuard Server Edition"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="false"
+      data-cvss="8.5"
+      data-fixed="Ver8.00 Update5／FreeBSD Ver7.00 Update6（個別パッチあり）">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-106931</h3>
+      </div>
+      <p class="product">EGセキュアソリューションズ SiteGuard Server Edition ／ Ver2.20以降の影響版（統計機能有効時）。Apache/Nginx/IISはVer8.00 Update5未満、FreeBSD Apache/NginxはVer7.00 Update6未満。IIS Ver3.10～Ver4.00 Update4は対象外。</p>
+      <p class="lead">統計機能のOSコマンドインジェクションにより、Webサーバー上でroot/SYSTEM権限のコマンド実行が可能。ベンダーが実悪用を確認し、10月20日にCISA KEVへ追加。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge on" data-glyph="●">CISA KEV掲載</span>
+        <span class="badge off" data-glyph="○">公開PoC未確認</span>
+        <span class="badge na" data-glyph="■">CVSS 8.5</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>8.5 / High（CVSS v4.0。v3.0は7.8）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ローカルからの低権限アクセスが必要（CVSS v4.0 AV:L/PR:L）。統計機能が有効（既定）。インターネットから直接悪用可能とは確認されていない。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">ベンダーが実悪用を確認</dd></div>
+        <div><dt>CISA KEV</dt><dd>2026-10-20追加（米連邦機関の期限：2026-10-23）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">公開実装PoCは確認できず（GitHub等を調査。攻撃コードの不存在を保証しない）</dd></div>
+        <div><dt>影響バージョン</dt><dd>Ver2.20以降の影響版（統計機能有効時）。Apache/Nginx/IISはVer8.00 Update5未満、FreeBSD Apache/NginxはVer7.00 Update6未満。IIS Ver3.10～Ver4.00 Update4は対象外。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Ver8.00 Update5／FreeBSD Ver7.00 Update6（個別パッチあり）</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>更新前に管理画面の［診断情報］から診断情報を保存する。更新またはパッチ適用で痕跡が失われる可能性がある。修正版へ更新し、更新不可ならベンダー提供パッチを適用。統計機能を無効化する暫定策も検討する。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>国内で使われるホスト型WAFが侵害後の権限昇格に悪用され、Webサーバー自体の最高権限を奪われ得る。実悪用とKEV登録が確認済みで、米連邦機関のKEV対応期限（2026-10-23）は既に経過。証拠保全が更新前に必要なためP1。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>Apache httpd／Nginx／IIS／FreeBSDのSiteGuard Server Edition導入有無と提供事業者の管理範囲を洗い出す</span></label></li>
+          <li><label><input type="checkbox"><span>統計機能の有効状態、製品版、修正ビルドまたは個別パッチ適用状況を確認する</span></label></li>
+          <li><label><input type="checkbox"><span>更新・再起動前に管理画面から診断情報を取得し、保全時刻・ハッシュ・取得者を記録する</span></label></li>
+          <li><label><input type="checkbox"><span>統計機能関連の管理操作、Webサーバー実行ユーザーからの不審な子プロセス・特権コマンド実行を確認する</span></label></li>
+          <li><label><input type="checkbox"><span>ベンダーIOCは確認できず。Web/OS/EDRログの異常と不審な永続化を調査し、必要なら侵害対応へ移行する</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li><a href="https://www.eg-secure.co.jp/siteguard/news/alert-202610-1" target="_blank" rel="noopener noreferrer">EGセキュアソリューションズ：緊急アドバイザリ</a></li>
+          <li><a href="https://jvn.jp/en/jp/JVN88474777/" target="_blank" rel="noopener noreferrer">JVN#88474777</a></li>
+          <li><a href="https://www.jpcert.or.jp/at/2026/at260032.html" target="_blank" rel="noopener noreferrer">JPCERT-AT-2026-0032</a></li>
+          <li><a href="https://content.govdelivery.com/accounts/USDHSCISA/bulletins/42fd998" target="_blank" rel="noopener noreferrer">CISA：2026-10-20 KEV追加通知</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-109618"
+      data-cve="CVE-2026-109618"
+      data-priority="P1"
+      data-product="PHP（PHP Core / mod_php / PHP-FPM等）"
+      data-exploited="unknown"
+      data-kev="false"
+      data-poc="true"
+      data-cvss="9.2"
+      data-fixed="PHP 8.2.35／8.3.36／8.4.27／8.5.12">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-109618</h3>
+      </div>
+      <p class="product">PHP（PHP Core / mod_php / PHP-FPM等） ／ PHP 8.2系 8.2.35未満、8.3系 8.3.36未満、8.4系 8.4.27未満、8.5系 8.5.12未満。8.1以前はPHP本体の通常サポート外（ディストリビューション等のバックポートを要確認）。</p>
+      <p class="lead">メモリ不足時の例外処理と未初期化状態の不整合から、認証不要のリモートコード実行が可能。特にApache mod_phpではアプリケーション処理前の攻撃経路が実証されている。</p>
+      <div class="badges">
+        <span class="badge na" data-glyph="■">実悪用未確定</span>
+        <span class="badge off" data-glyph="○">KEV未掲載</span>
+        <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 9.2</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.2 / Critical（CVSS v4.0）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・操作不要。攻撃成立には特定のメモリ配置等の条件がある。mod_phpの実証あり。PHP-FPMでの完全な実証は公式アドバイザリでは未確認。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">侵害成功は確認できず。攻撃試行の観測報告あり</dd></div>
+        <div><dt>CISA KEV</dt><dd>2026-10-24時点で未掲載</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">実装を伴う公開PoCあり（外部コードの安全性・再現性は未検証）（<a href="https://github.com/junaire/CVE-2026-109618-exploit" target="_blank" rel="noopener noreferrer">公開PoCリンク</a>）</dd></div>
+        <div><dt>影響バージョン</dt><dd>PHP 8.2系 8.2.35未満、8.3系 8.3.36未満、8.4系 8.4.27未満、8.5系 8.5.12未満。8.1以前はPHP本体の通常サポート外（ディストリビューション等のバックポートを要確認）。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">PHP 8.2.35／8.3.36／8.4.27／8.5.12</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>修正版PHPを適用し、PHP-FPM・Apache等のワーカーを全て再起動する。直ちに更新できない場合、ベンダー記載のmemory_limit=-1、multipartリクエストのサイズ・項目数制限等を一時的に検討。ただし完全な緩和策ではなく、メモリ枯渇やDoSへの副作用を評価する。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>多数のインターネット公開Webアプリに共通する実行基盤の認証前RCE。実装付きPoCが公開されており、試行観測の報告はあるが侵害成功の公式確認はできない。10月21日に緊急修正版が公開され、短期間で広域影響が見込まれるためP1。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>外部公開サイト・コンテナ・CMS・ホスティング環境のPHPバージョンとSAPI（mod_php/FPM等）を棚卸しする</span></label></li>
+          <li><label><input type="checkbox"><span>修正パッケージの実バージョン／ディストリビューションのバックポート有無とワーカー再起動を確認する</span></label></li>
+          <li><label><input type="checkbox"><span>HTTPアクセスログで不審なmultipart POST、異常な入力サイズ、繰り返す5xxを調査する</span></label></li>
+          <li><label><input type="checkbox"><span>Apache/PHP-FPMログのOOM、子プロセスクラッシュ、再起動、異常なメモリ使用を突合する</span></label></li>
+          <li><label><input type="checkbox"><span>Webワーカー権限からのシェル起動、ファイル改ざん、外向き通信をEDR/OSログで追跡する</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li><a href="https://www.php.net/archive/2026.php#2026-10-21-5" target="_blank" rel="noopener noreferrer">PHP公式：2026-10-21 緊急告知</a></li>
+          <li><a href="https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w" target="_blank" rel="noopener noreferrer">PHP開発チーム GHSA-w8hw-w9fx-j79w</a></li>
+          <li><a href="https://github.com/php/php-src/releases" target="_blank" rel="noopener noreferrer">PHP公式リリース一覧</a></li>
+          <li><a href="https://github.com/junaire/CVE-2026-109618-exploit" target="_blank" rel="noopener noreferrer">公開PoC（未検証）</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-109619"
+      data-cve="CVE-2026-109619"
+      data-priority="P1"
+      data-product="PHP（PHP Core / mod_php / PHP-FPM等）"
+      data-exploited="unknown"
+      data-kev="false"
+      data-poc="true"
+      data-cvss="9.2"
+      data-fixed="PHP 8.2.35／8.3.36／8.4.27／8.5.12">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-109619</h3>
+      </div>
+      <p class="product">PHP（PHP Core / mod_php / PHP-FPM等） ／ PHP 8.2系 8.2.35未満、8.3系 8.3.36未満、8.4系 8.4.27未満、8.5系 8.5.12未満。8.1以前はPHP本体の通常サポート外（ベンダーバックポートを確認）。</p>
+      <p class="lead">リクエスト間で残存するグローバル状態が解放済みメモリを参照し、後続リクエストで認証不要RCEに至る可能性。mod_phpと条件付きPHP-FPM経路で実証されている。</p>
+      <div class="badges">
+        <span class="badge na" data-glyph="■">実悪用未確定</span>
+        <span class="badge off" data-glyph="○">KEV未掲載</span>
+        <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 9.2</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.2 / Critical（CVSS v4.0）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・操作不要。ただし同一PHPワーカーでの状態残存と後続リクエスト等の条件が必要。mod_phpで実証、FPMはアプリケーション側の条件付き経路。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">侵害成功は確認できず。攻撃試行の観測報告あり</dd></div>
+        <div><dt>CISA KEV</dt><dd>2026-10-24時点で未掲載</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">実装を伴う公開PoCあり（外部コードの安全性・再現性は未検証）（<a href="https://github.com/cozybear-dev/cve-2026-109619" target="_blank" rel="noopener noreferrer">公開PoCリンク</a>）</dd></div>
+        <div><dt>影響バージョン</dt><dd>PHP 8.2系 8.2.35未満、8.3系 8.3.36未満、8.4系 8.4.27未満、8.5系 8.5.12未満。8.1以前はPHP本体の通常サポート外（ベンダーバックポートを確認）。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">PHP 8.2.35／8.3.36／8.4.27／8.5.12</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>修正版PHPを適用し全ワーカーを再起動。更新までの暫定措置としてsession.upload_progress.enabled=0、PHP 8.5ではfatal_error_backtraces=0を管理設定で検討。設定変更だけでは他の経路を完全に遮断できない。10月23日のPHP公式追加注意喚起は別CVE-2026-115560に関するものであり混同しない。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>PHPのリクエストライフサイクルにまたがるメモリ破損で、単純なWAF検知だけでは侵害を否定できない。公開PoCと広い製品普及に加え、10月23日に関連する追加の公式注意喚起が出ているためP1。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>公開Webアプリ、PHP-FPMプール、mod_php、コンテナのPHP実行バージョンと稼働ワーカーを確認する</span></label></li>
+          <li><label><input type="checkbox"><span>修正済みPHPパッケージを適用し、ワーカー再起動と実際のロード済みバージョンを検証する</span></label></li>
+          <li><label><input type="checkbox"><span>session.upload_progress.enabledとPHP 8.5のfatal_error_backtraces、セッションシリアライザ設定を確認する</span></label></li>
+          <li><label><input type="checkbox"><span>PHP/Apache/FPMログで異常終了、fatal error、OOM、アップロード進捗処理の異常を調査する</span></label></li>
+          <li><label><input type="checkbox"><span>同一Webワーカーの連続した不審リクエスト、子プロセス生成、外部通信、Webディレクトリ改変を関連付ける</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li><a href="https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp" target="_blank" rel="noopener noreferrer">PHP開発チーム GHSA-6wmf-4rv5-p3rp</a></li>
+          <li><a href="https://www.php.net/archive/2026.php#2026-10-21-5" target="_blank" rel="noopener noreferrer">PHP公式：2026-10-21 緊急告知</a></li>
+          <li><a href="https://www.php.net/archive/2026.php#2026-10-23-1" target="_blank" rel="noopener noreferrer">PHP公式：2026-10-23 追加注意喚起（別CVE）</a></li>
+          <li><a href="https://github.com/cozybear-dev/cve-2026-109619" target="_blank" rel="noopener noreferrer">公開PoC（未検証）</a></li>
+        </ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
