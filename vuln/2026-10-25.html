@@ -1,0 +1,294 @@
+<!doctype html>
+<!-- GitHub main の vuln/_template.html を基に生成。2026-10-25 JST。 -->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-10-25 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-10-25" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年10月25日（日）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-10-25 08:02 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-10-18 〜 2026-10-25</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 2 ／ P2: 1 ／ P3: 0）</dd></div>
+    </dl>
+    <!-- 前日・翌日のファイルが存在しない場合は <a> ではなく
+         <span class="nav-btn is-disabled" aria-disabled="true"> を使う -->
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-10-24.html" rel="prev">← 前日 2026-10-24</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>実悪用中のArista VeloCloud OrchestratorとNextcloud内蔵Collabora CODE Serverを最優先で確認してください。</strong>
+      両CVEは10月23日にCISA KEVへ追加され、米連邦機関の対応期限は10月26日です。SD-WAN集中管理基盤の権限奪取と、認証不要のOSコマンド実行が懸念されるため、修正適用だけでなく侵害調査も並行してください。PAN-OS/Panoramaに関するPHP2Shellの影響評価とHotfix予定日も10月24日に更新されました。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Arista VeloCloud Orchestrator (VCO) On-Prem</dd></div>
+      <div><dt>推奨アクション</dt><dd>VCOを修正版へ更新し管理画面を制限。Nextcloud richdocumentscodeを26.4.303以降へ更新または削除し、双方の侵害痕跡を調査。</dd></div>
+      <div><dt>対応期限</dt><dd>2026-10-26（Arista / CollaboraのCISA KEV対応期限。米連邦機関向け）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>10月23日：2件がKEV追加。10月24日：Palo Alto NetworksがPAN-OSの防御シグネチャ・影響情報を更新。</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      <!-- 脆弱性1件につき1枚。badge のクラスは p1 / p2 / p3、
+           状態は on（該当・危険） / warn（注意） / off（非該当） / na（不明） -->
+            <a class="summary-card" href="#CVE-2026-114625" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-114625</span>
+        <span class="card-product">Arista VeloCloud Orchestrator (VCO) On-Prem</span>
+        <span class="card-lead">低権限の認証済みユーザーがSQLインジェクションによりsuperuser operator権限を取得し、SD-WAN管理基盤と管理データを侵害し得る。実悪用が確認され、10月23日にKEV追加。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge on" data-glyph="●">CISA KEV掲載</span>
+          <span class="badge off" data-glyph="○">公開PoC確認できず</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 5.2.3.18 / 6.1.3.10 / 6.4.2.12以降</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-110447" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-110447</span>
+        <span class="card-product">Collabora Online - Built-in CODE Server（Nextcloud richdocumentscode）</span>
+        <span class="card-lead">Nextcloudの内蔵CODE Serverが停止中の条件下で、認証不要のHTTP要求からproxy.phpを介してWebサーバーユーザー権限でOSコマンド実行が可能。実悪用・KEV追加を確認。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge on" data-glyph="●">CISA KEV掲載</span>
+          <span class="badge on" data-glyph="●">公開PoCあり</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> richdocumentscode 26.4.303以降（Nextcloud 30以降が必要）</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-109618" data-priority="P2">
+        <span class="badge p2" data-glyph="■">P2 優先対応</span>
+        <span class="card-cve">CVE-2026-109618</span>
+        <span class="card-product">Palo Alto Networks PAN-OS / Panorama（PHP2Shellの製品影響更新）</span>
+        <span class="card-lead">PHP2ShellのPAN-OS/Panoramaへの影響が公式に更新。管理Web UI/XML APIでサービス妨害のリスクがあり、複数系列の修正版提供予定日と防御シグネチャが10月23〜24日に更新された。</span>
+        <span class="badges">
+          <span class="badge off" data-glyph="○">製品での実悪用未確認</span>
+          <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+          <span class="badge on" data-glyph="●">公開PoCあり</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> PAN-OS各系列のHotfix提供予定は2026-10-26〜10-30。10月24日時点で提供済みは確認できず（公式アドバイザリで要再確認）</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+        <article class="case" id="CVE-2026-114625"
+      data-cve="CVE-2026-114625"
+      data-priority="P1"
+      data-product="Arista VeloCloud Orchestrator (VCO) On-Prem"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="false"
+      data-cvss="9.4"
+      data-fixed="5.2.3.18 / 6.1.3.10 / 6.4.2.12以降">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-114625</h3>
+      </div>
+      <p class="product">Arista VeloCloud Orchestrator (VCO) On-Prem</p>
+      <p class="lead">低権限の認証済みユーザーがSQLインジェクションによりsuperuser operator権限を取得し、SD-WAN管理基盤と管理データを侵害し得る。実悪用が確認され、10月23日にKEV追加。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge on" data-glyph="●">CISA KEV掲載</span>
+        <span class="badge off" data-glyph="○">公開PoC確認できず</span>
+        <span class="badge na" data-glyph="■">CVSS 9.4</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>CVSS v4.0 9.4（Critical、v3.1は9.9）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">VCO Web管理画面へのネットワーク到達と有効な認証済みセッションが必要。最低権限のEnterprise Read Onlyでも成立。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">確認あり（ベンダー／CISA）</dd></div>
+        <div><dt>CISA KEV</dt><dd>掲載あり（2026-10-23追加、対応期限2026-10-26）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">実装付き公開PoCはGitHub・公開情報の検索で確認できず（未公開を保証しない）</dd></div>
+        <div><dt>影響バージョン</dt><dd>5.2.x &lt; 5.2.3.18、6.1.x &lt; 6.1.3.10、6.4.x &lt; 6.4.2.12（サポート終了系列は未評価）</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">5.2.3.18 / 6.1.3.10 / 6.4.2.12以降</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>該当VCOを修正版へ更新。更新前に管理画面を信頼済み管理ネットワークに制限し、ログ・証拠を保全して侵害調査。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>10月22日にベンダーが実悪用を明示し、10月23日にCISA KEVへ追加。SD-WANの集中管理者権限を低権限アカウントから奪取でき、配下の管理対象へ影響が及ぶ可能性があるためP1。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>VCO On-Premの導入有無、5.2/6.1/6.4系列と修正ビルドへの適用状況を棚卸し</span></label></li>
+          <li><label><input type="checkbox"><span>VCO管理Web画面へのインターネット・委託先・テナント経由の到達性とEnterprise Read Onlyアカウントを確認</span></label></li>
+          <li><label><input type="checkbox"><span>Arista公開の攻撃元IP 74.82.197.86、38.54.50.151 とWebアクセスログを照合（IP単独で断定しない）</span></label></li>
+          <li><label><input type="checkbox"><span>URL風の異常パス、エンコード文字、内部サービス参照、高頻度アクセスおよび権限・管理者操作の異常を調査</span></label></li>
+          <li><label><input type="checkbox"><span>疑わしい場合はWeb/アプリ/DB/システムログとファイル時刻を保全し、バックドア・Webシェル・外向き通信を確認</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li><a href="https://www.arista.com/en/support/advisories-notices/security-advisory/24838-security-advisory-0199" target="_blank" rel="noopener noreferrer">Arista Security Advisory 0199（2026-10-22）</a></li>
+          <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-114625" target="_blank" rel="noopener noreferrer">NVD CVE-2026-114625</a></li>
+          <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2026-114625" target="_blank" rel="noopener noreferrer">CISA KEV（10月23日追加、対応期限10月26日）</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-110447"
+      data-cve="CVE-2026-110447"
+      data-priority="P1"
+      data-product="Collabora Online - Built-in CODE Server（Nextcloud richdocumentscode）"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="true"
+      data-cvss="9.2"
+      data-fixed="richdocumentscode 26.4.303以降（Nextcloud 30以降が必要）">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-110447</h3>
+      </div>
+      <p class="product">Collabora Online - Built-in CODE Server（Nextcloud richdocumentscode）</p>
+      <p class="lead">Nextcloudの内蔵CODE Serverが停止中の条件下で、認証不要のHTTP要求からproxy.phpを介してWebサーバーユーザー権限でOSコマンド実行が可能。実悪用・KEV追加を確認。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge on" data-glyph="●">CISA KEV掲載</span>
+        <span class="badge on" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 9.2</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>CVSS v4.0 9.2（Critical）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要。ただしBuilt-in CODE Server停止中（再起動、更新、クラッシュ時等）に限る。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">確認あり（ベンダー／CISA）</dd></div>
+        <div><dt>CISA KEV</dt><dd>掲載あり（2026-10-23追加、対応期限2026-10-26）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">実装ファイル exploit.py を含む公開GitHubリポジトリを確認。動作・安全性は未検証（<a href="https://github.com/adriyansyah-mf/cve-2026-110447" target="_blank" rel="noopener noreferrer">PoC参照</a>）</dd></div>
+        <div><dt>影響バージョン</dt><dd>richdocumentscode 26.4.303未満。Nextcloud 29以前では修正版アプリ導入不可。独立型Collabora Onlineは対象外。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">richdocumentscode 26.4.303以降（Nextcloud 30以降が必要）</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>アプリを26.4.303以降へ更新、または完全削除。単にアプリを無効化するだけでは不十分。既存侵害の調査も並行実施。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>10月23日にKEVへ追加され、既に実悪用が報告されている。停止時間帯という条件付きでも認証不要でWebシェル設置につながるためP1。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>Nextcloudのrichdocumentscode導入有無・バージョンと、Nextcloud 29以前のEOL環境を棚卸し</span></label></li>
+          <li><label><input type="checkbox"><span>インターネット公開のNextcloudにおける/apps/richdocumentscode/proxy.phpへの不審な要求・URLエンコード異常を調査</span></label></li>
+          <li><label><input type="checkbox"><span>richdocumentscodeディレクトリ内の想定外PHPファイル（例: shx*.php）やNextcloud整合性検査の異常を確認</span></label></li>
+          <li><label><input type="checkbox"><span>Webサーバー/PHPプロセスからの子プロセス実行、外向き通信、認証情報探索の痕跡をEDR・Webログで確認</span></label></li>
+          <li><label><input type="checkbox"><span>アプリ停止・再起動の時刻とアクセスログを突合し、修正前の侵害兆候があれば証拠保全・資格情報更新を検討</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li><a href="https://github.com/CollaboraOnline/online/security/advisories/GHSA-g3vx-3m76-fghh" target="_blank" rel="noopener noreferrer">Collabora公式GHSA-g3vx-3m76-fghh</a></li>
+          <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-110447" target="_blank" rel="noopener noreferrer">NVD CVE-2026-110447（KEV追加・期限）</a></li>
+          <li><a href="https://github.com/adriyansyah-mf/cve-2026-110447" target="_blank" rel="noopener noreferrer">GitHub公開PoCリポジトリ（安全性未確認）</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-109618"
+      data-cve="CVE-2026-109618"
+      data-priority="P2"
+      data-product="Palo Alto Networks PAN-OS / Panorama（PHP2Shellの製品影響更新）"
+      data-exploited="false"
+      data-kev="false"
+      data-poc="true"
+      data-cvss="8.7"
+      data-fixed="PAN-OS各系列のHotfix提供予定は2026-10-26〜10-30。10月24日時点で提供済みは確認できず（公式アドバイザリで要再確認）">
+      <div class="case-head">
+        <span class="badge p2" data-glyph="■">P2 優先対応</span>
+        <h3>CVE-2026-109618</h3>
+      </div>
+      <p class="product">Palo Alto Networks PAN-OS / Panorama（PHP2Shellの製品影響更新）</p>
+      <p class="lead">PHP2ShellのPAN-OS/Panoramaへの影響が公式に更新。管理Web UI/XML APIでサービス妨害のリスクがあり、複数系列の修正版提供予定日と防御シグネチャが10月23〜24日に更新された。</p>
+      <div class="badges">
+        <span class="badge off" data-glyph="○">製品での実悪用未確認</span>
+        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+        <span class="badge on" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 8.7</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>PAN-OS製品固有CVSS v4.0 8.7（High、主な影響は可用性）。PHP本体の評価は9.2</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">管理Web UI/XML APIへのネットワーク到達。認証不要。インターネットから管理画面に到達できる場合にリスクが高い。</dd></div>
+        <div><dt>実悪用</dt><dd class="">PAN-OS製品に対する悪用はベンダー未確認。PHP一般環境では攻撃試行報告あり</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載（調査時点）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">PHP本体向けの実装付き公開PoC（Goソース）を確認。ただしPAN-OS上での再現・悪用は確認できず（<a href="https://github.com/open0x01/php2shell" target="_blank" rel="noopener noreferrer">PoC参照</a>）</dd></div>
+        <div><dt>影響バージョン</dt><dd>PAN-OS 12.2 / 12.1 / 11.2 / 11.1 / 10.2のアドバイザリ記載の未修正ビルド。PA-Series、VM-Series、Panoramaの管理Web UI/XML API。GlobalProtectは対象外。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">PAN-OS各系列のHotfix提供予定は2026-10-26〜10-30。10月24日時点で提供済みは確認できず（公式アドバイザリで要再確認）</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>管理Web UI/XML APIを信頼済み内部IPまたは踏み台からのみに制限。該当系列のHotfix提供状況を追跡し適用。Threat ID 543004等の適用条件を公式手順で確認。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>PHP2Shell自体は前日掲載済みだが、10月23〜24日にPAN-OS/Panoramaの影響系列・Hotfix予定日・防御シグネチャが公式更新されたため再掲載。管理基盤への影響は重大だが、製品固有の評価は可用性中心で実悪用未確認のためP2。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>PA-Series/VM-Series/PanoramaのPAN-OS系列とHotfix未適用ビルドを棚卸し</span></label></li>
+          <li><label><input type="checkbox"><span>管理Web UI/XML APIのインターネット到達性・管理プロファイルを確認し、信頼済み管理IPへ制限</span></label></li>
+          <li><label><input type="checkbox"><span>管理Webへの異常HTTP要求、メモリ不足・管理プロセス再起動、管理画面の可用性異常を監視</span></label></li>
+          <li><label><input type="checkbox"><span>Threat ID 543004等のシグネチャとApplications and Threatsコンテンツ版を確認し、管理通信の検査経路・復号条件を確認</span></label></li>
+          <li><label><input type="checkbox"><span>公式アドバイザリのHotfix ETA（10月26〜30日）を監視し、提供後に適用・管理ログと設定変更履歴を再点検</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li><a href="https://security.paloaltonetworks.com/CVE-2026-109618" target="_blank" rel="noopener noreferrer">Palo Alto Networks公式CVE-2026-109618（10月24日更新）</a></li>
+          <li><a href="https://unit42.paloaltonetworks.com/cve-2026-109618-cve-2026-109619/" target="_blank" rel="noopener noreferrer">Unit 42 PHP2Shell脅威ブリーフ</a></li>
+          <li><a href="https://github.com/open0x01/php2shell" target="_blank" rel="noopener noreferrer">PHP一般環境の公開PoC（PAN-OS適用未検証）</a></li>
+        </ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
