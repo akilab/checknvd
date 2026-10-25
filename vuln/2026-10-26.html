@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-10-26 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-10-26" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年10月26日（月）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-10-26 08:03 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-10-19 〜 2026-10-26</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 2 ／ P2: 1 ／ P3: 0）</dd></div>
+    </dl>
+    <!-- 前日・翌日のファイルが存在しない場合は <a> ではなく
+         <span class="nav-btn is-disabled" aria-disabled="true"> を使う -->
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-10-25.html" rel="prev">← 前日 2026-10-25</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>GlobalProtect（CVE-2026-0257）の未修正・危険な認証オーバーライド設定を至急点検し、既存侵害を調査してください。</strong>
+      10月19日、Palo Alto NetworksはQilin・Incなどランサムウェア関連攻撃者による実悪用を公表しました。未認証VPN侵入からMFA迂回、内部横展開、仮想化基盤侵害まで波及し得ます。併せてGitLabの未認証RCEとNode.js/Brotliのメモリ破損にも修正版が公開されています。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Palo Alto Networks PAN-OS / GlobalProtect</dd></div>
+      <div><dt>推奨アクション</dt><dd>GlobalProtectの設定・修正ビルド照合、異常VPNセッションのハンティング、未修正機器の緊急更新。GitLab・Node.jsも棚卸と修正版適用。</dd></div>
+      <div><dt>対応期限</dt><dd>至急（CISA KEV既定期限は経過済み。日付の詳細はKEV原本を確認）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>2026-10-19の公式更新でランサムウェア攻撃者による利用と横展開TTPが明示。GitLab 10/21緊急修正、Node.js 10/21修正と公開PoCも新規確認。</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+      <a class="summary-card" href="#CVE-2026-0257" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-0257</span>
+        <span class="card-product">Palo Alto Networks PAN-OS / GlobalProtect</span>
+        <span class="card-lead">GlobalProtectの認証回避。10月19日更新でQilin・Incランサムウェア関連攻撃者による悪用が公式に確認され、VPN侵入から内部横展開に至る事例が示された。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge on" data-glyph="●">CISA KEV掲載</span>
+          <span class="badge on" data-glyph="●">公開PoCあり</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 12.1.7 / 11.2.12 / 11.1.15 / 10.2.18-h6 以降など。各系列の修正Hotfixもあり、公式表で個別照合。</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-110264" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-110264</span>
+        <span class="card-product">GitLab CE/EE（セルフマネージド）</span>
+        <span class="card-lead">正規表現コンパイル時の整数オーバーフローにより、条件が成立すると未認証の遠隔攻撃者がGitLabサーバー上で任意コードを実行し得る。10月21日に緊急修正公開。</span>
+        <span class="badges">
+          <span class="badge off" data-glyph="○">実悪用未確認</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge on" data-glyph="●">公開PoCあり</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 19.5.1 / 19.4.3 / 19.3.6 / 19.2.9 / 19.1.9 / 19.0.10 / 18.11.13</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-111497" data-priority="P2">
+        <span class="badge p2" data-glyph="■">P2 優先対応</span>
+        <span class="card-cve">CVE-2026-111497</span>
+        <span class="card-product">Node.js（同梱Google Brotliデコーダ）</span>
+        <span class="card-lead">不正なBrotli圧縮データの展開でデコーダの境界外書き込みが発生。クラッシュ、メモリ漏えい、条件次第でRCEに至り得る。10月21日に修正版公開。</span>
+        <span class="badges">
+          <span class="badge off" data-glyph="○">実悪用未確認</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge on" data-glyph="●">公開PoCあり</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> Node.js 22.23.4 / 24.22.1 / 26.12.1。Brotli 1.0.10 / 1.1.1 / 1.2.1（系列別）。</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-0257"
+      data-cve="CVE-2026-0257"
+      data-priority="P1"
+      data-product="Palo Alto Networks PAN-OS / GlobalProtect"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="true"
+      data-cvss="7.8"
+      data-fixed="12.1.7 / 11.2.12 / 11.1.15 / 10.2.18-h6 以降など。各系列の修正Hotfixもあり、公式表で個別照合。">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-0257</h3>
+      </div>
+      <p class="product">Palo Alto Networks PAN-OS / GlobalProtect（PAN-OS 10.2 / 11.1 / 11.2 / 12.1 の修正前ビルド。GlobalProtect認証オーバーライドCookieと特定の証明書設定が必要。Prisma Accessの一部も対象。Panorama / Cloud NGFWは対象外。）</p>
+      <p class="lead">GlobalProtectの認証回避。10月19日更新でQilin・Incランサムウェア関連攻撃者による悪用が公式に確認され、VPN侵入から内部横展開に至る事例が示された。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge on" data-glyph="●">CISA KEV掲載</span>
+        <span class="badge on" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 7.8</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>7.8 / High (CVSS v4.0、ベンダー公表)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要。GlobalProtect Portal/GatewayでAuthentication Override Cookieを有効化し、該当する証明書設定が存在すること。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり：Unit 42が2026-10-19にランサムウェア関連攻撃者による悪用を追記</dd></div>
+        <div><dt>CISA KEV</dt><dd>掲載あり（2026年5月追加済み）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">実装付き公開PoCを確認（Rapid7 Labsのforge_cookie.py。実行・安全性確認はしていない） <a href="https://github.com/sfewer-r7/CVE-2026-0257" target="_blank" rel="noopener noreferrer">PoC公開元</a></dd></div>
+        <div><dt>影響バージョン</dt><dd>PAN-OS 10.2 / 11.1 / 11.2 / 12.1 の修正前ビルド。GlobalProtect認証オーバーライドCookieと特定の証明書設定が必要。Prisma Accessの一部も対象。Panorama / Cloud NGFWは対象外。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">12.1.7 / 11.2.12 / 11.1.15 / 10.2.18-h6 以降など。各系列の修正Hotfixもあり、公式表で個別照合。</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>該当機器のPAN-OSを公式表に沿って修正済みビルドへ更新。暫定策はAuthentication Overrideの無効化、またはCookie専用証明書への切替。更新後はCookie HMAC検証の有効状態を確認し、侵害が疑われる場合は証拠保全と認証情報の見直しを実施。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>10月19日の新情報で、既知のVPN認証回避がQilin・Inc等のランサムウェア初期侵入に使用されていることが明らかになった。MFA迂回、RMM・RDP/SMBによる横展開、仮想化基盤への侵入まで影響し得るため、CVSS 7.8でもP1。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>GlobalProtect Portal/Gatewayと認証オーバーライドCookieの設定・証明書共有有無を資産台帳と実機で確認</span></label></li>
+          <li><label><input type="checkbox"><span>PAN-OSの系列・Hotfix番号を公式修正表と照合し、未修正機器を緊急対応へ</span></label></li>
+          <li><label><input type="checkbox"><span>外部公開中のGlobalProtect接続点、意図しない管理ポート4443/3879の到達性を確認</span></label></li>
+          <li><label><input type="checkbox"><span>GlobalProtectログでCookie認証による異常なgateway-connected、直前の正常ログイン欠如、不審な端末ID/IPを探索</span></label></li>
+          <li><label><input type="checkbox"><span>VPN接続後のRMM導入、RDP/SMB横展開、vCenter/ESXi・バックアップ基盤へのアクセスとEDR検知を相関</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li><a href="https://security.paloaltonetworks.com/CVE-2026-0257" target="_blank" rel="noopener noreferrer">Palo Alto Networks セキュリティアドバイザリ</a></li>
+          <li><a href="https://unit42.paloaltonetworks.com/active-exploitation-of-pan-os-cve-2026-0257/" target="_blank" rel="noopener noreferrer">Unit 42：2026-10-19 ランサムウェア攻撃動向更新</a></li>
+          <li><a href="https://github.com/sfewer-r7/CVE-2026-0257" target="_blank" rel="noopener noreferrer">Rapid7 Labs 公開PoC（コード未実行）</a></li>
+          <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEV Catalog</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-110264"
+      data-cve="CVE-2026-110264"
+      data-priority="P1"
+      data-product="GitLab CE/EE（セルフマネージド）"
+      data-exploited="false"
+      data-kev="false"
+      data-poc="true"
+      data-cvss="10.0"
+      data-fixed="19.5.1 / 19.4.3 / 19.3.6 / 19.2.9 / 19.1.9 / 19.0.10 / 18.11.13">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-110264</h3>
+      </div>
+      <p class="product">GitLab CE/EE（セルフマネージド）（7.0以降〜18.11.12、19.0.x&lt;19.0.10、19.1.x&lt;19.1.9、19.2.x&lt;19.2.9、19.3.x&lt;19.3.6、19.4.x&lt;19.4.3、19.5.0。）</p>
+      <p class="lead">正規表現コンパイル時の整数オーバーフローにより、条件が成立すると未認証の遠隔攻撃者がGitLabサーバー上で任意コードを実行し得る。10月21日に緊急修正公開。</p>
+      <div class="badges">
+        <span class="badge off" data-glyph="○">実悪用未確認</span>
+        <span class="badge off" data-glyph="○">KEV未掲載</span>
+        <span class="badge on" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 10.0</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>10.0 / Critical (CVSS v3.1、GitLab公表)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要。特別に細工した正規表現をGitLabの処理経路でコンパイルさせる必要がある。詳細な成立条件は限定公開。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">実悪用の確認報告なし（2026-10-26調査時点）</dd></div>
+        <div><dt>CISA KEV</dt><dd>CISA KEV未掲載（2026-10-26調査時点）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">再現スクリプト・検証用ファイルを持つ公開リポジトリを確認。ただしRCE成立は公開PoCでは未実証と明記。実行・安全性確認なし。 <a href="https://github.com/googlesky/CVE-2026-110264" target="_blank" rel="noopener noreferrer">PoC公開元</a></dd></div>
+        <div><dt>影響バージョン</dt><dd>7.0以降〜18.11.12、19.0.x&lt;19.0.10、19.1.x&lt;19.1.9、19.2.x&lt;19.2.9、19.3.x&lt;19.3.6、19.4.x&lt;19.4.3、19.5.0。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">19.5.1 / 19.4.3 / 19.3.6 / 19.2.9 / 19.1.9 / 19.0.10 / 18.11.13</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>セルフマネージドGitLabを公式の修正済みパッチ版へ即時更新。古い系列はサポート対象版への計画的なアップグレードが必要。更新まで外部公開・到達元を制限し、GitLabが公開した2種の検知ルールを導入。侵害兆候があればCI/CDシークレット・Runnerトークン・アクセスキーの保護とローテーションを検討。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>CVSS 10.0で未認証RCEの可能性があり、ソースコード・CI/CD秘密情報・デプロイ認証情報を保管する管理基盤に影響する。公開再現コードも出現しているため、実悪用未確認でもP1。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>社内・顧客のセルフマネージドGitLab CE/EE（コンテナ・Omnibus等）を洗い出す</span></label></li>
+          <li><label><input type="checkbox"><span>稼働版を修正済み7系列と照合し、古い未サポート系列を含め更新計画を緊急化</span></label></li>
+          <li><label><input type="checkbox"><span>外部公開GitLabのアクセス制御と未認証アクセス可能な機能を点検</span></label></li>
+          <li><label><input type="checkbox"><span>GitLab公式検知『Onigmo native worker crash』『Org mode render error burst』をログ・SIEMに適用</span></label></li>
+          <li><label><input type="checkbox"><span>Puma/Sidekiq等の異常な子プロセス、/tmpの不審ファイル、CI/CD変数・Runner・PATの不審使用を調査</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li><a href="https://docs.gitlab.com/releases/patches/patch-release-gitlab-19-5-1-released/" target="_blank" rel="noopener noreferrer">GitLab 2026-10-21 Critical Patch Release</a></li>
+          <li><a href="https://www.ruby-lang.org/en/news/2026/10/23/regexp-fixes-for-gitlab-cves/" target="_blank" rel="noopener noreferrer">Ruby公式：Onigmo正規表現の修正（2026-10-23）</a></li>
+          <li><a href="https://github.com/advisories/GHSA-83vq-rvff-66gw" target="_blank" rel="noopener noreferrer">GitHub Advisory GHSA-83vq-rvff-66gw</a></li>
+          <li><a href="https://github.com/googlesky/CVE-2026-110264" target="_blank" rel="noopener noreferrer">再現用ファイル付き公開PoC（RCE未実証）</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-111497"
+      data-cve="CVE-2026-111497"
+      data-priority="P2"
+      data-product="Node.js（同梱Google Brotliデコーダ）"
+      data-exploited="false"
+      data-kev="false"
+      data-poc="true"
+      data-cvss="9.2"
+      data-fixed="Node.js 22.23.4 / 24.22.1 / 26.12.1。Brotli 1.0.10 / 1.1.1 / 1.2.1（系列別）。">
+      <div class="case-head">
+        <span class="badge p2" data-glyph="■">P2 優先対応</span>
+        <h3>CVE-2026-111497</h3>
+      </div>
+      <p class="product">Node.js（同梱Google Brotliデコーダ）（Node.js 22.x&lt;22.23.4、24.x&lt;24.22.1、26.x&lt;26.12.1。サポート終了系列は更新対象。Brotliライブラリ1.0.3〜1.2.0にも関連。）</p>
+      <p class="lead">不正なBrotli圧縮データの展開でデコーダの境界外書き込みが発生。クラッシュ、メモリ漏えい、条件次第でRCEに至り得る。10月21日に修正版公開。</p>
+      <div class="badges">
+        <span class="badge off" data-glyph="○">実悪用未確認</span>
+        <span class="badge off" data-glyph="○">KEV未掲載</span>
+        <span class="badge on" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 9.2</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.2 / Critical (CVSS v4.0、Google/Brotli CVE公表。Node.jsの評価はHigh)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">攻撃者が制御するBrotliデータをアプリがnode:zlib等で展開すること。単にNode.jsを利用しているだけで必ず外部攻撃可能になるわけではない。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">実環境での悪用は確認できず（2026-10-26調査時点）</dd></div>
+        <div><dt>CISA KEV</dt><dd>CISA KEV未掲載（2026-10-26調査時点）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">公開PoCにpoc.py、固定環境用検証ファイル、比較手順を確認。RCEの主張は限定したローカル実験であり、一般的なWebアプリへのRCE成立を意味しない。実行なし。 <a href="https://github.com/dimasma0305/CVE-2026-111497-POC" target="_blank" rel="noopener noreferrer">PoC公開元</a></dd></div>
+        <div><dt>影響バージョン</dt><dd>Node.js 22.x&lt;22.23.4、24.x&lt;24.22.1、26.x&lt;26.12.1。サポート終了系列は更新対象。Brotliライブラリ1.0.3〜1.2.0にも関連。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Node.js 22.23.4 / 24.22.1 / 26.12.1。Brotli 1.0.10 / 1.1.1 / 1.2.1（系列別）。</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>Node.jsをサポート中の修正版へ更新し、稼働プロセス・コンテナ・同梱ランタイムを再起動／再配備。Brotliの自動展開（HTTPリクエストボディ、外部レスポンス、node:zlib利用）を確認し、更新まで信頼できないbr入力の受入を制限。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>Web/API基盤の広範なランタイムに影響し、Brotliデータを扱う構成では認証前入力からメモリ破損に到達し得る。公開PoCはあるが実環境悪用・KEVは未確認で、到達条件がアプリ実装依存のためP2。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>本番・開発・コンテナ・CI/CD・同梱実行ファイルに存在するNode.jsランタイムの版を列挙</span></label></li>
+          <li><label><input type="checkbox"><span>Express/body-parser、node:zlib、fetch等で攻撃者由来のBrotliを展開する経路を特定</span></label></li>
+          <li><label><input type="checkbox"><span>インターネット公開APIでContent-Encoding: brを受ける経路、外部レスポンスの自動展開を点検</span></label></li>
+          <li><label><input type="checkbox"><span>Node.jsワーカープロセスの異常終了、メモリ破損、反復再起動、Brotliデコードエラーの急増を監視</span></label></li>
+          <li><label><input type="checkbox"><span>修正版の適用後に全プロセス・コンテナを再起動し、稼働中バイナリの版まで検証</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li><a href="https://nodejs.org/en/blog/vulnerability/october-2026-security-releases" target="_blank" rel="noopener noreferrer">Node.js 2026-10-21 公式セキュリティリリース</a></li>
+          <li><a href="https://github.com/advisories/GHSA-9v8h-qqgm-4m35" target="_blank" rel="noopener noreferrer">GitHub Advisory GHSA-9v8h-qqgm-4m35</a></li>
+          <li><a href="https://github.com/dimasma0305/CVE-2026-111497-POC" target="_blank" rel="noopener noreferrer">公開PoC（ローカル実験限定、コード未実行）</a></li>
+          <li><a href="https://github.com/google/brotli/releases/tag/v1.2.1" target="_blank" rel="noopener noreferrer">Google Brotli 公式修正版</a></li>
+        </ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
