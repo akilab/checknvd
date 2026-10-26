@@ -1,0 +1,263 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-10-27 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-10-27" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年10月27日（火）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-10-27 08:04 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-10-20 〜 2026-10-27</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 1 ／ P2: 2 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-10-26.html" rel="prev">← 前日 2026-10-26</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>Plex Media Serverの未修正・インターネット公開機器を至急特定し、Plex2Shellの侵害調査と更新を実施してください。</strong>
+      10月20日にCISA KEVへ追加された4件の連鎖で認証不要の遠隔コード実行が可能となり、Plexは実際のマイナー・プロキシ設置を確認しています。加えて10月25日にMicrosoftが.NET向けBrotliの緊急修正を公開し、10月23日にはWasmtimeのサンドボックス脱出脆弱性が公表されました。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Plex Media Server</dd></div>
+      <div><dt>推奨アクション</dt><dd>1.43.3.10861以降へ更新し、公開済みの旧版ではCodecsフォルダ・不審プロセス・外向き通信を調査。.NETとWasmtimeも構成条件を確認して修正。</dd></div>
+      <div><dt>対応期限</dt><dd>Plex CVE-2026-96656：CISA KEVの米連邦機関向け期限2026-10-23（経過済み）。.NET / Wasmtime：個別の公的期限は確認できず。</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>Plexの10月20日KEV追加（前日未掲載）、.NETへの10月25日影響範囲拡大・緊急更新、Wasmtimeの10月23日公開。</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+      <a class="summary-card" href="#CVE-2026-96656" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-96656</span>
+        <span class="card-product">Plex Media Server（1.43.3.10861未満（Windows / macOS / Linux / NAS / コンテナ等））</span>
+        <span class="card-lead">管理者権限で任意ファイルを配置でき、読み込み時にコード実行へ至り得る。4件の脆弱性を連鎖させたPlex2Shellでは認証不要の遠隔侵害が成立し、Plexが広範な実悪用を確認。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge on" data-glyph="●">公開PoCあり</span></span>
+        <span class="card-fixed"><span>修正版:</span> Plex Media Server 1.43.3.10861以降</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-111497" data-priority="P2">
+        <span class="badge p2" data-glyph="■">P2 優先対応</span>
+        <span class="card-cve">CVE-2026-111497</span>
+        <span class="card-product">Microsoft .NET（Brotliデコーダ）（.NET 8.0.0〜8.0.32、9.0.0〜9.0.21、10.0.0〜10.0.13、11 Preview〜RC2。攻撃者由来のBrotliデータを展開する構成が条件。.NET Frameworkは対象外。）</span>
+        <span class="card-lead">Brotli展開時の境界外書き込みによりメモリ破損・情報漏えい・サービス停止・権限昇格の可能性。10月25日にMicrosoftが.NET向け臨時修正版を公表し、従来のNode.js以外へ影響範囲が明確化。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge on" data-glyph="●">公開PoCあり</span></span>
+        <span class="card-fixed"><span>修正版:</span> .NET 8.0.33 / 9.0.22 / 10.0.14 / 11 RC3（各系列のSDK・Runtime・NativeAOTを更新）</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-115889" data-priority="P2">
+        <span class="badge p2" data-glyph="■">P2 優先対応</span>
+        <span class="card-cve">CVE-2026-115889</span>
+        <span class="card-product">Bytecode Alliance Wasmtime / Cranelift（Wasmtime 36.0.19未満、および37.0.0以上43.0.0未満。Cranelift標準バックエンドを使う全アーキテクチャ。）</span>
+        <span class="card-lead">CraneliftのSSA値インデックスのビットパック処理がオーバーフローし、細工されたWebAssemblyモジュールのコンパイルで型混同・誤コンパイルが起き、Wasmサンドボックスを脱出する恐れ。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span>
+        <span class="card-fixed"><span>修正版:</span> Wasmtime 36.0.19（36系バックポート）または43.0.0以降</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+        <article class="case" id="CVE-2026-96656"
+      data-cve="CVE-2026-96656"
+      data-priority="P1"
+      data-product="Plex Media Server"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="true"
+      data-cvss="8.6"
+      data-fixed="Plex Media Server 1.43.3.10861以降">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-96656</h3>
+      </div>
+      <p class="product">Plex Media Server（1.43.3.10861未満（Windows / macOS / Linux / NAS / コンテナ等））</p>
+      <p class="lead">管理者権限で任意ファイルを配置でき、読み込み時にコード実行へ至り得る。4件の脆弱性を連鎖させたPlex2Shellでは認証不要の遠隔侵害が成立し、Plexが広範な実悪用を確認。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge on" data-glyph="●">CISA KEV掲載</span>
+        <span class="badge on" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 8.6</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>8.6 / High (CVSS v4.0、単体。CVSS v3.1は7.2)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">単体では管理者権限が必要。CVE-2026-96652 / 96654 / 96655との連鎖により、インターネット到達可能な未修正Plexへ認証なしで侵入し得る。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり。Plexが2026-10-19に広範な実悪用を公表。マイナー・プロキシの設置を確認。</dd></div>
+        <div><dt>CISA KEV</dt><dd>掲載あり（2026-10-20追加）。米連邦機関の対応期限2026-10-23は経過。</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">あり。Plex2Shellの実装付き公開リポジトリ（plex2shell.py、payload_linux.c、payload_windows.c）をファイル一覧で確認。未実行・未検証。 <a href="https://github.com/code-zm/plex2shell" target="_blank" rel="noopener noreferrer">PoC公開元</a></dd></div>
+        <div><dt>影響バージョン</dt><dd>1.43.3.10861未満（Windows / macOS / Linux / NAS / コンテナ等）</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Plex Media Server 1.43.3.10861以降</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>Plex Media Serverを1.43.3.10861以降へ更新。外部公開中の未修正機器は侵害の可能性を前提にログと永続化痕跡を保全し、必要に応じクリーン再構築。Codecs内の不審な.so/.dll、Preferences.xmlの想定外のトランスコード設定を調査し、アカウントのセッション失効・パスワード変更を実施。不要なリモートアクセスとTCP/32400の公開を停止。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>単体CVSSは8.6だが、他3件との連鎖で認証不要の遠隔コード実行に発展し、ベンダーが実被害を認めCISA KEVに掲載。既にマイナーとプロキシが設置されているため、パッチだけでなく侵害調査が必要なP1。</p></div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>業務・検証・NAS・コンテナ・個人持込機器上のPlex Media Serverを棚卸しし、稼働版を確認</span></label></li>
+          <li><label><input type="checkbox"><span>1.43.3.10861未満のサーバーとTCP/32400の外部公開・NAT転送・VPN到達性を照合</span></label></li>
+          <li><label><input type="checkbox"><span>Plexプロセス配下の不審な子プロセス（myawesomeproxy、mylovelyminer、x12345等）をEDR・プロセスログで検索</span></label></li>
+          <li><label><input type="checkbox"><span>Codecsフォルダの未知の.so/.dll、Preferences.xmlのTranscoderH264Options変更、持続的な高CPU使用を確認</span></label></li>
+          <li><label><input type="checkbox"><span>proxystream.stへの外向き通信、未知の宛先への接続、侵害疑い端末の共有フォルダ・資格情報へのアクセスを相関</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li><a href="https://forums.plex.tv/t/important-security-update-for-plex-media-server-v1-43-2-and-earlier/942319/" target="_blank" rel="noopener noreferrer">Plex公式：2026-10-19 実悪用と対応策</a></li>
+          <li><a href="https://github.com/cisagov/kev-data" target="_blank" rel="noopener noreferrer">CISA KEV公式カタログ</a></li>
+          <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-96656" target="_blank" rel="noopener noreferrer">NVD：CVE-2026-96656</a></li>
+          <li><a href="https://github.com/code-zm/plex2shell" target="_blank" rel="noopener noreferrer">Plex2Shell公開PoC（安全性未確認）</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-111497"
+      data-cve="CVE-2026-111497"
+      data-priority="P2"
+      data-product="Microsoft .NET（Brotliデコーダ）"
+      data-exploited="false"
+      data-kev="false"
+      data-poc="true"
+      data-cvss="8.1"
+      data-fixed=".NET 8.0.33 / 9.0.22 / 10.0.14 / 11 RC3（各系列のSDK・Runtime・NativeAOTを更新）">
+      <div class="case-head">
+        <span class="badge p2" data-glyph="■">P2 優先対応</span>
+        <h3>CVE-2026-111497</h3>
+      </div>
+      <p class="product">Microsoft .NET（Brotliデコーダ）（.NET 8.0.0〜8.0.32、9.0.0〜9.0.21、10.0.0〜10.0.13、11 Preview〜RC2。攻撃者由来のBrotliデータを展開する構成が条件。.NET Frameworkは対象外。）</p>
+      <p class="lead">Brotli展開時の境界外書き込みによりメモリ破損・情報漏えい・サービス停止・権限昇格の可能性。10月25日にMicrosoftが.NET向け臨時修正版を公表し、従来のNode.js以外へ影響範囲が明確化。</p>
+      <div class="badges">
+        <span class="badge off" data-glyph="○">実悪用未確認</span>
+        <span class="badge off" data-glyph="○">KEV未掲載</span>
+        <span class="badge on" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 8.1</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>8.1 / High (CVSS v3.1、Microsoft .NET評価。Brotli上流のCVSS v4.0は9.2)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要の入力が、ASP.NET Coreリクエスト展開、HttpClient応答自動展開、BrotliStream/BrotliDecoder等へ届く場合。標準設定では自動展開は無効。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">実環境での悪用は確認できず（2026-10-27調査時点）。</dd></div>
+        <div><dt>CISA KEV</dt><dd>CISA KEVへの掲載は確認できず（2026-10-27調査時点）。</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">あり。ただし確認できた実装付きPoCはNode.jsの特定ローカル実験環境用で、.NETでのコード実行を実証したものではない。未実行・未検証。 <a href="https://github.com/dimasma0305/CVE-2026-111497-POC" target="_blank" rel="noopener noreferrer">PoC公開元</a></dd></div>
+        <div><dt>影響バージョン</dt><dd>.NET 8.0.0〜8.0.32、9.0.0〜9.0.21、10.0.0〜10.0.13、11 Preview〜RC2。攻撃者由来のBrotliデータを展開する構成が条件。.NET Frameworkは対象外。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">.NET 8.0.33 / 9.0.22 / 10.0.14 / 11 RC3（各系列のSDK・Runtime・NativeAOTを更新）</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>Microsoftの2026-10-25 OOB修正版へ更新し、フレームワーク依存アプリは再起動。Self-contained・NativeAOT・コンテナは更新済みSDK/ランタイムで再ビルド・再配備。暫定的に攻撃者制御のBrotli展開を停止。既にBrotliを有効にしている箇所だけ設定変更し、新規に展開機能を有効化しない。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>前日までNode.js中心に扱われていた同一CVEについて、Microsoftが.NET 8〜11向け緊急更新を公開。企業のWeb/API・バックエンド・Self-contained配布物まで点検対象が拡大した。実悪用・KEVは未確認で、Brotliの明示利用が必要なためP2。</p></div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>ASP.NET Core、.NETサービス、Self-contained、NativeAOT、コンテナの利用バージョンとデプロイ形態を棚卸し</span></label></li>
+          <li><label><input type="checkbox"><span>AddRequestDecompression、HttpClientHandler.AutomaticDecompression、BrotliStream/BrotliDecoderの使用箇所を開発チームと確認</span></label></li>
+          <li><label><input type="checkbox"><span>外部からBrotli圧縮リクエストを受信するAPI、外部サーバーのBrotli応答を取得するジョブを優先評価</span></label></li>
+          <li><label><input type="checkbox"><span>該当アプリの異常終了、アクセスログのContent-Encoding: br、応答展開エラー、子プロセス異常を監視</span></label></li>
+          <li><label><input type="checkbox"><span>更新済みRuntimeを適用後、Self-contained/NativeAOT/コンテナの再ビルドと再配備を検証</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li><a href="https://devblogs.microsoft.com/dotnet/dotnet-october-2026-oob-security-updates/" target="_blank" rel="noopener noreferrer">Microsoft公式：.NET 2026-10-25臨時セキュリティ更新</a></li>
+          <li><a href="https://github.com/dotnet/runtime/security/advisories/GHSA-p3jp-9v83-76w9" target="_blank" rel="noopener noreferrer">Microsoft .NET GHSA-p3jp-9v83-76w9</a></li>
+          <li><a href="https://github.com/dimasma0305/CVE-2026-111497-POC" target="_blank" rel="noopener noreferrer">Node.js版の実装付き公開PoC（.NETへの成立は未実証）</a></li>
+          <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-111497" target="_blank" rel="noopener noreferrer">NVD：CVE-2026-111497</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-115889"
+      data-cve="CVE-2026-115889"
+      data-priority="P2"
+      data-product="Bytecode Alliance Wasmtime / Cranelift"
+      data-exploited="false"
+      data-kev="false"
+      data-poc="false"
+      data-cvss="9.9"
+      data-fixed="Wasmtime 36.0.19（36系バックポート）または43.0.0以降">
+      <div class="case-head">
+        <span class="badge p2" data-glyph="■">P2 優先対応</span>
+        <h3>CVE-2026-115889</h3>
+      </div>
+      <p class="product">Bytecode Alliance Wasmtime / Cranelift（Wasmtime 36.0.19未満、および37.0.0以上43.0.0未満。Cranelift標準バックエンドを使う全アーキテクチャ。）</p>
+      <p class="lead">CraneliftのSSA値インデックスのビットパック処理がオーバーフローし、細工されたWebAssemblyモジュールのコンパイルで型混同・誤コンパイルが起き、Wasmサンドボックスを脱出する恐れ。</p>
+      <div class="badges">
+        <span class="badge off" data-glyph="○">実悪用未確認</span>
+        <span class="badge off" data-glyph="○">KEV未掲載</span>
+        <span class="badge off" data-glyph="○">公開PoC未確認</span>
+        <span class="badge na" data-glyph="■">CVSS 9.9</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.9 / Critical (CVSS v3.1、GitHub Advisory)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">攻撃者が大規模または細工したWasmモジュールをWasmtime/Craneliftへコンパイル・実行させられること。モジュール投入機能がない一般アプリでは直接到達しない。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">実悪用の確認報告なし（2026-10-27調査時点）。</dd></div>
+        <div><dt>CISA KEV</dt><dd>CISA KEV掲載は確認できず（2026-10-27調査時点）。</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">GitHub・公開情報を検索したが、このCVEを実際に再現する公開PoCは確認できず。修正コミット・テストの存在だけでPoCありとは判定しない。</dd></div>
+        <div><dt>影響バージョン</dt><dd>Wasmtime 36.0.19未満、および37.0.0以上43.0.0未満。Cranelift標準バックエンドを使う全アーキテクチャ。</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Wasmtime 36.0.19（36系バックポート）または43.0.0以降</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>組込Wasmtime/Craneliftを含むサービス、プラグイン基盤、Wasm実行環境を棚卸し。36系は36.0.19へ、37〜42系は43.0.0以降へ更新。更新まで外部・第三者が供給するWasmモジュールの受け入れと実行を制限し、ホスト権限・ファイル・ネットワークアクセスを最小化。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>CVSS 9.9でWasmの隔離境界が破られる可能性があり、マルチテナント・プラグイン実行基盤で特に重大。ただし攻撃者がモジュールを供給できる構成が必要で、実悪用・KEV・公開PoCは未確認のためP2。</p></div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>Wasmプラグイン、エッジ処理、サンドボックス実行環境、Rust依存関係にWasmtime/Craneliftが含まれるか確認</span></label></li>
+          <li><label><input type="checkbox"><span>Wasmtime 36.0.19未満、37〜42系の実行基盤を特定し、公式修正版への更新を依頼</span></label></li>
+          <li><label><input type="checkbox"><span>利用者・第三者が任意のWasmモジュールをアップロード・配信・実行できる経路を洗い出す</span></label></li>
+          <li><label><input type="checkbox"><span>Wasmコンパイル時の異常終了、巨大モジュール投入、予期しないホストファイル/ネットワークアクセスを監視</span></label></li>
+          <li><label><input type="checkbox"><span>コンテナ/OS権限、WASI能力、ネットワーク分離などサンドボックス外側の制御を点検</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li><a href="https://github.com/advisories/GHSA-897f-g5gm-fmxm" target="_blank" rel="noopener noreferrer">Bytecode Alliance / GitHub Advisory GHSA-897f-g5gm-fmxm</a></li>
+          <li><a href="https://github.com/bytecodealliance/wasmtime/releases/tag/v36.0.19" target="_blank" rel="noopener noreferrer">Wasmtime 36.0.19公式リリース</a></li>
+          <li><a href="https://github.com/bytecodealliance/wasmtime/releases/tag/v43.0.0" target="_blank" rel="noopener noreferrer">Wasmtime 43.0.0公式リリース</a></li>
+          <li><a href="https://rustsec.org/advisories/RUSTSEC-2026-0380.html" target="_blank" rel="noopener noreferrer">RustSec RUSTSEC-2026-0380</a></li>
+        </ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
