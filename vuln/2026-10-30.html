@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-10-30 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-10-30" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年10月30日（金）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-10-30 07:59 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-10-23 〜 2026-10-30</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <!-- 前日・翌日のファイルが存在しない場合は <a> ではなく
+         <span class="nav-btn is-disabled" aria-disabled="true"> を使う -->
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-10-29.html" rel="prev">← 前日 2026-10-29</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>GitLabのCVE-2026-97229（認証不要RCE・新規KEV）を最優先に、Cisco ASA/FTDの実悪用VPN停止とLinux kernelの権限昇格も緊急確認してください。</strong>
+      10月29日のCISA KEV更新でGitLabとCisco ASA/FTDの2件が追加されました。10月28日追加のLinux kernelは米連邦機関向け対応期限が10月31日に迫り、PHPの侵害から権限昇格への連鎖も警戒が必要です。いずれもCVSSだけではなく実悪用と業務基盤への影響を評価してP1としました。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>GitLab CE/EE（最優先）／Cisco Secure Firewall ASA・FTD／Linux Kernel</dd></div>
+      <div><dt>推奨アクション</dt><dd>GitLab自己管理版を最新パッチへ更新しCI lint/EDRログを調査。ASA/FTDのSSL VPN二次認証設定と修正版を確認。Linuxホスト・コンテナノードのカーネル更新と侵害調査を実施。</dd></div>
+      <div><dt>対応期限</dt><dd>Linux：2026-10-31、GitLab・Cisco：2026-11-01（いずれもCISA KEVの米連邦機関向け期限）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>前日未掲載のGitLab・Ciscoが10月29日にKEV新規追加。Linuxは10月28日KEV追加と10月31日の期限接近を受けて新規掲載。</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      <!-- 脆弱性1件につき1枚。badge のクラスは p1 / p2 / p3、
+           状態は on（該当・危険） / warn（注意） / off（非該当） / na（不明） -->
+      <a class="summary-card" href="#CVE-2026-97229" data-priority="P1">
+  <span class="badge p1" data-glyph="■">P1 即時確認</span>
+  <span class="card-cve">CVE-2026-97229</span>
+  <span class="card-product">GitLab CE / EE（19.2.0〜19.2.7 / 19.3.0〜19.3.4 / 19.4.0〜19.4.1（self-managed））</span>
+  <span class="card-lead">CI/CD設定内の正規表現コンパイル時の整数オーバーフローによりGitLabサーバー上で任意コード実行のおそれ。10月29日にCISA KEVへ新規追加。</span>
+  <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEVあり</span><span class="badge on" data-glyph="●">公開PoCあり</span></span>
+  <span class="card-fixed"><span>修正版:</span> 19.2.8 / 19.3.5 / 19.4.2以降（別件CVE-2026-110264にも対応する19.2.9 / 19.3.6 / 19.4.3 / 19.5.1以降を推奨）</span>
+</a>
+
+      <a class="summary-card" href="#CVE-2026-76418" data-priority="P1">
+  <span class="badge p1" data-glyph="■">P1 即時確認</span>
+  <span class="card-cve">CVE-2026-76418</span>
+  <span class="card-product">Cisco Secure Firewall ASA / FTD（ASA 9.16以前〜9.24の修正前リリース、FTD 7.0以前〜10.1の修正前リリース。SSL Remote Access VPNとtunnel-groupの二次認証設定が攻撃条件。）</span>
+  <span class="card-lead">SSLリモートアクセスVPNの二次認証処理の不備により、未認証の遠隔攻撃者がファイアウォールを再起動させDoSを引き起こす。10月28日公表、29日KEV追加。</span>
+  <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEVあり</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span>
+  <span class="card-fixed"><span>修正版:</span> ASA 9.16.4.104 / 9.18.4.96 / 9.20.4.50 / 9.22.3.200 / 9.23.1.48 / 9.24.1.27等、FTD 7.0.11 / 7.2.13 / 7.4.9 / 7.6.7 / 7.7.14 / 10.0.3 / 10.1.1（系列ごとに公式表を確認）</span>
+</a>
+
+      <a class="summary-card" href="#CVE-2026-46300" data-priority="P1">
+  <span class="badge p1" data-glyph="■">P1 即時確認</span>
+  <span class="card-cve">CVE-2026-46300</span>
+  <span class="card-product">Linux Kernel（Linux kernel 3.9以降の複数安定系列（5.10 / 5.15 / 6.1 / 6.6 / 6.12 / 6.18 / 7.0等）の修正前版。ディストリビューションのバックポート状況は個別確認。）</span>
+  <span class="card-lead">ソケットバッファ結合時のshared-frag属性喪失によりpage cacheが不正に変更され、ローカル権限昇格に至るおそれ。10月28日KEV追加、期限は10月31日。</span>
+  <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEVあり</span><span class="badge on" data-glyph="●">公開PoCあり</span></span>
+  <span class="card-fixed"><span>修正版:</span> 上流安定版 5.10.257 / 5.15.208 / 6.1.174 / 6.6.141 / 6.12.91 / 6.18.33 / 7.0.10以降。OSベンダーの修正バックポート版を優先。</span>
+</a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-97229"
+  data-cve="CVE-2026-97229" data-priority="P1" data-product="GitLab CE / EE"
+  data-exploited="true" data-kev="true" data-poc="true"
+  data-cvss="10.0" data-fixed="19.2.8 / 19.3.5 / 19.4.2以降（別件CVE-2026-110264にも対応する19.2.9 / 19.3.6 / 19.4.3 / 19.5.1以降を推奨）">
+  <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-97229</h3></div>
+  <p class="product">GitLab CE / EE（19.2.0〜19.2.7 / 19.3.0〜19.3.4 / 19.4.0〜19.4.1（self-managed）／DevSecOps・CI/CD管理基盤）</p>
+  <p class="lead">CI/CD設定内の正規表現コンパイル時の整数オーバーフローによりGitLabサーバー上で任意コード実行のおそれ。10月29日にCISA KEVへ新規追加。</p>
+  <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEVあり</span><span class="badge on" data-glyph="●">公開PoCあり</span><span class="badge na" data-glyph="■">CVSS 10.0</span></div>
+  <dl class="facts">
+    <div><dt>CVSS</dt><dd>10.0 / Critical（CVSS v3.1、GitLab公式）</dd></div>
+    <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由。GitLabは認証不要RCEと評価。ただしRapid7が公開した実証経路では、攻撃者が公開プロジェクトに悪意あるCI設定・パスを配置できることが前提。自己登録・プロジェクト作成を許可する環境は特に注意。</dd></div>
+    <div><dt>実悪用</dt><dd class="is-alert">CISA KEV掲載により実悪用を確認（2026-10-29追加）。具体的な攻撃事例の詳細は確認できず。</dd></div>
+    <div><dt>CISA KEV</dt><dd>掲載あり（2026-10-29追加、米連邦機関向け期限2026-11-01、フォレンジックトリアージ対象）</dd></div>
+    <div><dt>公開PoC</dt><dd class="is-warn">実装付き公開PoCを確認（Rapid7研究者のpoc.py、実行・ダウンロード・コード詳細解析は未実施）：<a href="https://github.com/jburgess-r7/CVE-2026-97229-PoC" target="_blank" rel="noopener noreferrer">公開PoC（安全性未検証）</a></dd></div>
+    <div><dt>影響バージョン</dt><dd>19.2.0〜19.2.7 / 19.3.0〜19.3.4 / 19.4.0〜19.4.1（self-managed）</dd></div>
+    <div><dt>修正版</dt><dd class="is-ok">19.2.8 / 19.3.5 / 19.4.2以降（別件CVE-2026-110264にも対応する19.2.9 / 19.3.6 / 19.4.3 / 19.5.1以降を推奨）</dd></div>
+    <div><dt>緩和策</dt><dd>GitLab公式の完全な代替回避策は確認できず。更新まで公開範囲を縮小し、ユーザー自己登録・公開プロジェクト作成権限を見直す。アクセス制限だけで安全と判断しない。</dd></div>
+  </dl>
+  <div class="block"><h4>推奨対処</h4><p>自己管理GitLabの該当バージョンを速やかに更新。19.4.2等は本CVEを修正するが別の重大RCE（CVE-2026-110264）への対応を含む19.4.3等を選ぶ。侵害疑い時はCI/CD変数・トークン等の漏えい調査とローテーションを検討。</p></div>
+  <div class="block reason"><h4>AIによる注目理由</h4><p>本日確認した10月29日KEV新規追加の認証不要RCEでCVSS 10.0。GitLabはソースコード・CI/CD秘密情報・デプロイ資格情報を扱うため、侵害が開発基盤から本番環境へ波及するリスクが高い。公開実装付きPoCも存在するためP1。</p></div>
+  <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+    <li><label><input type="checkbox"><span>self-managed GitLab CE/EEとGitLab Runner連携、外部公開、自己登録・公開プロジェクト作成の可否を棚卸し</span></label></li>
+    <li><label><input type="checkbox"><span>19.2/19.3/19.4系列の実稼働版を確認し、CVE-2026-110264も修正する最新パッチへの更新を優先</span></label></li>
+    <li><label><input type="checkbox"><span>GitLab公式のCVE-2026-97229検知ルール（Onigmo worker crash、CI lint異常、hostile regexp等）を監視へ追加</span></label></li>
+    <li><label><input type="checkbox"><span>CI lint APIの異常アクセス、Puma/Sidekiqワーカー異常終了、公開プロジェクトへの不審なCI設定投入を調査</span></label></li>
+    <li><label><input type="checkbox"><span>GitLabホストのEDRでgitユーザー起点の不審な子プロセス・外部通信を調べ、侵害疑い時はCI/CD秘密情報とトークンを保全・失効</span></label></li>
+  </ul></div>
+  <div class="block"><h4>情報源</h4><ul class="sources">
+    <li><a href="https://docs.gitlab.com/releases/patches/patch-release-gitlab-19-4-2-released/" target="_blank" rel="noopener noreferrer">GitLab公式：CVE-2026-97229（パッチと検知）</a></li>
+    <li><a href="https://docs.gitlab.com/releases/patches/patch-release-gitlab-19-5-1-released/" target="_blank" rel="noopener noreferrer">GitLab公式：後続の重大RCE修正リリース</a></li>
+    <li><a href="https://www.ruby-lang.org/en/news/2026/10/23/regexp-fixes-for-gitlab-cves/" target="_blank" rel="noopener noreferrer">Ruby公式：Onigmo正規表現コンパイル修正</a></li>
+    <li><a href="https://www.rapid7.com/blog/post/etr-cve-2026-97229-critical-unauthenticated-remote-code-execution-in-gitlab/" target="_blank" rel="noopener noreferrer">Rapid7：実証内容・前提条件</a></li>
+    <li><a href="https://github.com/jburgess-r7/CVE-2026-97229-PoC" target="_blank" rel="noopener noreferrer">公開PoC（安全性未検証）</a></li>
+    <li><a href="https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">CISA KEV公式データ</a></li>
+  </ul></div>
+</article>
+
+    <article class="case" id="CVE-2026-76418"
+  data-cve="CVE-2026-76418" data-priority="P1" data-product="Cisco Secure Firewall ASA / FTD"
+  data-exploited="true" data-kev="true" data-poc="false"
+  data-cvss="8.6" data-fixed="ASA 9.16.4.104 / 9.18.4.96 / 9.20.4.50 / 9.22.3.200 / 9.23.1.48 / 9.24.1.27等、FTD 7.0.11 / 7.2.13 / 7.4.9 / 7.6.7 / 7.7.14 / 10.0.3 / 10.1.1（系列ごとに公式表を確認）">
+  <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-76418</h3></div>
+  <p class="product">Cisco Secure Firewall ASA / FTD（ASA 9.16以前〜9.24の修正前リリース、FTD 7.0以前〜10.1の修正前リリース。SSL Remote Access VPNとtunnel-groupの二次認証設定が攻撃条件。／VPN・ファイアウォール）</p>
+  <p class="lead">SSLリモートアクセスVPNの二次認証処理の不備により、未認証の遠隔攻撃者がファイアウォールを再起動させDoSを引き起こす。10月28日公表、29日KEV追加。</p>
+  <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEVあり</span><span class="badge off" data-glyph="○">公開PoC未確認</span><span class="badge na" data-glyph="■">CVSS 8.6</span></div>
+  <dl class="facts">
+    <div><dt>CVSS</dt><dd>8.6 / High（CVSS v3.1、Cisco公式）</dd></div>
+    <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・ユーザー操作不要。SSLリモートアクセスVPNが到達可能で、影響するトンネルグループにsecondary-authentication-server-groupが設定されていることが前提。ログイン成功は不要。</dd></div>
+    <div><dt>実悪用</dt><dd class="is-alert">Cisco PSIRTが2026年10月中の実悪用を確認。攻撃件数やIOCの詳細は確認できず。</dd></div>
+    <div><dt>CISA KEV</dt><dd>掲載あり（2026-10-29追加、米連邦機関向け期限2026-11-01）</dd></div>
+    <div><dt>公開PoC</dt><dd class="is-warn">GitHub等の公開実装付きPoCを検索したが確認できず（実行・取得は未実施）</dd></div>
+    <div><dt>影響バージョン</dt><dd>ASA 9.16以前〜9.24の修正前リリース、FTD 7.0以前〜10.1の修正前リリース。SSL Remote Access VPNとtunnel-groupの二次認証設定が攻撃条件。</dd></div>
+    <div><dt>修正版</dt><dd class="is-ok">ASA 9.16.4.104 / 9.18.4.96 / 9.20.4.50 / 9.22.3.200 / 9.23.1.48 / 9.24.1.27等、FTD 7.0.11 / 7.2.13 / 7.4.9 / 7.6.7 / 7.7.14 / 10.0.3 / 10.1.1（系列ごとに公式表を確認）</dd></div>
+    <div><dt>緩和策</dt><dd>Ciscoは完全なworkaroundなしと明記。二次認証の無効化等の緩和手段はあるがVPNの認証強度を下げるため、変更管理と代替制御を前提に慎重に評価。原則は修正版へ更新。</dd></div>
+  </dl>
+  <div class="block"><h4>推奨対処</h4><p>ASA/FTDのSSL VPN設定と対象リリースを照合し、ベンダー推奨修正版へ更新。VPN可用性を維持するため冗長構成・切替試験を実施し、直近の意図しない再起動を調査。</p></div>
+  <div class="block reason"><h4>AIによる注目理由</h4><p>10月28日公開直後にCiscoが実悪用を認め、10月29日KEVへ追加。認証不要でVPN装置を停止させ得るため、リモートワークや拠点接続の広範な停止リスクがある。CVSS 8.6でもVPN/セキュリティ基盤と実悪用を重視してP1。</p></div>
+  <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+    <li><label><input type="checkbox"><span>ASA/FTDのSSLリモートアクセスVPN利用有無と外部到達性、冗長化・フェイルオーバー構成を確認</span></label></li>
+    <li><label><input type="checkbox"><span>トンネルグループ（DefaultWEBVPNGroup含む）のsecondary-authentication-server-group設定と実稼働版を公式表と照合</span></label></li>
+    <li><label><input type="checkbox"><span>VPN接続失敗の急増、装置再起動、クラッシュ、HA切替、CPU/メモリ異常をsyslog・監視基盤で調査</span></label></li>
+    <li><label><input type="checkbox"><span>ファイアウォール・VPNのイベントを時系列で突合し、攻撃元IP・繰り返し接続のパターンを記録</span></label></li>
+    <li><label><input type="checkbox"><span>修正版を計画適用し、認証機能・VPN接続・HA切替を確認。二次認証停止による安易な緩和を避ける</span></label></li>
+  </ul></div>
+  <div class="block"><h4>情報源</h4><ul class="sources">
+    <li><a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-tunnel-dos-s6mgkb75" target="_blank" rel="noopener noreferrer">Cisco公式アドバイザリ cisco-sa-asaftd-tunnel-dos-s6mgkb75</a></li>
+    <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-76418" target="_blank" rel="noopener noreferrer">NVD CVE-2026-76418</a></li>
+    <li><a href="https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">CISA KEV公式データ</a></li>
+  </ul></div>
+</article>
+
+    <article class="case" id="CVE-2026-46300"
+  data-cve="CVE-2026-46300" data-priority="P1" data-product="Linux Kernel"
+  data-exploited="true" data-kev="true" data-poc="true"
+  data-cvss="7.8" data-fixed="上流安定版 5.10.257 / 5.15.208 / 6.1.174 / 6.6.141 / 6.12.91 / 6.18.33 / 7.0.10以降。OSベンダーの修正バックポート版を優先。">
+  <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-46300</h3></div>
+  <p class="product">Linux Kernel（Linux kernel 3.9以降の複数安定系列（5.10 / 5.15 / 6.1 / 6.6 / 6.12 / 6.18 / 7.0等）の修正前版。ディストリビューションのバックポート状況は個別確認。／OS・仮想化／コンテナ基盤）</p>
+  <p class="lead">ソケットバッファ結合時のshared-frag属性喪失によりpage cacheが不正に変更され、ローカル権限昇格に至るおそれ。10月28日KEV追加、期限は10月31日。</p>
+  <div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEVあり</span><span class="badge on" data-glyph="●">公開PoCあり</span><span class="badge na" data-glyph="■">CVSS 7.8</span></div>
+  <dl class="facts">
+    <div><dt>CVSS</dt><dd>7.8 / High（CVSS v3.1、Linux kernel CNA・NVD）</dd></div>
+    <div><dt>攻撃条件</dt><dd class="is-alert">原則ローカル実行権限が必要（AV:L/PR:L）。XFRM ESP-in-TCP、関連カーネル機能・名前空間などの成立条件に依存。ネットワーク越しの認証不要単独RCEではない。</dd></div>
+    <div><dt>実悪用</dt><dd class="is-alert">CISA KEVに2026-10-28追加。CISAはPHP2shellとの連鎖可能性を記載。具体的な実悪用環境・観測IOCは確認できず。</dd></div>
+    <div><dt>CISA KEV</dt><dd>掲載あり（2026-10-28追加、米連邦機関向け期限2026-10-31、フォレンジックトリアージ対象）</dd></div>
+    <div><dt>公開PoC</dt><dd class="is-warn">実装付き公開PoCを確認（研究者v12-securityのfragnesia.c）。コード詳細解析・実行・ダウンロードは未実施。：<a href="https://github.com/v12-security/pocs/tree/main/fragnesia" target="_blank" rel="noopener noreferrer">公開PoC（安全性未検証）</a></dd></div>
+    <div><dt>影響バージョン</dt><dd>Linux kernel 3.9以降の複数安定系列（5.10 / 5.15 / 6.1 / 6.6 / 6.12 / 6.18 / 7.0等）の修正前版。ディストリビューションのバックポート状況は個別確認。</dd></div>
+    <div><dt>修正版</dt><dd class="is-ok">上流安定版 5.10.257 / 5.15.208 / 6.1.174 / 6.6.141 / 6.12.91 / 6.18.33 / 7.0.10以降。OSベンダーの修正バックポート版を優先。</dd></div>
+    <div><dt>緩和策</dt><dd>パッチ適用まで不要なXFRM/ESP-in-TCP機能・非特権user namespaceを制限できるか検討。ただしワークロード・VPN・コンテナへの影響があり、一般的な完全回避策ではない。</dd></div>
+  </dl>
+  <div class="block"><h4>推奨対処</h4><p>Linuxホスト・コンテナホスト・CI Runner・Kubernetesノードの稼働カーネルをベンダーアドバイザリと照合し更新後に再起動。既存侵害の可能性を踏まえ、ホスト権限昇格の痕跡を調査。</p></div>
+  <div class="block reason"><h4>AIによる注目理由</h4><p>10月28日に実悪用を根拠としてKEV追加され、米連邦機関向け期限が10月31日に迫る。ローカル脆弱性だがPHPの認証不要RCE等と連鎖するとWebサーバー侵害後のroot取得へ進み得る。Linux・コンテナ基盤への波及を重視してP1。</p></div>
+  <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+    <li><label><input type="checkbox"><span>Linuxサーバー、Kubernetes/AKSノード、CI Runner、仮想化ホストのカーネルとディストリビューション修正状況を棚卸し</span></label></li>
+    <li><label><input type="checkbox"><span>XFRM/ESP-in-TCP、非特権user namespace、コンテナ実行権限などの成立条件を確認し、暫定制限の業務影響を評価</span></label></li>
+    <li><label><input type="checkbox"><span>OSベンダー提供の修正済みカーネルを適用し再起動。コンテナイメージ更新のみでホストカーネルが更新されない点を確認</span></label></li>
+    <li><label><input type="checkbox"><span>EDRで低権限ユーザーからの異常な権限昇格、su/sudo関連の不審な実行、名前空間作成・XFRM操作を時系列調査</span></label></li>
+    <li><label><input type="checkbox"><span>Web/PHP侵害アラートとの時間的相関を確認し、page cache改変はディスク上のハッシュだけでは検出できない点を考慮して証拠保全</span></label></li>
+  </ul></div>
+  <div class="block"><h4>情報源</h4><ul class="sources">
+    <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-46300" target="_blank" rel="noopener noreferrer">NVD CVE-2026-46300（影響系列・修正版）</a></li>
+    <li><a href="https://git.kernel.org/stable/c/3599e6b3cc1ada96883d496a50a210d3afbb6987" target="_blank" rel="noopener noreferrer">Linux kernel公式修正コミット</a></li>
+    <li><a href="https://access.redhat.com/security/cve/CVE-2026-46300" target="_blank" rel="noopener noreferrer">Red Hat公式CVE情報</a></li>
+    <li><a href="https://github.com/Azure/AKS/issues/5753" target="_blank" rel="noopener noreferrer">Microsoft Azure AKSの影響と緩和の議論</a></li>
+    <li><a href="https://github.com/v12-security/pocs/tree/main/fragnesia" target="_blank" rel="noopener noreferrer">公開PoC（安全性未検証）</a></li>
+    <li><a href="https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">CISA KEV公式データ</a></li>
+  </ul></div>
+</article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
