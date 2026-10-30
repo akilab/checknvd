@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-10-31 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-10-31" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年10月31日（土）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-10-31 08:00 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-10-24 〜 2026-10-31</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <!-- 前日・翌日のファイルが存在しない場合は <a> ではなく
+         <span class="nav-btn is-disabled" aria-disabled="true"> を使う -->
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-10-30.html" rel="prev">← 前日 2026-10-30</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>Ivanti Connect Secureの新規KEV追加2件（CVE-2026-111357／CVE-2026-118527）を最優先に、Progress WS_FTP Serverの認証不備も緊急確認してください。</strong>
+      10月30日のCISA KEV更新で、既知のIvanti VPN侵害チェーンを構成する2件が新規追加され、11月2日・13日の対応期限が設定されました。10月13日の一次修正版を適用済みでも追加更新が必要な環境があります。また10月29日にWS_FTP Serverの未認証で管理者資格情報が露出し得る重大な脆弱性が公表されました。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Ivanti Connect Secure（最優先）／Progress WS_FTP Server</dd></div>
+      <div><dt>推奨アクション</dt><dd>Ivantiの修正版（22.8R2.6／25.1.1.3等）適用と侵害調査を最優先。WS_FTP Serverの公開範囲・版数を確認し、関連CVEも修正する2024.0.7／2025.0.4以降へ更新。</dd></div>
+      <div><dt>対応期限</dt><dd>Ivanti CVE-2026-111357：2026-11-02、CVE-2026-118527：2026-11-13（CISA KEVの米連邦機関向け期限）。WS_FTP：指定なし。</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>2026-10-30にIvantiの2件がKEV新規追加。10月29日にWS_FTP ServerのCVE詳細が公開され、前日掲載のGitLab／Ciscoとは異なる製品の緊急対応が必要。</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+      <a class="summary-card" href="#CVE-2026-111357" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-111357</span>
+        <span class="card-product">Ivanti Connect Secure（22.8R2.5以前・25.1.1.2以前（Ivanti更新情報）。MITRE/NVDは22.8R2.4のみを記載。25.1.2系などは公式の系統別表で要確認）</span>
+        <span class="card-lead">Connect Secureの権限昇格脆弱性。既知の認証回避CVE-2026-104935等と連鎖し、VPN装置上でroot権限のコード実行に至る。10月30日にCISA KEVへ追加。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEVあり</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span>
+        <span class="card-fixed"><span>修正版:</span> 25.1.1.3／22.8R2.6（Ivantiの2026-10-29更新）。利用系統により別の修正版があるため公式表で要照合</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-118527" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-118527</span>
+        <span class="card-product">Ivanti Connect Secure（22.8R2.5以前・25.1.1.2以前（Ivanti更新情報）。25.1.2系等の範囲は情報源に差があるため公式表で要確認）</span>
+        <span class="card-lead">予測可能な識別子により、認証済み攻撃者が任意の内容のファイルを既知の保存先へアップロード可能。既知の認証回避・権限昇格と連鎖し、10月30日にKEV追加。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEVあり</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span>
+        <span class="card-fixed"><span>修正版:</span> 25.1.1.3／22.8R2.6（Ivantiの2026-10-29更新）。25.1.3系は個別に公式確認</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-84295" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-84295</span>
+        <span class="card-product">Progress WS_FTP Server（Windows版 2024.0.6未満／2025.0.3未満（Progress CNAのCVE記録））</span>
+        <span class="card-lead">WS_FTP Serverの不適切な認証処理により、未認証の遠隔攻撃者が管理者資格情報を含む機密情報へアクセスするおそれ。10月29日にCVE詳細が公開された。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span><span class="badge off" data-glyph="○">CISA KEV未掲載</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span>
+        <span class="card-fixed"><span>修正版:</span> 本CVEは2024.0.6／2025.0.3以降。併せて公開された別の重大CVE群にも対応する2024.0.7／2025.0.4以降を推奨</span>
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-111357"
+      data-cve="CVE-2026-111357"
+      data-priority="P1"
+      data-product="Ivanti Connect Secure"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="false"
+      data-cvss="8.8"
+      data-fixed="25.1.1.3／22.8R2.6（Ivantiの2026-10-29更新）。利用系統により別の修正版があるため公式表で要照合">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-111357</h3>
+      </div>
+      <p class="product">Ivanti Connect Secure（22.8R2.5以前・25.1.1.2以前（Ivanti更新情報）。MITRE/NVDは22.8R2.4のみを記載。25.1.2系などは公式の系統別表で要確認／VPN・認証基盤）</p>
+      <p class="lead">Connect Secureの権限昇格脆弱性。既知の認証回避CVE-2026-104935等と連鎖し、VPN装置上でroot権限のコード実行に至る。10月30日にCISA KEVへ追加。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge on" data-glyph="●">CISA KEVあり</span>
+        <span class="badge off" data-glyph="○">公開PoC未確認</span>
+        <span class="badge na" data-glyph="■">CVSS 8.8</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>8.8（IvantiのCVSS v3.1評価）／7.0（MITRE CNA、NVD表示）。評価に相違あり</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">単体では装置内の低権限アクセスが必要なローカル権限昇格。CVE-2026-104935との連鎖ではインターネット側から認証不要で侵害され得る。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">Volexityが2026年10月初旬の実悪用を調査。CISA KEVへ2026-10-30追加。認証情報・LAPS・BitLocker回復キーの窃取を観測。</dd></div>
+        <div><dt>CISA KEV</dt><dd>掲載あり（2026-10-30追加、米連邦機関向け期限2026-11-02、フォレンジックトリアージ対象）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">公開実装付きPoCはGitHub等の検索で確認できず。攻撃の技術解説は存在するが、公開PoCとは判定しない（リンクなし）。</dd></div>
+        <div><dt>影響バージョン</dt><dd>22.8R2.5以前・25.1.1.2以前（Ivanti更新情報）。MITRE/NVDは22.8R2.4のみを記載。25.1.2系などは公式の系統別表で要確認</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">25.1.1.3／22.8R2.6（Ivantiの2026-10-29更新）。利用系統により別の修正版があるため公式表で要照合</dd></div>
+        <div><dt>緩和策</dt><dd>更新まで管理画面・VPNの不要な公開を縮小し、管理系への到達経路とVPN利用者の内部到達権限を最小化。これだけで侵害防止を保証しない。</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>10月13日の一次修正のみで安心せず、連鎖する3件すべてに対応した修正版へ更新。侵害の疑いがある場合は更新前に外部ログと証拠を保全し、ベンダー手順に従って再構築・資格情報更新を検討。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>VPNは外部公開と内部ネットワークの境界であり、既知の実悪用チェーンによりrootを奪われる。新規KEV追加と11月2日の緊急期限を重視し、CVSS値の差にかかわらずP1。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4>
+        <ul class="checklist"><li><label><input type="checkbox"><span>Connect Secureの設置台数、外部公開、22.8／25.1系統の実バージョンとパッチ適用日を確認</span></label></li>
+          <li><label><input type="checkbox"><span>10月13日適用済みの22.8R2.5／25.1.1.2も再評価し、公式の修正版へ更新</span></label></li>
+          <li><label><input type="checkbox"><span>装置外に転送されたVPN・FW・認証ログで不審なアクセスと装置起点の内部接続を調査</span></label></li>
+          <li><label><input type="checkbox"><span>AD認証基盤・LAPS・BitLocker回復キーへの不審なアクセス、特権アカウント使用を追跡</span></label></li>
+          <li><label><input type="checkbox"><span>Ivanti Integrity Checker Toolだけで無侵害と判断せず、メモリ／ディスク証拠と外部ログのフォレンジックを検討</span></label></li></ul>
+      </div>
+      <div class="block"><h4>情報源</h4>
+        <ul class="sources"><li><a href="https://hub.ivanti.com/s/article/Security-Advisory-Ivanti-Connect-Secure-CVE-2026-104935" target="_blank" rel="noopener noreferrer">Ivanti公式：Connect Secureセキュリティアドバイザリ（10月29日更新）</a></li>
+          <li><a href="https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">CISA KEV公式データ（10月30日更新）</a></li>
+          <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-111357" target="_blank" rel="noopener noreferrer">NVD：CVE-2026-111357（MITRE CNAのCVSS 7.0）</a></li>
+          <li><a href="https://www.volexity.com/blog/2026/10/13/a-series-of-unauthenticated-events-chained-exploitation-of-ivanti-connect-secure-zero-days/" target="_blank" rel="noopener noreferrer">Volexity：実悪用調査と10月29日修正追記</a></li></ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-118527"
+      data-cve="CVE-2026-118527"
+      data-priority="P1"
+      data-product="Ivanti Connect Secure"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="false"
+      data-cvss="4.3"
+      data-fixed="25.1.1.3／22.8R2.6（Ivantiの2026-10-29更新）。25.1.3系は個別に公式確認">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-118527</h3>
+      </div>
+      <p class="product">Ivanti Connect Secure（22.8R2.5以前・25.1.1.2以前（Ivanti更新情報）。25.1.2系等の範囲は情報源に差があるため公式表で要確認／VPN・認証基盤）</p>
+      <p class="lead">予測可能な識別子により、認証済み攻撃者が任意の内容のファイルを既知の保存先へアップロード可能。既知の認証回避・権限昇格と連鎖し、10月30日にKEV追加。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge on" data-glyph="●">CISA KEVあり</span>
+        <span class="badge off" data-glyph="○">公開PoC未確認</span>
+        <span class="badge na" data-glyph="■">CVSS 4.3</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>4.3 / Medium（IvantiのCVSS v3.1評価。CISA KEV自体はCVSSを記載せず）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">単体ではネットワーク経由の認証済みアクセスが必要。CVE-2026-104935およびCVE-2026-111357との連鎖では認証不要の装置侵害につながる。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">CISA KEVへ2026-10-30追加。Ivantiは3件を連鎖させた攻撃が一部顧客で発生したと報告。単独悪用の詳細は確認できず。</dd></div>
+        <div><dt>CISA KEV</dt><dd>掲載あり（2026-10-30追加、米連邦機関向け期限2026-11-13）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">GitHub等で本CVEに固有の実装付き公開PoCは確認できず（リンクなし）。研究記事の攻撃チェーン解説をPoCとは扱わない。</dd></div>
+        <div><dt>影響バージョン</dt><dd>22.8R2.5以前・25.1.1.2以前（Ivanti更新情報）。25.1.2系等の範囲は情報源に差があるため公式表で要確認</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">25.1.1.3／22.8R2.6（Ivantiの2026-10-29更新）。25.1.3系は個別に公式確認</dd></div>
+        <div><dt>緩和策</dt><dd>修正版適用まで管理アクセス・VPN到達性を必要最小限にし、装置から内部ネットワークへの通信を制限。恒久対処ではない。</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>CVE-2026-104935／CVE-2026-111357と一括して影響を確認し、3件すべてを修正する版へ更新。既存の不正ファイルや装置内メモリ上の活動は更新だけでは解消されない可能性があるため侵害調査を併行。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>単体CVSSは中程度だが、VPN境界装置の実悪用チェーンの一部としてKEVに追加された。任意ファイル書き込みが認証回避・root昇格と組み合わさる実運用上の危険性を重視しP1。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4>
+        <ul class="checklist"><li><label><input type="checkbox"><span>Connect Secureの25.1.1.2／22.8R2.5以前の稼働を確認し、系統別の修正版と照合</span></label></li>
+          <li><label><input type="checkbox"><span>10月13日の一次パッチのみで完了扱いにしている資産を抽出し再更新</span></label></li>
+          <li><label><input type="checkbox"><span>装置上の不審な新規・変更ファイルと設定変更、装置からの不自然な内部接続を調査</span></label></li>
+          <li><label><input type="checkbox"><span>装置外のプロキシ・FW・SIEMログで不審なHTTPS要求や認証回避の前兆を時系列で追跡</span></label></li>
+          <li><label><input type="checkbox"><span>侵害疑い時はログ・メモリ保全を優先し、関連資格情報と証明書の再発行・失効を検討</span></label></li></ul>
+      </div>
+      <div class="block"><h4>情報源</h4>
+        <ul class="sources"><li><a href="https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">CISA KEV公式データ（CVE-2026-118527）</a></li>
+          <li><a href="https://hub.ivanti.com/s/article/Security-Advisory-Ivanti-Connect-Secure-CVE-2026-104935" target="_blank" rel="noopener noreferrer">Ivanti公式：Connect Secureアドバイザリ</a></li>
+          <li><a href="https://www.cyber.gc.ca/en/alerts-advisories/ivanti-security-advisory-av26-1035" target="_blank" rel="noopener noreferrer">カナダ政府Cyber Centre：2026-10-30更新</a></li>
+          <li><a href="https://www.volexity.com/blog/2026/10/13/a-series-of-unauthenticated-events-chained-exploitation-of-ivanti-connect-secure-zero-days/" target="_blank" rel="noopener noreferrer">Volexity：3件連鎖による実悪用調査</a></li></ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-84295"
+      data-cve="CVE-2026-84295"
+      data-priority="P1"
+      data-product="Progress WS_FTP Server"
+      data-exploited="false"
+      data-kev="false"
+      data-poc="false"
+      data-cvss="10.0"
+      data-fixed="本CVEは2024.0.6／2025.0.3以降。併せて公開された別の重大CVE群にも対応する2024.0.7／2025.0.4以降を推奨">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-84295</h3>
+      </div>
+      <p class="product">Progress WS_FTP Server（Windows版 2024.0.6未満／2025.0.3未満（Progress CNAのCVE記録）／企業間ファイル転送・認証基盤）</p>
+      <p class="lead">WS_FTP Serverの不適切な認証処理により、未認証の遠隔攻撃者が管理者資格情報を含む機密情報へアクセスするおそれ。10月29日にCVE詳細が公開された。</p>
+      <div class="badges">
+        <span class="badge off" data-glyph="○">実悪用未確認</span>
+        <span class="badge off" data-glyph="○">CISA KEV未掲載</span>
+        <span class="badge off" data-glyph="○">公開PoC未確認</span>
+        <span class="badge na" data-glyph="■">CVSS 10.0</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>10.0 / Critical（CVSS v3.1、Progress CNA）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・ユーザー操作不要。公開されている具体的な悪用エンドポイントや成立設定は確認できず。</dd></div>
+        <div><dt>実悪用</dt><dd class="">2026-10-31の調査時点でベンダー等による実悪用報告は確認できず。未確認は安全の証明ではない。</dd></div>
+        <div><dt>CISA KEV</dt><dd>未掲載（CISA KEV 2026.10.30版で確認）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">GitHub検索で同名の自動生成デモ用リポジトリは見つかったが、WS_FTP実製品の再現を確認できずPoCには算入しない。実装付き公開PoCは確認できず（リンクなし）。</dd></div>
+        <div><dt>影響バージョン</dt><dd>Windows版 2024.0.6未満／2025.0.3未満（Progress CNAのCVE記録）</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">本CVEは2024.0.6／2025.0.3以降。併せて公開された別の重大CVE群にも対応する2024.0.7／2025.0.4以降を推奨</dd></div>
+        <div><dt>緩和策</dt><dd>Progress CNAはサポートへの相談を案内。更新までWeb管理インターフェースと転送サービスの接続元を制限し、不要な外部公開を停止。</dd></div>
+      </dl>
+      <div class="block"><h4>推奨対処</h4><p>該当するWindows版WS_FTP Serverを修正済み版へ更新。管理者資格情報が露出した可能性を評価し、管理者・サービスアカウント等のパスワード変更と不正アカウント確認を行う。</p></div>
+      <div class="block reason"><h4>AIによる注目理由</h4><p>KEV・実悪用は未確認だが、未認証で管理者資格情報に到達し得るCVSS 10.0のファイル転送基盤脆弱性。インターネット公開されやすく、取引先とのデータ交換や資格情報の二次悪用に波及するためP1。</p></div>
+      <div class="block"><h4>SOC向け推奨アクション</h4>
+        <ul class="checklist"><li><label><input type="checkbox"><span>WS_FTP ServerのWindows版設置先、Web管理画面・FTP/FTPS/SFTPの公開範囲を棚卸し</span></label></li>
+          <li><label><input type="checkbox"><span>2024.0.6／2025.0.3未満を特定し、同時公開の関連CVE群も修正する2024.0.7／2025.0.4以降へ更新</span></label></li>
+          <li><label><input type="checkbox"><span>WS_FTP管理者ログイン履歴、不審なアカウント作成、設定変更、転送ジョブと大量ダウンロードを調査</span></label></li>
+          <li><label><input type="checkbox"><span>IIS／WS_FTP／WindowsイベントログとEDRで外部IPからの異常アクセスや権限使用を確認</span></label></li>
+          <li><label><input type="checkbox"><span>管理者・連携サービスの資格情報を見直し、必要に応じてローテーションと取引先への影響評価を実施</span></label></li></ul>
+      </div>
+      <div class="block"><h4>情報源</h4>
+        <ul class="sources"><li><a href="https://progress.lightning.force.com/lightning/r/Knowledge__kav/ka7Pb000001vl86IAA/view" target="_blank" rel="noopener noreferrer">Progress Software公式CVEアドバイザリ</a></li>
+          <li><a href="https://github.com/advisories/GHSA-qwpp-fggf-7h3c" target="_blank" rel="noopener noreferrer">GitHub Security Advisory GHSA-qwpp-fggf-7h3c</a></li>
+          <li><a href="https://docs.progress.com/bundle/wsftp-server-release-notes-2025/page/Whats-New-in-WS_FTP-Server-2025.html" target="_blank" rel="noopener noreferrer">Progress公式：WS_FTP Server 2025リリースノート</a></li>
+          <li><a href="https://censys.com/advisory/cve-2026-84295-and-others/" target="_blank" rel="noopener noreferrer">Censys：公開資産と関連CVEの影響調査（2026-10-30）</a></li></ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
