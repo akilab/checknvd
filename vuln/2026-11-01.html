@@ -1,0 +1,290 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-01 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-01" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月1日（日）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-01 08:05 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-10-25 〜 2026-11-01</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 2 ／ P2: 1 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-10-31.html" rel="prev">← 前日 2026-10-31</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+    <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>Linux KernelのCVE-2026-98432を最優先で調査し、公開TCP待受と修正済みカーネルの稼働状況を確認してください。</strong>
+      認証不要のリモートroot実行がMPTCP環境で実証され、通常TCPにも脆弱な経路があります。Drupal Commerce Coreでは実悪用が公式確認され、EDK IIではPXE起動時の高権限コード実行リスクに対して配布元別の修正状況確認が必要です。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Linux Kernel（IPv4 TCP / MPTCP）</dd></div>
+      <div><dt>推奨アクション</dt><dd>Linuxの修正状況と公開TCPポートを確認。Drupal Commerceは更新と注文監査。PXE利用機器はネットワーク分離とOEM更新を確認。</dd></div>
+      <div><dt>対応期限</dt><dd>各製品の共通期限は設定なし。実悪用のあるDrupalは即時、Linuxは公開環境から優先。</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>10月27日Linuxリモートroot実証、10月30日CIQ緩和情報とDrupal政府警告、EDK IIのAmazon Linux 2修正版公開。</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+      <a class="summary-card" href="#CVE-2026-98432" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-98432</span>
+        <span class="card-product">Linux Kernel（IPv4 TCP） — Linux 4.4以降の該当未修正カーネル。ディストリビューションのバックポート適用状況で判断</span>
+        <span class="card-lead">IPv4 TCPのUse-after-free。MPTCP待受を使うLinuxサーバーに対し、研究者が認証不要のリモートrootコマンド実行を実証。通常TCPも脆弱な処理経路を持つ。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge warn" data-glyph="●">公開再現PoCあり</span></span>
+        <span class="card-fixed"><span>修正版:</span> 修正済みディストリカーネル（配布状況を確認）</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-118539" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-118539</span>
+        <span class="card-product">Drupal Commerce Core — 2.x: 8.x-2.41より前 / 3.x: 3.0.0以上3.3.13未満</span>
+        <span class="card-lead">Commerce Coreの一部ルートとエンティティフィールドの認可不備。注文処理や販売者の収益に影響するアクセス制御回避で、Drupal公式が実悪用を確認。</span>
+        <span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge off" data-glyph="○">公開PoC未確認</span></span>
+        <span class="card-fixed"><span>修正版:</span> 3.3.13 / 8.x-2.41</span>
+      </a>
+
+      <a class="summary-card" href="#CVE-2026-97631" data-priority="P2">
+        <span class="badge p2" data-glyph="■">P2 優先対応</span>
+        <span class="card-cve">CVE-2026-97631</span>
+        <span class="card-product">TianoCore EDK II / UEFI PXE driver — 2026-09-14時点のEDK II masterなど、脆弱なNetworkPkg PXE実装を含むファームウェア。OEM機種別の該当性は要確認</span>
+        <span class="card-lead">PXEネットワーク起動中のICMP処理でバッファオーバーフロー。OSやSecure Bootの検証前に停止・任意コード実行を許す可能性。</span>
+        <span class="badges"><span class="badge off" data-glyph="○">実悪用未確認</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge off" data-glyph="○">公開PoC未確認</span></span>
+        <span class="card-fixed"><span>修正版:</span> 上流修正済み・OEM/OS別に提供状況確認</span>
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+        <article class="case" id="CVE-2026-98432"
+      data-cve="CVE-2026-98432"
+      data-priority="P1"
+      data-product="Linux Kernel（IPv4 TCP）"
+      data-exploited="false"
+      data-kev="false"
+      data-poc="true"
+      data-cvss="9.8"
+      data-fixed="修正済みディストリカーネル（配布状況を確認）">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-98432</h3>
+      </div>
+      <p class="product">Linux Kernel（IPv4 TCP） — Linux 4.4以降の該当未修正カーネル。ディストリビューションのバックポート適用状況で判断</p>
+      <p class="lead">IPv4 TCPのUse-after-free。MPTCP待受を使うLinuxサーバーに対し、研究者が認証不要のリモートrootコマンド実行を実証。通常TCPも脆弱な処理経路を持つ。</p>
+      <div class="badges">
+        <span class="badge off" data-glyph="○">実悪用未確認</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge warn" data-glyph="●">公開再現PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 9.8</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.8 / Critical（Linux kernel CNA、CVSS v3.1。ベンダー評価は異なる）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">IPv4 TCPへのネットワーク到達・認証不要。root RCEの実証条件はMPTCP待受と競合状態。通常TCPではUAF再現あり、RCEの実証は確認できず</dd></div>
+        <div><dt>実悪用</dt><dd class="">確認できず（実悪用の報告なし）</dd></div>
+        <div><dt>CISA KEV</dt><dd>CISA KEV未掲載（10月30日公開カタログ時点）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">あり（再現コード）。UAF再現用コード・検証手順が公開。root権限奪取の完全な攻撃コード公開は確認できず。実行・取得・詳細解析は未実施。</dd></div>
+        <div><dt>影響バージョン</dt><dd>Linux 4.4以降の該当未修正カーネル。ディストリビューションのバックポート適用状況で判断</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">修正済みupstream stable: 5.10.272 / 5.15.223 / 6.1.190 / 6.6.159 / 6.12.113 / 6.18.56 / 7.2.10。ディストリごと要確認</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>各OSベンダーの修正済みカーネルを導入し、再起動後の稼働カーネルを確認。未提供環境ではTCP待受の公開範囲を絞り、CIQが示すIPv4 IPオプション付きTCPの遮断策を環境検証のうえ検討。MPTCP無効化だけでは完全な対策にならない。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>認証不要でネットワークから到達し得るカーネルの欠陥であり、MPTCP環境ではroot RCEが実証された。Go製サービスがMPTCP待受を利用する場合もあり、影響範囲が広い。10月27日の実証公表と10月30日のディストリ向け緩和情報が重要更新。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>Linuxサーバー・コンテナホストの稼働カーネルとOS別修正状況を棚卸しする</span></label></li>
+          <li><label><input type="checkbox"><span>MPTCP待受の有無とインターネット公開されたIPv4 TCPポートを確認する</span></label></li>
+          <li><label><input type="checkbox"><span>未修正ホストの到達元を制限し、IPオプション付きTCPのフィルタ導入可否をネットワーク担当と検討する</span></label></li>
+          <li><label><input type="checkbox"><span>Firewall/IDSでIPv4オプション付きTCP SYNや異常な再送の増加を確認する</span></label></li>
+          <li><label><input type="checkbox"><span>カーネル異常・クラッシュ・EDRの不審なrootプロセス実行を相関し、修正後に再起動を確認する</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>CVE-2026-98432 — Anthropic研究報告（10月27日）</li>
+          <li><a href="https://www.anthropic.com/research/discovering-vulnerabilities-with-claude" target="_blank" rel="noopener noreferrer">Anthropic研究報告（10月27日）</a></li>
+          <li><a href="https://ubuntu.com/security/CVE-2026-98432" target="_blank" rel="noopener noreferrer">Ubuntu CVE/修正状況</a></li>
+          <li><a href="https://kb.ciq.com/article/security-advisories/cve-2026-98432-mitigation" target="_blank" rel="noopener noreferrer">CIQ緩和ガイダンス（10月30日）</a></li>
+          <li><a href="https://github.com/offline-ant/tcp2kaslr" target="_blank" rel="noopener noreferrer">公開再現用リポジトリ（UAFの再現のみ。root RCEコードではない／安全性未確認）</a></li>
+          <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEVカタログ（掲載状態の照合）</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-118539"
+      data-cve="CVE-2026-118539"
+      data-priority="P1"
+      data-product="Drupal Commerce Core"
+      data-exploited="true"
+      data-kev="false"
+      data-poc="false"
+      data-cvss="確認できず"
+      data-fixed="3.3.13 / 8.x-2.41">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-118539</h3>
+      </div>
+      <p class="product">Drupal Commerce Core — 2.x: 8.x-2.41より前 / 3.x: 3.0.0以上3.3.13未満</p>
+      <p class="lead">Commerce Coreの一部ルートとエンティティフィールドの認可不備。注文処理や販売者の収益に影響するアクセス制御回避で、Drupal公式が実悪用を確認。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge off" data-glyph="○">公開PoC未確認</span>
+        <span class="badge na" data-glyph="■">CVSS 確認できず</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>確認できず（Drupal独自のリスク評価は21/25、Highly critical。CVSSと混同しない）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">Web経由のアクセス制御回避。Drupal公式は詳細ルートや認証要否の個別条件を公開しておらず確認できず</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり（公式に確認）</dd></div>
+        <div><dt>CISA KEV</dt><dd>CISA KEV未掲載（10月30日公開カタログ時点）</dd></div>
+        <div><dt>公開PoC</dt><dd class="">確認できず。公開された実装付き再現PoCは十分な検索でも確認できず。実悪用報告とは区別する。</dd></div>
+        <div><dt>影響バージョン</dt><dd>2.x: 8.x-2.41より前 / 3.x: 3.0.0以上3.3.13未満</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">Commerce Core 3.3.13（3.x）または 8.x-2.41（2.x）</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>Commerce Coreを修正版に更新。更新前後の注文・決済ステータス・金額・配送情報を決済事業者の記録と突合し、不整合を調査。WAFだけを修正の代替としない。具体的な回避策は公式に確認できず。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>製品公式が実悪用を明記しており、ECサイトの注文・決済データ改変につながり得る。CVSS値が未確認でも、既存侵害の調査を含む即時対応が必要。10月30日にカナダ政府機関からも警告。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>Drupal Commerce Coreの導入有無、2.x/3.xの該当バージョンを確認する</span></label></li>
+          <li><label><input type="checkbox"><span>公開ストア・ヘッドレスCommerce APIの露出状況を洗い出す</span></label></li>
+          <li><label><input type="checkbox"><span>修正版適用前後の注文金額・支払状態・返金・配送ステータスを決済記録と照合する</span></label></li>
+          <li><label><input type="checkbox"><span>Webアクセスログ、注文変更監査ログ、APIアクセスの不審な連続操作を確認する</span></label></li>
+          <li><label><input type="checkbox"><span>不整合を発見した注文を保全し、アカウント権限と決済連携を追加調査する</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>CVE-2026-118539 — Drupal公式 SA-CONTRIB-2026-254（10月28日）</li>
+          <li><a href="https://www.drupal.org/sa-contrib-2026-254" target="_blank" rel="noopener noreferrer">Drupal公式 SA-CONTRIB-2026-254（10月28日）</a></li>
+          <li><a href="https://www.cyber.gc.ca/en/alerts-advisories/drupal-security-advisory-av26-1105" target="_blank" rel="noopener noreferrer">カナダCyber Centre AV26-1105（10月30日）</a></li>
+          <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-118539" target="_blank" rel="noopener noreferrer">NVD CVEレコード</a></li>
+          <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEVカタログ（掲載状態の照合）</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case" id="CVE-2026-97631"
+      data-cve="CVE-2026-97631"
+      data-priority="P2"
+      data-product="TianoCore EDK II / UEFI PXE driver"
+      data-exploited="false"
+      data-kev="false"
+      data-poc="false"
+      data-cvss="9.5"
+      data-fixed="上流修正済み・OEM/OS別に提供状況確認">
+      <div class="case-head">
+        <span class="badge p2" data-glyph="■">P2 優先対応</span>
+        <h3>CVE-2026-97631</h3>
+      </div>
+      <p class="product">TianoCore EDK II / UEFI PXE driver — 2026-09-14時点のEDK II masterなど、脆弱なNetworkPkg PXE実装を含むファームウェア。OEM機種別の該当性は要確認</p>
+      <p class="lead">PXEネットワーク起動中のICMP処理でバッファオーバーフロー。OSやSecure Bootの検証前に停止・任意コード実行を許す可能性。</p>
+      <div class="badges">
+        <span class="badge off" data-glyph="○">実悪用未確認</span>
+          <span class="badge off" data-glyph="○">KEV未掲載</span>
+          <span class="badge off" data-glyph="○">公開PoC未確認</span>
+        <span class="badge na" data-glyph="■">CVSS 9.5</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.5 / Critical（TianoCore、CVSS v4.0）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">認証不要・ネットワーク到達。PXE起動中に攻撃者のICMPが届くことが条件。コード実行は対象ファームウェアの構造把握が必要</dd></div>
+        <div><dt>実悪用</dt><dd class="">確認できず（実悪用の報告なし）</dd></div>
+        <div><dt>CISA KEV</dt><dd>CISA KEV未掲載（10月30日公開カタログ時点）</dd></div>
+        <div><dt>公開PoC</dt><dd class="">確認できず。公開されているのは修正差分であり、実装付き攻撃PoCは確認できず。</dd></div>
+        <div><dt>影響バージョン</dt><dd>2026-09-14時点のEDK II masterなど、脆弱なNetworkPkg PXE実装を含むファームウェア。OEM機種別の該当性は要確認</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">上流修正PR #13302はmasterに統合済み。TianoCore安定版は未修正と表示。Amazon Linux 2のedk2は10月30日ALAS2-2026-4047で修正済み</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>利用していないPXE/Network Bootを無効化。必要な場合はプロビジョニングネットワークを分離し、ICMP到達元を制限。UEFI/BIOS・OVMF等の供給元にCVE対応済みファームウェアを確認し、適用を計画する。Amazon Linux 2は該当アドバイザリを確認。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>PXE利用時にOS起動前の高権限コード実行へつながるため影響は重大。一方でPXE起動時という限定条件、実悪用・PoC未確認からP2とした。10月30日のAmazon Linux 2修正版公開は重要更新。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>PXE/Network Bootを利用する物理サーバー、端末、OVMF仮想マシンを棚卸しする</span></label></li>
+          <li><label><input type="checkbox"><span>BIOS/UEFIのPXE有効設定とOEMファームウェアの該当性を確認する</span></label></li>
+          <li><label><input type="checkbox"><span>不要なネットワーク起動を無効化し、プロビジョニング用VLANの到達元を限定する</span></label></li>
+          <li><label><input type="checkbox"><span>PXE起動中の異常終了やICMPエラーの集中をネットワークログで調査する</span></label></li>
+          <li><label><input type="checkbox"><span>OEM/ディストリの修正情報を追跡し、検証済みファームウェア更新を計画する</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>CVE-2026-97631 — TianoCore公式 GHSA-99cj-7hg9-mp4m</li>
+          <li><a href="https://github.com/tianocore/edk2/security/advisories/GHSA-99cj-7hg9-mp4m" target="_blank" rel="noopener noreferrer">TianoCore公式 GHSA-99cj-7hg9-mp4m</a></li>
+          <li><a href="https://explore.alas.aws.amazon.com/CVE-2026-97631.html" target="_blank" rel="noopener noreferrer">Amazon Linux CVE/ALAS2-2026-4047（10月30日）</a></li>
+          <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-97631" target="_blank" rel="noopener noreferrer">NVD CVEレコード</a></li>
+          <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEVカタログ（掲載状態の照合）</a></li>
+        </ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
