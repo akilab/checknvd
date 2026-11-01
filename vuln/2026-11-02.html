@@ -1,0 +1,138 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-02 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-02" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月2日（月）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-02 08:06 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-10-26 〜 2026-11-02</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 1 ／ P2: 2 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-01.html" rel="prev">← 前日 2026-11-01</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>Jpom管理APIの公開範囲を最優先で確認し、管理サーバーと配下ノードを保護してください。</strong>
+      10月30日の研究者報告で認証不要の管理者権限取得とコマンド実行への連鎖が示され、修正版は確認できません。Apache MINA 3.0の非サポート版RCEと、WordPressの認証制御回避も新たに公表されました。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Jpom（管理サーバー・配下ノード）</dd></div>
+      <div><dt>推奨アクション</dt><dd>管理APIの外部公開停止、スクリプト・配下ノード操作履歴の監査。MINA 3.0は2.2.xへの移行、Uncanny Toolkitは3.8.3への更新を確認。</dd></div>
+      <div><dt>対応期限</dt><dd>個別のCISA期限は確認できず。外部公開Jpomは即時対応。</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>10月30日Jpomの具体的再現報告、10月31日Apache MINA公式告知とWordfenceの認証回避情報を新規掲載。</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-120201" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-120201</span><span class="card-product">Jpom（CI/CD・サーバー運用管理） — 2.10.0〜2.11.12（報告者は2.11.12で検証）</span><span class="card-lead">管理APIの認証トークンが検索条件として解釈され、認証なしで管理者セッションを取得できるおそれ。スクリプト実行機能を通じ管理サーバーや配下ノードに波及する。</span><span class="badges"><span class="badge na" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">KEV掲載未確認</span><span class="badge on" data-glyph="●">公開PoCあり</span></span><span class="card-fixed"><span>修正版:</span> 修正版を確認できず（2026-11-02時点）</span></a>
+<a class="summary-card" href="#CVE-2026-118636" data-priority="P2"><span class="badge p2" data-glyph="■">P2 優先対応</span><span class="card-cve">CVE-2026-118636</span><span class="card-product">Apache MINA 3.0 codec（JavaNativeMessageDecoder） — Apache MINA 3.0.0〜3.0.0-M2（公式表記。版順は個別確認）</span><span class="card-lead">Javaのネイティブデシリアライズ処理にクラス制限がなく、非信頼ピアからの入力が届く構成でRCEの可能性。非サポートの3.0系には修正版を提供しない方針。</span><span class="badges"><span class="badge na" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">KEV掲載未確認</span><span class="badge na" data-glyph="○">公開PoC確認できず</span></span><span class="card-fixed"><span>修正版:</span> 3.0系の修正版提供予定なし。Apache公式は最新2.2.x系への移行を推奨。</span></a>
+<a class="summary-card" href="#CVE-2026-119096" data-priority="P2"><span class="badge p2" data-glyph="■">P2 優先対応</span><span class="card-cve">CVE-2026-119096</span><span class="card-product">WordPress Uncanny Toolkit for LearnDash — 3.8.2以前（Front End Login）</span><span class="card-lead">未承認・停止済みアカウントのログイン制御を回避できる不備。攻撃には対象アカウントの有効な認証情報が必要で、任意ユーザーへの無条件ログインではない。</span><span class="badges"><span class="badge na" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">KEV掲載未確認</span><span class="badge off" data-glyph="○">公開PoC未確認</span></span><span class="card-fixed"><span>修正版:</span> 3.8.3（Wordfence公式情報。配布元で提供状況を要確認）</span></a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-120201" data-cve="CVE-2026-120201" data-priority="P1" data-product="Jpom（CI/CD・サーバー運用管理）" data-exploited="unknown" data-kev="false" data-poc="true" data-cvss="9.8" data-fixed="修正版を確認できず（2026-11-02時点）">
+<div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-120201</h3></div>
+<p class="product">Jpom（CI/CD・サーバー運用管理） — 2.10.0〜2.11.12（報告者は2.11.12で検証）</p><p class="lead">管理APIの認証トークンが検索条件として解釈され、認証なしで管理者セッションを取得できるおそれ。スクリプト実行機能を通じ管理サーバーや配下ノードに波及する。</p>
+<div class="badges"><span class="badge na" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">KEV掲載未確認</span><span class="badge on" data-glyph="●">公開PoCあり</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div>
+<dl class="facts">
+<div><dt>CVSS</dt><dd>9.8 / Critical（CVSS v3.1、v4.0は9.3）</dd></div>
+<div><dt>攻撃条件</dt><dd class="is-alert">管理APIにネットワーク到達可能であれば認証不要。研究者の再現報告はあるが、実際の攻撃活動は確認できず。</dd></div>
+<div><dt>実悪用</dt><dd>確認できず（実悪用の公式報告なし）</dd></div>
+<div><dt>CISA KEV</dt><dd>確認した10月30日版カタログでは未掲載（以降の更新は確認できず）</dd></div>
+<div><dt>公開PoC</dt><dd class="is-warn">あり。公式リポジトリのIssue #121に再現手順と検証結果が掲載（PoCの実行・取得・詳細コード解析は未実施）。安全性は未確認。 <a href="https://github.com/dromara/Jpom/issues/121" target="_blank" rel="noopener noreferrer">公開検証資料（安全性未確認）</a></dd></div>
+<div><dt>影響バージョン</dt><dd>2.10.0〜2.11.12（報告者は2.11.12で検証）</dd></div>
+<div><dt>修正版</dt><dd class="is-ok">修正版を確認できず（2026-11-02時点）</dd></div>
+</dl>
+<div class="block"><h4>推奨対処・緩和策</h4><p>管理UI/API（標準2122/TCP等）をインターネットから遮断し、管理VPN・許可IPからのみアクセスさせる。必要に応じてサービス停止。修正公開状況を継続確認。</p></div>
+<div class="block reason"><h4>AIによる注目理由</h4><p>認証不要で管理者権限を得てスクリプト実行に進める。管理基盤の権限を通じて多数のホストに波及し得るためP1。</p></div>
+<div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Jpom管理サーバーの存在、バージョン、管理APIの外部公開状況を棚卸し</span></label></li><li><label><input type="checkbox"><span>管理APIを管理VPN・許可IPのみに制限し、実行権限を最小化</span></label></li><li><label><input type="checkbox"><span>認証トークンヘッダーの異常と管理者セッション生成履歴を調査</span></label></li><li><label><input type="checkbox"><span>スクリプト作成・変更・実行、配下ノードへのデプロイとSSH操作履歴を監査</span></label></li><li><label><input type="checkbox"><span>不審な操作があればログ保全、認証情報失効、配下ノード調査を実施</span></label></li></ul></div>
+<div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://github.com/advisories/GHSA-mr28-xw2h-9rw4" target="_blank" rel="noopener noreferrer">GHSA-mr28-xw2h-9rw4（Unreviewed）</a></li><li><a href="https://github.com/dromara/Jpom/issues/121" target="_blank" rel="noopener noreferrer">Jpom公式リポジトリ Issue #121（研究者報告）</a></li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-120201" target="_blank" rel="noopener noreferrer">NVD</a></li><li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEVカタログ（10月30日版まで照合）</a></li></ul></div>
+</article>
+<article class="case" id="CVE-2026-118636" data-cve="CVE-2026-118636" data-priority="P2" data-product="Apache MINA 3.0 codec（JavaNativeMessageDecoder）" data-exploited="unknown" data-kev="false" data-poc="unknown" data-cvss="9.8" data-fixed="3.0系の修正版提供予定なし。Apache公式は最新2.2.x系への移行を推奨。">
+<div class="case-head"><span class="badge p2" data-glyph="■">P2 優先対応</span><h3>CVE-2026-118636</h3></div>
+<p class="product">Apache MINA 3.0 codec（JavaNativeMessageDecoder） — Apache MINA 3.0.0〜3.0.0-M2（公式表記。版順は個別確認）</p><p class="lead">Javaのネイティブデシリアライズ処理にクラス制限がなく、非信頼ピアからの入力が届く構成でRCEの可能性。非サポートの3.0系には修正版を提供しない方針。</p>
+<div class="badges"><span class="badge na" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">KEV掲載未確認</span><span class="badge na" data-glyph="○">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div>
+<dl class="facts">
+<div><dt>CVSS</dt><dd>9.8 / Critical（CVSS v3.1、Apache公式）</dd></div>
+<div><dt>攻撃条件</dt><dd class="is-alert">特定デコーダーが非信頼ネットワーク入力を処理し、ガジェットが存在する構成。Apache MINA利用だけで全環境が該当するわけではない。</dd></div>
+<div><dt>実悪用</dt><dd>確認できず（実悪用の公式報告なし）</dd></div>
+<div><dt>CISA KEV</dt><dd>確認した10月30日版カタログでは未掲載（以降の更新は確認できず）</dd></div>
+<div><dt>公開PoC</dt><dd class="is-warn">確認できず。公開PoC索引に相違があり、実装付き再現コードの存在を十分に確証できないためunknown。</dd></div>
+<div><dt>影響バージョン</dt><dd>Apache MINA 3.0.0〜3.0.0-M2（公式表記。版順は個別確認）</dd></div>
+<div><dt>修正版</dt><dd class="is-ok">3.0系の修正版提供予定なし。Apache公式は最新2.2.x系への移行を推奨。</dd></div>
+</dl>
+<div class="block"><h4>推奨対処・緩和策</h4><p>非信頼ピアからの接続を遮断し、該当デコーダーの利用を停止。2.2.x系への移行とAPI互換性テストを実施。接続元制限は暫定策。</p></div>
+<div class="block reason"><h4>AIによる注目理由</h4><p>RCEの技術的影響は大きいが、非サポート3.0系かつ特定デコーダーを使用する構成に限定され、実悪用・PoCは未確認のためP2。</p></div>
+<div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Maven/Gradle依存関係とSBOMからMINA 3.0系の有無を調査</span></label></li><li><label><input type="checkbox"><span>JavaNativeMessageDecoderの使用箇所と外部からの到達性を開発者に確認</span></label></li><li><label><input type="checkbox"><span>該当サービスの接続元制限と不要なデシリアライズ経路の無効化を検討</span></label></li><li><label><input type="checkbox"><span>Javaプロセスの不審な子プロセス・外部通信・例外ログを監視</span></label></li><li><label><input type="checkbox"><span>2.2.x系への移行、互換性検証、再デプロイを計画</span></label></li></ul></div>
+<div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://lists.apache.org/thread/h76nwcrkvsffhsk2kq6cjzc6srtnty7x" target="_blank" rel="noopener noreferrer">Apache公式セキュリティ告知（10月31日）</a></li><li><a href="https://mina.apache.org/mina-project/" target="_blank" rel="noopener noreferrer">Apache MINA公式サイト</a></li><li><a href="https://github.com/advisories/GHSA-gcvh-r85p-53mh" target="_blank" rel="noopener noreferrer">GitHub Advisory（Unreviewed）</a></li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-118636" target="_blank" rel="noopener noreferrer">NVD</a></li><li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEVカタログ（10月30日版まで照合）</a></li></ul></div>
+</article>
+<article class="case" id="CVE-2026-119096" data-cve="CVE-2026-119096" data-priority="P2" data-product="WordPress Uncanny Toolkit for LearnDash" data-exploited="unknown" data-kev="false" data-poc="false" data-cvss="9.8" data-fixed="3.8.3（Wordfence公式情報。配布元で提供状況を要確認）">
+<div class="case-head"><span class="badge p2" data-glyph="■">P2 優先対応</span><h3>CVE-2026-119096</h3></div>
+<p class="product">WordPress Uncanny Toolkit for LearnDash — 3.8.2以前（Front End Login）</p><p class="lead">未承認・停止済みアカウントのログイン制御を回避できる不備。攻撃には対象アカウントの有効な認証情報が必要で、任意ユーザーへの無条件ログインではない。</p>
+<div class="badges"><span class="badge na" data-glyph="○">実悪用確認できず</span><span class="badge off" data-glyph="○">KEV掲載未確認</span><span class="badge off" data-glyph="○">公開PoC未確認</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div>
+<dl class="facts">
+<div><dt>CVSS</dt><dd>9.8 / Critical（CVSS v3.1、Wordfence CNA）</dd></div>
+<div><dt>攻撃条件</dt><dd class="is-alert">公開ログイン画面への到達と、未承認・停止済みアカウントの有効な資格情報が必要。</dd></div>
+<div><dt>実悪用</dt><dd>確認できず（実悪用の公式報告なし）</dd></div>
+<div><dt>CISA KEV</dt><dd>確認した10月30日版カタログでは未掲載（以降の更新は確認できず）</dd></div>
+<div><dt>公開PoC</dt><dd class="is-warn">確認できず。GitHubやGHSA等で実装付き独立PoCを確認できず。修正差分・解説はPoCとして数えない。</dd></div>
+<div><dt>影響バージョン</dt><dd>3.8.2以前（Front End Login）</dd></div>
+<div><dt>修正版</dt><dd class="is-ok">3.8.3（Wordfence公式情報。配布元で提供状況を要確認）</dd></div>
+</dl>
+<div class="block"><h4>推奨対処・緩和策</h4><p>Wordfenceが修正版とする3.8.3の正規提供元を確認して適用。更新できない場合はFront End Login機能の停止、停止済みアカウントの資格情報失効、ログインアクセス制限を検討。</p></div>
+<div class="block reason"><h4>AIによる注目理由</h4><p>公開Webサイトの認証制御が影響を受け、停止済みアカウントの再利用が可能。ただし有効な資格情報が必要で実悪用未確認のためP2。</p></div>
+<div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>対象プラグインの導入有無と3.8.2以前の稼働を確認</span></label></li><li><label><input type="checkbox"><span>3.8.3の正規配布状況を確認し更新を実施</span></label></li><li><label><input type="checkbox"><span>停止・未承認アカウントの認証情報とセッションを失効</span></label></li><li><label><input type="checkbox"><span>WordPressログイン監査で停止アカウントの成功ログインを検索</span></label></li><li><label><input type="checkbox"><span>Front End Login機能の無効化とWAFの認証保護を暫定検討</span></label></li></ul></div>
+<div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/uncanny-learndash-toolkit/uncanny-toolkit-for-learndash-382-unauthenticated-authentication-bypass-via-email-parameter" target="_blank" rel="noopener noreferrer">Wordfence CNA脆弱性情報（修正版3.8.3）</a></li><li><a href="https://wordpress.org/plugins/uncanny-learndash-toolkit/" target="_blank" rel="noopener noreferrer">WordPress.org公式プラグインページ</a></li><li><a href="https://github.com/advisories/GHSA-c7cc-xqvj-xcq2" target="_blank" rel="noopener noreferrer">GHSA-c7cc-xqvj-xcq2</a></li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-119096" target="_blank" rel="noopener noreferrer">NVD</a></li><li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEVカタログ（10月30日版まで照合）</a></li></ul></div>
+</article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
