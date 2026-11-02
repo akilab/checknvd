@@ -1,0 +1,236 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-03 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-03" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月3日（火）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-03 08:00 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-10-27 〜 2026-11-03</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 2 ／ P2: 1 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-02.html" rel="prev">← 前日 2026-11-02</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>cPanel &amp; WHMの未修正ホストを優先確認し、リセラー権限によるrootファイル書き込みと認証不要の予定表・連絡先漏えいを防いでください。</strong>
+      2026年11月2日に2件のcPanel CVEが公開され、ホスティング管理基盤における特権境界破壊とメール利用者情報の漏えいが判明しました。加えて11月1日公開のBeta9 workerの脆弱性では、AIサンドボックスを越えて他テナントのファイルやKubernetes認証情報へアクセスし得ます。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>cPanel &amp; WHM（ホスティング管理基盤）</dd></div>
+      <div><dt>推奨アクション</dt><dd>cPanel/WHMを各系列の修正版へ更新し、リセラー権限・管理画面公開範囲・不審なrootファイル変更を点検。Beta9 workerは0.1.756以降へ更新し、ワーカーのKubernetes権限を監査。</dd></div>
+      <div><dt>対応期限</dt><dd>掲載3件にCISA KEV対応期限の設定を確認できず。公開管理基盤・マルチテナント環境は即時確認。</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>cPanel 2件のCVEが2026-11-02に新規公開。Beta9の重大なサンドボックス境界破壊が2026-11-01にCVE公開。CISA KEV公式ミラーの最新確認版は2026-10-30。</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-105476" data-priority="P1">
+  <span class="badge p1" data-glyph="■">P1 即時確認</span>
+  <span class="card-cve">CVE-2026-105476</span>
+  <span class="card-product">cPanel &amp; WHM（ホスティング管理基盤） — v78以降の未修正ビルド（各リリース系列の修正版より前）</span>
+  <span class="card-lead">リセラー権限の利用者がroot権限プロセスに任意の場所へのファイル作成・上書きを行わせることが可能。共有ホスティングの他テナントやサーバー全体への波及を警戒。</span>
+  <span class="badges"><span class="badge na" data-glyph="●">実悪用確認できず</span>
+<span class="badge off" data-glyph="●">KEV掲載未確認</span>
+<span class="badge off" data-glyph="●">公開PoC確認できず</span></span>
+  <span class="card-fixed"><span>修正版:</span> 110.0.154 / 134.0.67 / 136.0.51 / 138.0.19以降（各系列）</span>
+</a>
+
+<a class="summary-card" href="#CVE-2026-120307" data-priority="P1">
+  <span class="badge p1" data-glyph="■">P1 即時確認</span>
+  <span class="card-cve">CVE-2026-120307</span>
+  <span class="card-product">Beam Cloud Beta9 worker（AI実行・マルチテナント基盤） — worker 0.1.756より前</span>
+  <span class="card-lead">テナントのサンドボックス・ファイルAPIがホスト側のパスを不適切に解決し、ワーカー上の他テナントのファイルをroot権限で読み書き・削除可能。Kubernetesサービスアカウントにも波及し得る。</span>
+  <span class="badges"><span class="badge na" data-glyph="●">実悪用確認できず</span>
+<span class="badge off" data-glyph="●">KEV掲載未確認</span>
+<span class="badge na" data-glyph="●">公開PoC不明</span></span>
+  <span class="card-fixed"><span>修正版:</span> Beta9 worker 0.1.756以降（2026-09-15リリース）</span>
+</a>
+
+<a class="summary-card" href="#CVE-2026-105475" data-priority="P2">
+  <span class="badge p2" data-glyph="■">P2 優先対応</span>
+  <span class="card-cve">CVE-2026-105475</span>
+  <span class="card-product">cPanel &amp; WHM（メール・ホスティング基盤） — v124以降の未修正ビルド（ベンダー告知）</span>
+  <span class="card-lead">認証情報なしでサーバー上の任意メールアカウントのカレンダー予定・連絡先データを読み取れるおそれ。外部公開Webメール関連機能からの機密情報漏えいを警戒。</span>
+  <span class="badges"><span class="badge na" data-glyph="●">実悪用確認できず</span>
+<span class="badge off" data-glyph="●">KEV掲載未確認</span>
+<span class="badge off" data-glyph="●">公開PoC確認できず</span></span>
+  <span class="card-fixed"><span>修正版:</span> 134.0.67 / 136.0.51 / 138.0.19以降（対象系列）</span>
+</a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-105476"
+  data-cve="CVE-2026-105476"
+  data-priority="P1"
+  data-product="cPanel &amp; WHM（ホスティング管理基盤）"
+  data-exploited="unknown"
+  data-kev="false"
+  data-poc="false"
+  data-cvss="確認できず"
+  data-fixed="110.0.154 / 134.0.67 / 136.0.51 / 138.0.19以降（各系列）">
+  <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-105476</h3></div>
+  <p class="product">cPanel &amp; WHM（ホスティング管理基盤） — v78以降の未修正ビルド（各リリース系列の修正版より前）</p>
+  <p class="lead">リセラー権限の利用者がroot権限プロセスに任意の場所へのファイル作成・上書きを行わせることが可能。共有ホスティングの他テナントやサーバー全体への波及を警戒。</p>
+  <div class="badges"><span class="badge na" data-glyph="●">実悪用確認できず</span>
+<span class="badge off" data-glyph="●">KEV掲載未確認</span>
+<span class="badge off" data-glyph="●">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 確認できず</span></div>
+  <dl class="facts">
+    <div><dt>CVSS</dt><dd>確認できず（CNA・ベンダーがスコア未提示）</dd></div>
+    <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由。攻撃には有効なリセラーアカウントが必要。認証不要ではない。root権限で任意ファイルの作成・上書きが可能。</dd></div>
+    <div><dt>実悪用</dt><dd>確認できず（実悪用の一次報告なし）</dd></div>
+    <div><dt>CISA KEV</dt><dd>未掲載（CISA公式ミラー2026-10-30版で照合。以降の変更は確認できず）</dd></div>
+    <div><dt>公開PoC</dt><dd class="is-warn">公開実装付きPoCは確認できず。GitHubコード検索・CVEレコード・ベンダー告知を照合。（PoCの実行・ビルド・ダウンロード・詳細コード解析は未実施）</dd></div>
+    <div><dt>影響バージョン</dt><dd>v78以降の未修正ビルド（各リリース系列の修正版より前）</dd></div>
+    <div><dt>修正版</dt><dd class="is-ok">110.0.154 / 134.0.67 / 136.0.51 / 138.0.19以降（各系列）</dd></div>
+  </dl>
+  <div class="block"><h4>推奨対処・緩和策</h4><p>正規のcPanel更新機能で対象系列の修正版へ更新。更新までリセラー権限の付与を見直し、不要なリセラーアカウントを停止し、管理画面を信頼済みIP・管理VPNに制限。既存の不正ファイルは更新だけでは除去されないため、侵害疑いがあれば保全・調査を実施。</p></div>
+  <div class="block reason"><h4>AIによる注目理由</h4><p>リセラーアカウントからroot所有ファイルを書き換えられる管理境界破壊。単一サーバー上の多数の顧客サイト・メール環境に波及し得るため、CVSS未公表でもP1。2026-11-02にCVE公開。</p></div>
+  <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+    <li><label><input type="checkbox"><span>cPanel/WHMの導入・管理ホスト・リセラー機能の利用有無とビルド番号を棚卸し</span></label></li>
+    <li><label><input type="checkbox"><span>各系列の修正版への更新を確認し、リセラーアカウント・委任権限を点検</span></label></li>
+    <li><label><input type="checkbox"><span>WHM管理画面への到達性を絞り、不要なリセラー資格情報・セッションを失効</span></label></li>
+    <li><label><input type="checkbox"><span>root所有の設定ファイル、cron、Web公開ディレクトリの不審な作成・変更を監査</span></label></li>
+    <li><label><input type="checkbox"><span>cPanel監査ログ・Webアクセスログ・EDRでリセラー操作と特権プロセスの不審なファイル書き込みを相関調査</span></label></li>
+  </ul></div>
+  <div class="block"><h4>情報源</h4><ul class="sources">
+    <li><a href="https://support.cpanel.net/hc/en-us/articles/44356595655703-Security-CVE-2026-105476-Arbitrary-File-Write-as-Root-in-cPanel-WHM-October-26-2026" target="_blank" rel="noopener noreferrer">cPanel公式セキュリティ告知（2026-10-30更新）</a></li>
+    <li><a href="https://github.com/CVEProject/cvelistV5/blob/main/cves/2026/105xxx/CVE-2026-105476.json" target="_blank" rel="noopener noreferrer">CVE Program公式レコード（2026-11-02公開）</a></li>
+    <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-105476" target="_blank" rel="noopener noreferrer">NVD</a></li>
+    <li><a href="https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">CISA KEV公式ミラー（2026-10-30版）</a></li>
+  </ul></div>
+</article>
+
+<article class="case" id="CVE-2026-120307"
+  data-cve="CVE-2026-120307"
+  data-priority="P1"
+  data-product="Beam Cloud Beta9 worker（AI実行・マルチテナント基盤）"
+  data-exploited="unknown"
+  data-kev="false"
+  data-poc="unknown"
+  data-cvss="9.9"
+  data-fixed="Beta9 worker 0.1.756以降（2026-09-15リリース）">
+  <div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-120307</h3></div>
+  <p class="product">Beam Cloud Beta9 worker（AI実行・マルチテナント基盤） — worker 0.1.756より前</p>
+  <p class="lead">テナントのサンドボックス・ファイルAPIがホスト側のパスを不適切に解決し、ワーカー上の他テナントのファイルをroot権限で読み書き・削除可能。Kubernetesサービスアカウントにも波及し得る。</p>
+  <div class="badges"><span class="badge na" data-glyph="●">実悪用確認できず</span>
+<span class="badge off" data-glyph="●">KEV掲載未確認</span>
+<span class="badge na" data-glyph="●">公開PoC不明</span><span class="badge na" data-glyph="■">CVSS 9.9</span></div>
+  <dl class="facts">
+    <div><dt>CVSS</dt><dd>9.9 / Critical（CVSS v3.1、CNA）</dd></div>
+    <div><dt>攻撃条件</dt><dd class="is-alert">有効なテナントworkspace tokenと稼働中のサンドボックスが必要。サンドボックス・ファイルAPIへのネットワークアクセスで成立。認証不要ではない。</dd></div>
+    <div><dt>実悪用</dt><dd>確認できず（研究者の制御下で読み取り実証あり。実環境での悪用報告とは区別）</dd></div>
+    <div><dt>CISA KEV</dt><dd>未掲載（CISA公式ミラー2026-10-30版で照合。以降の変更は確認できず）</dd></div>
+    <div><dt>公開PoC</dt><dd class="is-warn">公開実装付きPoCの存在は確認できず（unknown）。研究者による読み取り実証はCNAに記載されるが、公開コード・具体的再現ファイルは未確認。（PoCの実行・ビルド・ダウンロード・詳細コード解析は未実施）</dd></div>
+    <div><dt>影響バージョン</dt><dd>worker 0.1.756より前</dd></div>
+    <div><dt>修正版</dt><dd class="is-ok">Beta9 worker 0.1.756以降（2026-09-15リリース）</dd></div>
+  </dl>
+  <div class="block"><h4>推奨対処・緩和策</h4><p>自組織管理のBeta9 workerを0.1.756以降へ更新し、関連コンポーネントの整合性も確認。更新まで非信頼テナントのサンドボックス・ファイルAPIを制限し、ワーカーのKubernetesサービスアカウント権限を最小化。侵害疑いがある場合は認証トークンをローテーション。</p></div>
+  <div class="block reason"><h4>AIによる注目理由</h4><p>AIワークロードを隔離するはずのサンドボックス境界が破れ、同一ワーカーの他テナント・Kubernetes管理権限に到達し得る。CVSS 9.9、複数環境への波及を重視しP1。CVEは2026-11-01公開。</p></div>
+  <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+    <li><label><input type="checkbox"><span>Beta9 workerの利用有無、workerバージョン、稼働中サンドボックス・テナントを特定</span></label></li>
+    <li><label><input type="checkbox"><span>worker 0.1.756以降への更新と関連gateway等の互換性・更新状況を確認</span></label></li>
+    <li><label><input type="checkbox"><span>worker podのservice accountとcluster-admin権限の有無、RBAC・ホストマウントを監査</span></label></li>
+    <li><label><input type="checkbox"><span>サンドボックス・ファイルAPIの異常なパスアクセス、他テナント領域へのアクセス兆候を確認</span></label></li>
+    <li><label><input type="checkbox"><span>ワーカーのファイル変更、Kubernetes API監査ログ、認証トークン利用履歴を調査し必要に応じ失効</span></label></li>
+  </ul></div>
+  <div class="block"><h4>情報源</h4><ul class="sources">
+    <li><a href="https://github.com/advisories/GHSA-6h4h-qffc-3gfp" target="_blank" rel="noopener noreferrer">GitHub Advisory Database（CVE・CNA情報）</a></li>
+    <li><a href="https://github.com/beam-cloud/beta9/pull/1897" target="_blank" rel="noopener noreferrer">Beta9公式修正PR #1897</a></li>
+    <li><a href="https://github.com/beam-cloud/beta9/releases/tag/worker-0.1.756" target="_blank" rel="noopener noreferrer">Beta9公式 worker 0.1.756 リリース</a></li>
+    <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-120307" target="_blank" rel="noopener noreferrer">NVD</a></li>
+    <li><a href="https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">CISA KEV公式ミラー（2026-10-30版）</a></li>
+  </ul></div>
+</article>
+
+<article class="case" id="CVE-2026-105475"
+  data-cve="CVE-2026-105475"
+  data-priority="P2"
+  data-product="cPanel &amp; WHM（メール・ホスティング基盤）"
+  data-exploited="unknown"
+  data-kev="false"
+  data-poc="false"
+  data-cvss="8.7"
+  data-fixed="134.0.67 / 136.0.51 / 138.0.19以降（対象系列）">
+  <div class="case-head"><span class="badge p2" data-glyph="■">P2 優先対応</span><h3>CVE-2026-105475</h3></div>
+  <p class="product">cPanel &amp; WHM（メール・ホスティング基盤） — v124以降の未修正ビルド（ベンダー告知）</p>
+  <p class="lead">認証情報なしでサーバー上の任意メールアカウントのカレンダー予定・連絡先データを読み取れるおそれ。外部公開Webメール関連機能からの機密情報漏えいを警戒。</p>
+  <div class="badges"><span class="badge na" data-glyph="●">実悪用確認できず</span>
+<span class="badge off" data-glyph="●">KEV掲載未確認</span>
+<span class="badge off" data-glyph="●">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 8.7</span></div>
+  <dl class="facts">
+    <div><dt>CVSS</dt><dd>8.7 / High（CVSS v4.0、CNA）</dd></div>
+    <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・ユーザー操作不要。メールアカウントの予定表と連絡先が対象。メール本文の取得やRCEは公式情報では確認できず。</dd></div>
+    <div><dt>実悪用</dt><dd>確認できず（実悪用の一次報告なし）</dd></div>
+    <div><dt>CISA KEV</dt><dd>未掲載（CISA公式ミラー2026-10-30版で照合。以降の変更は確認できず）</dd></div>
+    <div><dt>公開PoC</dt><dd class="is-warn">公開実装付きPoCは確認できず。GitHubコード検索・CVEレコード・ベンダー告知を照合。（PoCの実行・ビルド・ダウンロード・詳細コード解析は未実施）</dd></div>
+    <div><dt>影響バージョン</dt><dd>v124以降の未修正ビルド（ベンダー告知）</dd></div>
+    <div><dt>修正版</dt><dd class="is-ok">134.0.67 / 136.0.51 / 138.0.19以降（対象系列）</dd></div>
+  </dl>
+  <div class="block"><h4>推奨対処・緩和策</h4><p>対象のcPanel/WHMをベンダー案内の修正版に更新。更新までWebメール・カレンダー・連絡先関連の外部アクセスを必要最小限に制限。疑わしいアクセスがあれば取得された可能性のある情報の範囲を評価し、情報漏えい対応を検討。</p></div>
+  <div class="block reason"><h4>AIによる注目理由</h4><p>認証不要で他人の連絡先・予定を取得できるため、ホスティング事業者では多数のメール利用者に横断的な情報漏えいリスクがある。一方、公式説明ではサーバー乗っ取りは確認されないためP2。2026-11-02にCVE公開。</p></div>
+  <div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+    <li><label><input type="checkbox"><span>メールアカウントをホストするcPanel/WHMの利用状況とバージョンを確認</span></label></li>
+    <li><label><input type="checkbox"><span>134/136/138各系列の修正版適用を確認し、更新できない公開機能を一時制限</span></label></li>
+    <li><label><input type="checkbox"><span>Webメール・カレンダー・連絡先関連エンドポイントの認証なしアクセスと大量取得を監査</span></label></li>
+    <li><label><input type="checkbox"><span>アクセス元IP、レスポンス量、短時間の複数アカウント参照をWeb/WAFログで相関分析</span></label></li>
+    <li><label><input type="checkbox"><span>漏えい疑いがあれば対象アカウント・取得可能情報・関係者通知の要否を評価</span></label></li>
+  </ul></div>
+  <div class="block"><h4>情報源</h4><ul class="sources">
+    <li><a href="https://support.cpanel.net/hc/en-us/articles/44356591132439-Security-CVE-2026-105475-Unauthenticated-Access-to-Calendar-and-Contact-Data-in-cPanel-WHM-October-26-2026" target="_blank" rel="noopener noreferrer">cPanel公式セキュリティ告知（2026-10-30更新）</a></li>
+    <li><a href="https://github.com/advisories/GHSA-rcwx-58mq-xwr6" target="_blank" rel="noopener noreferrer">GitHub Advisory Database（CVSS v4.0 8.7）</a></li>
+    <li><a href="https://github.com/CVEProject/cvelistV5/blob/main/cves/2026/105xxx/CVE-2026-105475.json" target="_blank" rel="noopener noreferrer">CVE Program公式レコード（2026-11-02公開）</a></li>
+    <li><a href="https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json" target="_blank" rel="noopener noreferrer">CISA KEV公式ミラー（2026-10-30版）</a></li>
+  </ul></div>
+</article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
