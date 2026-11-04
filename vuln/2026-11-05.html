@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-05 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-05" data-case-count="1">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月5日（木）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-05 07:58 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-10-29 〜 2026-11-05</dd></div>
+      <div><dt>掲載件数</dt><dd>1 件（P1: 1 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-04.html" rel="prev">← 前日 2026-11-04</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>Brotliを展開するインターネット公開アプリと組込製品の修正状況を最優先で確認する。</strong>
+      実悪用とKEV掲載が報告され、11月4日にHKCERTが情報を更新した。Node.jsに限らず.NETなど組込製品の影響も調べる必要がある。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Google Brotli / Node.js / Microsoft .NET</dd></div>
+      <div><dt>推奨アクション</dt><dd>対象アプリの棚卸し、修正版適用、圧縮データ処理経路のログ・EDR調査</dd></div>
+      <div><dt>対応期限</dt><dd>本調査では確認できず（緊急対応を推奨）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>2026-11-04にHKCERTがアラートを更新。2026-11-02にTrend Microも製品影響情報を更新。</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-111497" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-111497</span><span class="card-product">Google Brotli / Node.js / Microsoft .NET</span><span class="card-lead">Brotliデコーダの境界外書き込み。実悪用・KEV掲載が確認され、11月4日にHKCERTが情報を更新。影響製品を横断した棚卸しが必要。</span><span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge warn" data-glyph="●">公開PoCあり（公的機関報告）</span></span><span class="card-fixed"><span>修正版:</span> Node.js 22.23.4 / 24.22.1 / 26.12.1以降。その他は各ベンダーの最新修正を確認</span></a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-111497" data-cve="CVE-2026-111497" data-priority="P1" data-product="Google Brotli / Node.js / Microsoft .NET" data-exploited="true" data-kev="true" data-poc="true" data-cvss="9.8" data-fixed="Node.js 22.23.4 / 24.22.1 / 26.12.1以降">
+<div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-111497</h3></div>
+<p class="product">Google Brotli / Node.js 22.x・24.x・26.x / Microsoft .NET 8〜11（圧縮データ処理ライブラリ）</p>
+<p class="lead">攻撃者が制御するBrotli圧縮データの展開により、境界外書き込みが発生し、情報漏えい、DoS、リモートコード実行につながる可能性。11月4日にHKCERTがアラートを更新。</p>
+<div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge warn" data-glyph="●">公開PoCあり（公的機関報告）</span><span class="badge na" data-glyph="■">CVSS 9.8 (v3.1)</span></div>
+<dl class="facts"><div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1、CSA Singapore)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">脆弱なアプリケーションが攻撃者制御のBrotli圧縮データを展開すること。認証不要のリモート攻撃が成立し得るが、全アプリケーションが同じ条件で影響するわけではない。</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり（CSA Singapore、HKCERTが2026-10-30/11-04に言及）</dd></div><div><dt>CISA KEV</dt><dd>掲載あり（Trend Microの2026-11-02更新で2026-10-27追加を確認）</dd></div><div><dt>公開PoC</dt><dd class="is-warn">あり（CSA Singaporeが公開を確認。実装の独立検証・安全性評価は実施せず。PoC個別URLは確認できず）</dd></div><div><dt>影響バージョン</dt><dd>Node.js 22.x &lt; 22.23.4、24.x &lt; 24.22.1、26.x &lt; 26.12.1。Microsoft .NET 8/9/10/11（影響する具体的ビルドは各公式情報で確認）。組み込みBrotliの影響範囲は製品ごとに異なる。</dd></div><div><dt>修正版</dt><dd class="is-ok">Node.js 22.23.4 / 24.22.1 / 26.12.1以降。Microsoft .NETや組込製品の修正版番号は本調査では確認できず。</dd></div></dl>
+<div class="block"><h4>推奨対処</h4><p>対象Node.jsを修正版へ更新しプロセスを再起動。Microsoft .NET、Brotliを組み込む製品もベンダー修正を確認。更新までの間は信頼できない圧縮入力の受付制限、ネットワーク分離、入力サイズ制限を検討するが、これらのみで完全に防御できるとは限らない。</p></div>
+<div class="block reason"><h4>AIによる注目理由</h4><p>実悪用とKEV掲載があり、圧縮データ処理という一般的な経路を通じて複数製品に波及する。11月4日の公的機関による情報更新を重要更新として再掲載。CVSSとは別に、インターネット公開サービス・広範な利用環境への影響からP1。</p></div>
+<div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist">
+<li><label><input type="checkbox"><span>SBOM、コンテナイメージ、ランタイム一覧からNode.js/.NETおよびBrotli利用アプリを抽出する</span></label></li>
+<li><label><input type="checkbox"><span>Node.js 22/24/26の稼働版と修正済み版を照合し、更新・再起動を追跡する</span></label></li>
+<li><label><input type="checkbox"><span>外部入力のBrotli展開を行うAPI、アップロード処理、HTTP処理経路を特定する</span></label></li>
+<li><label><input type="checkbox"><span>アプリケーションクラッシュ、異常終了、再起動の急増、圧縮データを伴う不審リクエストをログから確認する</span></label></li>
+<li><label><input type="checkbox"><span>対象プロセスからの異常な子プロセス起動・外部通信をEDRで確認し、侵害疑いはIRへエスカレーションする</span></label></li>
+</ul></div><div class="block"><h4>情報源</h4><ul class="sources">
+<li><a href="https://www.hkcert.org/security-bulletin/google-brotli-remote-code-execution-vulnerability_20261028" target="_blank" rel="noopener noreferrer">HKCERT（2026-11-04更新）</a></li>
+<li><a href="https://www.csa.gov.sg/alerts-and-advisories/alerts/al-2026-154/" target="_blank" rel="noopener noreferrer">CSA Singapore（2026-10-30、実悪用・PoC・影響バージョン）</a></li>
+<li><a href="https://success.trendmicro.com/ja-jp/solution/KA-0024869" target="_blank" rel="noopener noreferrer">Trend Micro公式（2026-11-02更新、KEV追加日）</a></li>
+<li><a href="https://nodejs.org/en/blog/vulnerability/october-2026-security-releases" target="_blank" rel="noopener noreferrer">Node.js公式セキュリティリリース</a></li>
+</ul></div></article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
