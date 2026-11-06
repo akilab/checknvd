@@ -1,0 +1,85 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-07 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-07" data-case-count="2">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月7日（土）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-07 07:55 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-10-31 〜 2026-11-07</dd></div>
+      <div><dt>掲載件数</dt><dd>2 件（P1: 2 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-06.html" rel="prev">← 前日 2026-11-06</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>BeyondTrust Remote Supportの未修正装置を最優先で確認してください。</strong>
+      実悪用済みのRMM基盤に公開攻撃実装が加わり、11月4日に公式勧告も更新されています。Brotliについても11月6日にTrendAIがセキュリティ製品別の影響・修正状況を更新しました。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>BeyondTrust Remote Support</dd></div>
+      <div><dt>推奨アクション</dt><dd>BT26-05-RSの適用確認、侵害調査、特権資格情報の点検。TrendAI製品の更新状況も確認。</dd></div>
+      <div><dt>対応期限</dt><dd>BeyondTrustは即時対応推奨（CISA連邦機関向け期限は経過）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>BeyondTrust公式11月4日更新と公開攻撃実装の確認、TrendAI公式11月6日更新</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-102764" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-102764</span><span class="card-product">BeyondTrust Remote Support / 26.2.3以前（自社運用）</span><span class="card-lead">リモートサポート装置の内部メッセージ送信元検証不備。認証不要のファイル操作が可能で、実悪用とWebシェル展開が確認されている。10月30日に公開攻撃実装の報告、11月4日にベンダー勧告更新。</span><span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge warn" data-glyph="●">公開PoCあり</span></span><span class="card-fixed"><span>修正版:</span> BT26-05-RSパッチ（24.3.1〜26.2.3）／26.3.1以降</span></a>
+<a class="summary-card" href="#CVE-2026-111497" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-111497</span><span class="card-product">Google Brotli / TrendAI Deep Discovery等 / Brotliを組み込んだ影響製品。TrendAI DDI・DDAN・DDEI・Vision One Container Security・Cloud Edge等（製品別の対象版は確認できず）</span><span class="card-lead">Brotliデコーダの境界外書き込み。実悪用・KEV掲載済み。11月6日のTrendAI公式更新で複数のセキュリティ製品への影響と修正・対応状況が具体化した。</span><span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge na" data-glyph="●">公開PoC確認できず</span></span><span class="card-fixed"><span>修正版:</span> DDI向けCritical Patch公開。DDAN・DDEIは11月6日目途のActiveUpdate予定（適用完了は要確認）。Container Securityは対応準備中。Cloud EdgeはHotfix等予定。</span></a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-102764" data-cve="CVE-2026-102764" data-priority="P1" data-product="BeyondTrust Remote Support" data-exploited="true" data-kev="true" data-poc="true" data-cvss="9.3" data-fixed="BT26-05-RSパッチ（24.3.1〜26.2.3）／26.3.1以降"><div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-102764</h3></div><p class="product">BeyondTrust Remote Support / 26.2.3以前（自社運用）</p><p class="lead">リモートサポート装置の内部メッセージ送信元検証不備。認証不要のファイル操作が可能で、実悪用とWebシェル展開が確認されている。10月30日に公開攻撃実装の報告、11月4日にベンダー勧告更新。</p><div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge warn" data-glyph="●">公開PoCあり</span><span class="badge na" data-glyph="■">CVSS 9.3（CVSS v4.0 / Critical）</span></div><dl class="facts"><div><dt>CVSS</dt><dd>9.3（CVSS v4.0 / Critical）</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要。外部到達可能なRemote Support装置が特に危険。</dd></div><div><dt>実悪用</dt><dd class="is-alert">確認あり</dd></div><div><dt>CISA KEV</dt><dd>掲載あり</dd></div><div><dt>公開PoC</dt><dd class="is-warn">公開実装あり（<a href="https://www.rapid7.com/blog/post/etr-cve-2026-102764-critical-beyondtrust-remote-support-authentication-bypass-exploited-in-the-wild/" target="_blank" rel="noopener noreferrer">確認情報</a>）。安全性は未検証。</dd></div><div><dt>影響バージョン</dt><dd>26.2.3以前（自社運用）</dd></div><div><dt>修正版</dt><dd class="is-ok">BT26-05-RSパッチ（24.3.1〜26.2.3）／26.3.1以降</dd></div></dl><div class="block"><h4>推奨対処</h4><p>自社運用の装置は直ちにBT26-05-RSを適用。24.3.1未満は先にアップグレード。管理面のアクセス制限と外部ログ保全を行い、侵害が疑われれば装置が保持・中継した認証情報を変更。SaaS版はベンダーが適用済み。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>RMM・特権アクセス基盤で実悪用とKEV掲載が確認され、攻撃実装の公開による追随攻撃リスクも高い。侵害後の横展開・資格情報窃取に直結するためP1。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Remote Supportおよび関連するPrivileged Remote Accessの運用形態・設置場所を棚卸し</span></label></li><li><label><input type="checkbox"><span>26.2.3以前のRemote SupportでBT26-05-RS適用または26.3.1以降への更新を確認</span></label></li><li><label><input type="checkbox"><span>/login・/applianceへの外部到達性とアクセス制御を点検</span></label></li><li><label><input type="checkbox"><span>8月末以降の外部転送ログで不審な管理セッション、ファイル操作、Webシェル痕跡を調査</span></label></li><li><label><input type="checkbox"><span>特権資格情報のアクセス・変更履歴、配下端末への横展開、ログ消去をEDR/SIEMで確認</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://www.beyondtrust.com/trust-center/security-advisories/bt26-05" target="_blank" rel="noopener noreferrer">BeyondTrust公式 BT26-05（11月4日更新）</a></li><li><a href="https://www.beyondtrust.com/blog/entry/bt26-05" target="_blank" rel="noopener noreferrer">BeyondTrust公式 侵害事例</a></li><li><a href="https://www.rapid7.com/blog/post/etr-cve-2026-102764-critical-beyondtrust-remote-support-authentication-bypass-exploited-in-the-wild/" target="_blank" rel="noopener noreferrer">Rapid7 公開PoC/Metasploit情報（10月30日）</a></li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-102764" target="_blank" rel="noopener noreferrer">NVD</a></li></ul></div></article>
+<article class="case" id="CVE-2026-111497" data-cve="CVE-2026-111497" data-priority="P1" data-product="Google Brotli / TrendAI Deep Discovery等" data-exploited="true" data-kev="true" data-poc="unknown" data-cvss="9.2" data-fixed="DDI向けCritical Patch公開。DDAN・DDEIは11月6日目途のActiveUpdate予定（適用完了は要確認）。Container Securityは対応準備中。Cloud EdgeはHotfix等予定。"><div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-111497</h3></div><p class="product">Google Brotli / TrendAI Deep Discovery等 / Brotliを組み込んだ影響製品。TrendAI DDI・DDAN・DDEI・Vision One Container Security・Cloud Edge等（製品別の対象版は確認できず）</p><p class="lead">Brotliデコーダの境界外書き込み。実悪用・KEV掲載済み。11月6日のTrendAI公式更新で複数のセキュリティ製品への影響と修正・対応状況が具体化した。</p><div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge na" data-glyph="●">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 9.2（CVSS v4.0、ベンダー報告）</span></div><dl class="facts"><div><dt>CVSS</dt><dd>9.2（CVSS v4.0、ベンダー報告）</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">脆弱なBrotliデコード経路に攻撃者制御の圧縮データが到達する場合。製品ごとに攻撃経路は異なり確認が必要。</dd></div><div><dt>実悪用</dt><dd class="is-alert">確認あり</dd></div><div><dt>CISA KEV</dt><dd>掲載あり</dd></div><div><dt>公開PoC</dt><dd class="is-warn">実装の確認不十分（unknown）</dd></div><div><dt>影響バージョン</dt><dd>Brotliを組み込んだ影響製品。TrendAI DDI・DDAN・DDEI・Vision One Container Security・Cloud Edge等（製品別の対象版は確認できず）</dd></div><div><dt>修正版</dt><dd class="is-ok">DDI向けCritical Patch公開。DDAN・DDEIは11月6日目途のActiveUpdate予定（適用完了は要確認）。Container Securityは対応準備中。Cloud EdgeはHotfix等予定。</dd></div></dl><div class="block"><h4>推奨対処</h4><p>TrendAI公式の製品別影響表を確認し、DDIはCritical Patchを適用。DDAN・DDEIはActiveUpdate適用結果を検証。未修正製品は信頼できるネットワークへのアクセス制限、外部公開縮小、監視強化を実施。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>KEV掲載・実悪用に加え、11月6日にSOC運用上重要なセキュリティ製品の影響範囲と修正状況が更新されたため再掲載。未修正製品も存在しP1。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>DDI・DDAN・DDEI・Container Security・Cloud Edge等の導入有無を確認</span></label></li><li><label><input type="checkbox"><span>製品・モジュール別の影響バージョンと更新履歴をベンダー資料で確認</span></label></li><li><label><input type="checkbox"><span>DDI Critical PatchとDDAN・DDEI ActiveUpdateの実際の適用状態を確認</span></label></li><li><label><input type="checkbox"><span>未修正製品の管理・検査インターフェースへの外部到達性を点検</span></label></li><li><label><input type="checkbox"><span>異常終了、デコード処理のクラッシュ、検査サービスの不審な子プロセスをログ・EDRで監視</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://success.trendmicro.com/ja-jp/solution/KA-0024869" target="_blank" rel="noopener noreferrer">TrendAI公式 製品影響情報（11月6日更新）</a></li><li><a href="https://success.trendmicro.com/ja-JP/solution/KA-0024836" target="_blank" rel="noopener noreferrer">TrendAI公式 脆弱性アドバイザリ</a></li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-111497" target="_blank" rel="noopener noreferrer">NVD</a></li></ul></div></article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
