@@ -1,0 +1,96 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-08 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-08" data-case-count="1">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月8日（日）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-08 07:56 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-11-01 〜 2026-11-08</dd></div>
+      <div><dt>掲載件数</dt><dd>1 件（P1: 1 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-07.html" rel="prev">← 前日 2026-11-07</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>Cisco製品に組み込まれたBrotli脆弱性の影響と修正版提供状況を最優先で確認してください。</strong>
+      11月6日にCiscoが影響製品一覧を更新し、認証・管理・セキュリティ基盤にも修正待ち製品があることが判明しました。Brotli本体の実悪用と公開PoCは確認されていますが、Cisco製品への悪用は確認されていません。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Cisco Catalyst Center / Duo Network Gateway / Secure Endpoint Private Cloud等</dd></div>
+      <div><dt>推奨アクション</dt><dd>Cisco製品別影響表とBug IDを照合し、提供済み修正を適用。未修正製品の入力経路・到達性を制限。</dd></div>
+      <div><dt>対応期限</dt><dd>Cisco製品固有の期限は設定なし。未修正製品は早急に緩和策を検討。</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>Cisco公式アドバイザリが11月6日にv1.8へ更新。影響製品・修正予定が具体化。</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-111497" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-111497</span><span class="card-product">Cisco Catalyst Center / Duo Network Gateway / Secure Endpoint Private Cloud等</span><span class="card-lead">Brotliデコーダの境界外書き込みによりRCE等のおそれ。Ciscoが11月6日に影響製品・修正版一覧を更新し、認証・管理・セキュリティ基盤にも未修正製品が存在することを明示。</span><span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge warn" data-glyph="●">公開PoCあり</span></span><span class="card-fixed"><span>修正版:</span> Duo Network Gateway 3.4.2、Cisco AI Canvas 26.10.4等。一部製品は修正版未提供・公開予定2027年</span></a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-111497" data-cve="CVE-2026-111497" data-priority="P1" data-product="Cisco Catalyst Center / Duo Network Gateway / Secure Endpoint Private Cloud等" data-exploited="true" data-kev="true" data-poc="true" data-cvss="9.2" data-fixed="Duo Network Gateway 3.4.2、Cisco AI Canvas 26.10.4等。一部製品は修正版未提供・公開予定2027年">
+<div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-111497</h3></div>
+<p class="product">Cisco Catalyst Center、Duo Network Gateway、Secure Endpoint Private Cloud Appliance、Nexus 9000 Guest Shell、Secure Workload等（各製品の影響バージョンはCisco Bug IDと個別リリースで確認）（ネットワーク管理・認証・セキュリティ基盤）</p><p class="lead">Brotliデコーダの境界外書き込みによりRCE等のおそれ。Ciscoが11月6日に影響製品・修正版一覧を更新し、認証・管理・セキュリティ基盤にも未修正製品が存在することを明示。</p>
+<div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge warn" data-glyph="●">公開PoCあり</span><span class="badge na" data-glyph="■">CVSS 9.2（Brotli脆弱性、v4.0）</span></div>
+<dl class="facts"><div><dt>CVSS</dt><dd>9.2（CVSS v4.0、Brotli脆弱性評価。Ciscoの複数CVE統合アドバイザリの代表値7.4とは別）</dd></div>
+<div><dt>攻撃条件</dt><dd class="is-alert">脆弱なBrotliデコーダが攻撃者制御の圧縮データを処理すること。Cisco製品ごとの具体的到達経路は確認できず。</dd></div>
+<div><dt>実悪用</dt><dd class="is-alert">Brotli脆弱性の実悪用確認あり。Cisco製品への悪用はCisco PSIRTが未確認。</dd></div>
+<div><dt>CISA KEV</dt><dd>掲載あり（Brotli CVE。Cisco個別製品での攻撃確認を意味しない）</dd></div>
+<div><dt>公開PoC</dt><dd class="is-warn">実装付きPoC公開あり（<a href="https://github.com/dimasma0305/CVE-2026-111497-POC" target="_blank" rel="noopener noreferrer">GitHubで公開状況を確認</a>）。Cisco製品での再現性・安全性は未検証。</dd></div>
+<div><dt>影響バージョン</dt><dd>Cisco Catalyst Center、Duo Network Gateway、Secure Endpoint Private Cloud Appliance、Nexus 9000 Guest Shell、Secure Workload等（各製品の影響バージョンはCisco Bug IDと個別リリースで確認）</dd></div><div><dt>修正版</dt><dd class="is-ok">Duo Network Gateway 3.4.2、Cisco AI Canvas 26.10.4等。一部製品は修正版未提供・公開予定2027年</dd></div></dl>
+<div class="block"><h4>推奨対処</h4><p>Cisco公式の製品別影響表とBug IDを確認し、提供済みの修正版を適用。未提供製品は外部到達性・非信頼Brotli入力経路を制限し、Cisco TACと暫定対策を協議。Ciscoはアドバイザリ全体として共通の回避策なしと記載。</p></div>
+<div class="block reason"><h4>AIによる注目理由</h4><p>11月6日の公式更新で認証基盤、ネットワーク管理基盤、セキュリティ製品に影響が及び、修正版未提供製品も明らかになった。基盤製品への波及とKEV・公開PoCを考慮してP1。Cisco製品での実悪用は未確認である点を区別する。</p></div>
+<div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Cisco Catalyst Center・Duo Network Gateway・Secure Endpoint Private Cloud・Nexus 9000 Guest Shell等の利用状況を棚卸し</span></label></li><li><label><input type="checkbox"><span>Cisco公式の製品別Bug IDと修正版を照合し、未修正製品の有無を記録</span></label></li><li><label><input type="checkbox"><span>Cisco ISEなど調査継続中の製品は最新のアドバイザリ更新を追跡</span></label></li><li><label><input type="checkbox"><span>外部からの到達性、Brotliデコード処理に非信頼データが入力される経路を確認</span></label></li><li><label><input type="checkbox"><span>サービスクラッシュ、異常終了、不審な子プロセス、侵害兆候をSIEM・EDRで確認</span></label></li></ul></div>
+<div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-oct2026-node-js-Jj3SQ19u" target="_blank" rel="noopener noreferrer">Cisco公式 cisco-sa-oct2026-node-js-Jj3SQ19u（11月6日更新、v1.8）</a></li><li><a href="https://success.trendmicro.com/ja-jp/solution/KA-0024869" target="_blank" rel="noopener noreferrer">TrendAI公式（CISA KEV・実悪用の確認情報）</a></li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-111497" target="_blank" rel="noopener noreferrer">NVD CVE詳細</a></li><li><a href="https://github.com/dimasma0305/CVE-2026-111497-POC" target="_blank" rel="noopener noreferrer">GitHub 公開PoC（実行・安全性未検証）</a></li></ul></div></article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
