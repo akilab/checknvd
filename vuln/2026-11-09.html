@@ -1,0 +1,97 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-09 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-09" data-case-count="1">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月9日（月）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-09 08:03 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-11-02 〜 2026-11-09</dd></div>
+      <div><dt>掲載件数</dt><dd>1 件（P1: 1 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-08.html" rel="prev">← 前日 2026-11-08</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>Alpine LinuxなどmuslベースのSSHサーバで認証回避CVE-2026-123158の影響を最優先確認してください。</strong>
+      11月5日にOpenSSHとAlpineが修正版を公開しました。PAM無効などの条件が揃うと認証されていない遠隔攻撃者がパスワード未設定アカウントにログインでき、公開検証環境も存在します。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>OpenSSH sshd / Alpine Linux（musl libc・PAM無効）</dd></div>
+      <div><dt>推奨アクション</dt><dd>影響構成の棚卸し、OpenSSH/Alpine修正版の適用とsshd再起動、SSH認証ログの調査。</dd></div>
+      <div><dt>対応期限</dt><dd>公的な一律期限は確認できず。SSH公開環境は即時確認。</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>2026年11月5日の新規公表・修正提供。前日レポートに未掲載の重要認証回避。</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-123158" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-123158</span><span class="card-product">OpenSSH sshd / Alpine Linux（musl libc・PAM無効）</span><span class="card-lead">musl libc環境でPAMを使わないsshdに認証回避。条件が揃うとパスワード未設定アカウントへ遠隔ログインでき、構成によっては管理者権限に波及。11月5日に修正版公開。</span><span class="badges"><span class="badge na" data-glyph="■">実悪用：確認できず</span><span class="badge na" data-glyph="■">KEV：最新照合未完了</span><span class="badge warn" data-glyph="●">公開PoCあり</span></span><span class="card-fixed"><span>修正版:</span> OpenSSH 10.6p2、Alpine 3.24: 10.3_p1-r2 / 3.23: 10.2_p1-r1 / 3.22: 10.0_p1-r11（他ブランチにも修正あり）</span></a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-123158" data-cve="CVE-2026-123158" data-priority="P1" data-product="OpenSSH sshd / Alpine Linux（musl libc・PAM無効）" data-exploited="unknown" data-kev="unknown" data-poc="true" data-cvss="8.1" data-fixed="OpenSSH 10.6p2、Alpine 3.24: 10.3_p1-r2 / 3.23: 10.2_p1-r1 / 3.22: 10.0_p1-r11（他ブランチにも修正あり）">
+<div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-123158</h3></div>
+<p class="product">OpenSSH sshd / Alpine Linux（musl libc・PAM無効）：OpenSSH 10.6p2より前の該当ビルド。Alpine 3.16〜3.24およびedgeで修正パッケージが提供（SSH・認証基盤）</p><p class="lead">musl libc環境でPAMを使わないsshdに認証回避。条件が揃うとパスワード未設定アカウントへ遠隔ログインでき、構成によっては管理者権限に波及。11月5日に修正版公開。</p>
+<div class="badges"><span class="badge na" data-glyph="■">実悪用：確認できず</span><span class="badge na" data-glyph="■">KEV：最新照合未完了</span><span class="badge warn" data-glyph="●">公開PoCあり</span><span class="badge na" data-glyph="■">CVSS 8.1（v3.1、公開CVE評価）</span></div>
+<dl class="facts"><div><dt>CVSS</dt><dd>8.1 / High（CVSS v3.1、CVE公開評価。Alpine TrackerのNVD欄はunknown）</dd></div>
+<div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・有効なパスワード不要。ただしmusl libc、PAM無効、パスワード認証有効、特定のshadowエントリ等の条件が必要。</dd></div>
+<div><dt>実悪用</dt><dd>確認できず（公的・ベンダーによる実被害の確証なし）</dd></div>
+<div><dt>CISA KEV</dt><dd>確認できず（最新カタログ完全照合未完了。11月5日時点の第三者照合では未掲載）</dd></div>
+<div><dt>公開PoC</dt><dd class="is-warn">true：<a href="https://github.com/leonjza/sshhole-lab" target="_blank" rel="noopener noreferrer">GitHubの再現ラボ</a>で脆弱環境・検証手順の公開を確認。実行・ダウンロード・安全性検証は未実施。</dd></div>
+<div><dt>影響バージョン</dt><dd>OpenSSH 10.6p2未満の該当musl/PAM無効構成。Alpine 3.16〜3.24およびedgeの旧パッケージ。glibcやPAM有効環境は同条件では対象外。</dd></div>
+<div><dt>修正版</dt><dd class="is-ok">OpenSSH 10.6p2、Alpine 3.24: 10.3_p1-r2 / 3.23: 10.2_p1-r1 / 3.22: 10.0_p1-r11（他ブランチにも修正あり）。3.21: 9.9_p2-r1、3.20: 9.7_p1-r6、3.19: 9.6_p1-r3、3.18: 9.3_p2-r4、3.17: 9.1_p1-r7、3.16: 9.0_p1-r6。</dd></div></dl>
+<div class="block"><h4>推奨対処</h4><p>該当パッケージを更新し、必ずsshdを再起動する。更新できない場合は鍵認証を事前確認した上でPasswordAuthentication noへ変更しsshdを再起動。SSHの到達元も制限する。認証ログの事後調査を併行。</p></div>
+<div class="block reason"><h4>AIによる注目理由</h4><p>SSHという認証基盤への遠隔認証回避であり、インターネット公開や踏み台用途で重大な侵害につながる。公開再現環境と修正公開があり、条件限定でもP1として緊急棚卸しを推奨。CVSSだけによる判定ではない。</p></div>
+<div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Alpine Linux・muslベースのVM、SSH公開サーバ、踏み台、CIランナー、アプライアンスを棚卸し</span></label></li><li><label><input type="checkbox"><span>sshdのPAM利用状況、PasswordAuthentication設定、パスワード未設定アカウントとハッシュ構成を確認</span></label></li><li><label><input type="checkbox"><span>Alpine各ブランチの修正パッケージを適用し、sshdを再起動して実稼働バージョンを確認</span></label></li><li><label><input type="checkbox"><span>SSH認証ログでパスワード未設定・鍵専用アカウントへのAccepted passwordを調査</span></label></li><li><label><input type="checkbox"><span>不審なログインがあればdoas実行、authorized_keys変更、新規アカウント・永続化痕跡を追跡</span></label></li></ul></div>
+<div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://alpinelinux.org/posts/2026-11-05-openssh-password-authentication-bypass/" target="_blank" rel="noopener noreferrer">Alpine Linux 公式セキュリティ勧告（2026-11-05）</a></li><li><a href="https://security.alpinelinux.org/vuln/CVE-2026-123158" target="_blank" rel="noopener noreferrer">Alpine Linux Security Tracker CVE-2026-123158</a></li><li><a href="https://www.openssh.org/releasenotes.html#10.6p2" target="_blank" rel="noopener noreferrer">OpenSSH 10.6p2 公式リリースノート（2026-11-05）</a></li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-123158" target="_blank" rel="noopener noreferrer">NVD CVE詳細</a></li><li><a href="https://github.com/leonjza/sshhole-lab" target="_blank" rel="noopener noreferrer">公開再現ラボ（GitHub、実行・安全性未検証）</a></li></ul></div></article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
