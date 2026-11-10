@@ -1,0 +1,101 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-11 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-11" data-case-count="1">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月11日（水）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-11 07:57 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-11-04 〜 2026-11-11</dd></div>
+      <div><dt>掲載件数</dt><dd>1 件（P1: 1 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-10.html" rel="prev">← 前日 2026-11-10</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>SonicWall SonicOS SSL-VPNのSAML/MFA回避（CVE-2026-19868）について、対象機器と修正状況を至急確認してください。</strong>
+      11月6日にCISA KEVに追加され、実悪用が確認されています。VPNの認証基盤に影響し、米連邦機関の対応期限は11月20日です。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>SonicWall SonicOS Gen7 / Gen8 SSL-VPN</dd></div>
+      <div><dt>推奨アクション</dt><dd>SAML設定・対象バージョンを棚卸しし、修正版を適用。VPNログとIdP/MFAログの不整合を調査。</dd></div>
+      <div><dt>対応期限</dt><dd>2026-11-20（CISAの米連邦機関向け期限。その他は至急）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>2026-11-06にCISA KEV追加。11月11日にCISが関連アドバイザリを公開。</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-19868" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-19868</span><span class="card-product">SonicWall SonicOS Gen7 / Gen8 SSL-VPN</span><span class="card-lead">SonicOS SSL-VPNで、別方式の有効な認証情報を持つ攻撃者がSAML認証とSAML強制MFAを回避するおそれ。11月6日にCISA KEV登録、悪用確認。</span><span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge na" data-glyph="■">公開PoC：確認不十分</span></span><span class="card-fixed"><span>修正版:</span> Gen7 7.3.4-7013以降 / Gen8 8.2.3-8015以降</span></a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-19868" data-cve="CVE-2026-19868" data-priority="P1" data-product="SonicWall SonicOS SSL-VPN" data-exploited="true" data-kev="true" data-poc="unknown" data-cvss="7.1（SonicWall評価。NVD等では7.5の評価もあり）" data-fixed="Gen7 7.3.4-7013以降 / Gen8 8.2.3-8015以降">
+<div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-19868</h3></div>
+<p class="product">SonicWall SonicOS Gen7 7.3.3-7015以前 / Gen8 8.2.2-8015以前（物理・NSv仮想ファイアウォール、SSL-VPNでSAMLを使用する構成）</p>
+<p class="lead">SonicOS SSL-VPNで、別方式の有効な認証情報を持つ攻撃者がSAML認証とSAML強制MFAを回避するおそれ。11月6日にCISA KEV登録、悪用確認。</p>
+<div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge na" data-glyph="■">公開PoC：確認不十分</span><span class="badge warn" data-glyph="■">CVSS 7.1（ベンダー）</span></div>
+<dl class="facts">
+<div><dt>CVSS</dt><dd>7.1 / High（SonicWall評価）。別の評価機関では7.5との記載あり。勧告全体の8.8は本CVE固有の値ではない。</dd></div>
+<div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由。SSL-VPNにSAMLログインを設定し、攻撃者が別の認証方式の有効な資格情報を保有していること。完全な認証情報不要の攻撃ではない。</dd></div>
+<div><dt>実悪用</dt><dd class="is-alert">あり。CISAが2026-11-06にKEV追加。SonicWallは悪用の可能性を示す報告を調査したと説明。</dd></div>
+<div><dt>CISA KEV</dt><dd>掲載あり（2026-11-06）。米連邦機関の対応期限は2026-11-20。日本国内の一律法定期限ではない。</dd></div>
+<div><dt>公開PoC</dt><dd>unknown：公開実装の存在を十分に確認できず。GitHub等の実装を伴う検証コードの確認は未完了。実行・ダウンロード・ビルドなし。</dd></div>
+<div><dt>影響バージョン</dt><dd>Gen7 7.3.3-7015以前、Gen8 8.2.2-8015以前。SAMLを使用するSSL-VPNログインに限定した影響条件。</dd></div>
+<div><dt>修正版</dt><dd class="is-ok">Gen7 7.3.4-7013以降 / Gen8 8.2.3-8015以降。利用モデルごとにSonicWall公式配布版を確認。</dd></div>
+</dl>
+<div class="block"><h4>推奨対処</h4><p>ベンダー修正版を速やかに適用する。確実なベンダー公式回避策は確認できず。更新までの暫定的なリスク低減としてSSL-VPNの公開元制限、不要な接続方式の停止、アクセス制御を検討するが、パッチの代替とは扱わない。既存セッションと認証履歴も点検する。</p></div>
+<div class="block reason"><h4>AIによる注目理由</h4><p>実悪用・KEV掲載済みであり、VPNという社内への入口でSAML強制MFAが回避されるためP1。CVSS単体は7点台でも、正規資格情報の流出と組み合わさることで侵入・横展開の可能性が高まる。11月6日のKEV追加と11月20日の米連邦対応期限が直近の重要変化。</p></div>
+<div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>SonicOS Gen7/Gen8の物理・仮想ファイアウォールを棚卸しし、SSL-VPNでSAMLログインを有効にしているか確認</span></label></li><li><label><input type="checkbox"><span>Gen7 7.3.3-7015以前、Gen8 8.2.2-8015以前の稼働有無とSSL-VPNのインターネット到達性を確認</span></label></li><li><label><input type="checkbox"><span>修正版への更新を最優先で実施し、適用後のバージョンとVPN接続・認証動作を検証</span></label></li><li><label><input type="checkbox"><span>SSL-VPN認証ログとIdPのSAML/MFAログを突合し、IdPに成功記録がないVPNログインや異常な接続元を調査</span></label></li><li><label><input type="checkbox"><span>不審なVPNセッションの内部アクセス、管理者操作、EDR検知、資格情報利用を追跡し、侵害疑いがあればセッション失効・資格情報更新</span></label></li></ul></div>
+<div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://psirt.global.sonicwall.com/vuln-detail/SNWLID-2026-0014" target="_blank" rel="noopener noreferrer">SonicWall PSIRT SNWLID-2026-0014（2026-11-06更新）</a></li><li><a href="https://www.cisecurity.org/advisory/multiple-vulnerabilities-in-sonicwall-sonicos-could-allow-for-authentication-bypass_2026-126" target="_blank" rel="noopener noreferrer">CIS Security Advisory（2026-11-11）</a></li><li><a href="https://www.cyber.gc.ca/en/alerts-advisories/sonicwall-security-advisory-av26-1133" target="_blank" rel="noopener noreferrer">カナダCyber Centre AV26-1133（2026-11-06）</a></li><li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2026-19868" target="_blank" rel="noopener noreferrer">CISA KEV CVE検索</a></li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-19868" target="_blank" rel="noopener noreferrer">NVD CVE詳細</a></li></ul></div>
+</article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
