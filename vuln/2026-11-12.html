@@ -1,0 +1,114 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-12 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-12" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月12日（木）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-12 08:00 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-11-05 〜 2026-11-12</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-11.html" rel="prev">← 前日 2026-11-11</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>11月9日にCISA KEVへ追加されたGPUStack、FreeSWITCH、IBM Aspera Faspexの3件について、直ちに稼働状況と修正版適用を確認してください。</strong>
+      いずれも実悪用が確認されており、米連邦機関向けの対応期限は本日11月12日です。認証回避、遠隔コマンド実行、管理者権限取得など、SOCでの侵害調査を伴う緊急案件です。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>GPUStack / FreeSWITCH / IBM Aspera Faspex</dd></div>
+      <div><dt>推奨アクション</dt><dd>対象製品の棚卸し、修正版適用、管理操作・不審なコマンド実行・データ転送ログの調査</dd></div>
+      <div><dt>対応期限</dt><dd>2026-11-12（CISAの米連邦機関向け期限。国内組織にも早急な対応を推奨）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>2026-11-09のCISA KEV追加と2026-11-12の対応期限。前日掲載とは別の重要案件。</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-102895" data-priority="P1">
+<span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-102895</span><span class="card-product">GPUStack / 2.2.0未満（特定のリバースプロキシ構成等）</span><span class="card-lead">ローカル接続の信頼判定を悪用した認証回避。外部から管理者権限を取得し、ワーカー上でのコード実行やクラウド認証情報の窃取につながる。</span>
+<span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載</span><span class="badge na" data-glyph="■">公開PoC確認不十分</span></span><span class="card-fixed"><span>修正版:</span> 2.2.0</span></a>
+<a class="summary-card" href="#CVE-2026-116779" data-priority="P1">
+<span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-116779</span><span class="card-product">SignalWire FreeSWITCH / 1.11.2以前</span><span class="card-lead">SIP MESSAGE処理におけるコマンドインジェクション。SIP経由で内部APIコマンドやOSコマンドが実行され、通話制御や認証情報の漏えいにつながる。</span>
+<span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載</span><span class="badge na" data-glyph="■">公開PoC確認不十分</span></span><span class="card-fixed"><span>修正版:</span> 1.11.3</span></a>
+<a class="summary-card" href="#CVE-2026-123218" data-priority="P1">
+<span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-123218</span><span class="card-product">IBM Aspera Faspex / 5.0.0〜5.0.19</span><span class="card-lead">ファイル転送基盤の認可処理不備により管理者権限を取得される脆弱性。機密ファイルや転送設定、利用者管理への影響が懸念される。</span>
+<span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載</span><span class="badge na" data-glyph="■">公開PoC確認不十分</span></span><span class="card-fixed"><span>修正版:</span> 5.0.19 PL1</span></a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-102895" data-cve="CVE-2026-102895" data-priority="P1" data-product="GPUStack" data-exploited="true" data-kev="true" data-poc="unknown" data-cvss="9.8" data-fixed="2.2.0">
+<div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-102895</h3></div>
+<p class="product">GPUStack / 2.2.0未満（特定のリバースプロキシ構成等）</p><p class="lead">ローカル接続の信頼判定を悪用した認証回避。外部から管理者権限を取得し、ワーカー上でのコード実行やクラウド認証情報の窃取につながる。</p>
+<div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge na" data-glyph="■">公開PoC確認不十分</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div>
+<dl class="facts"><div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要。localhostへの転送を伴うリバースプロキシ、または送信元IPヘッダーの信頼が攻撃条件。</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり（CISA KEV登録）</dd></div><div><dt>CISA KEV</dt><dd>2026-11-09追加／米連邦機関の対応期限 2026-11-12</dd></div><div><dt>公開PoC</dt><dd class="is-warn">unknown（公開実装の確認不十分。PoC URL確認できず）</dd></div><div><dt>影響バージョン</dt><dd>2.2.0未満（特定のリバースプロキシ構成等）</dd></div><div><dt>修正版</dt><dd class="is-ok">2.2.0</dd></div></dl>
+<div class="block"><h4>推奨対処</h4><p>GPUStack 2.2.0以降へ更新。暫定的にforce_auth_localhost=true、外部からのAPI到達制限、リバースプロキシでのX-GPUStack-Real-IPヘッダー除去。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>AIモデル運用・ワーカー管理基盤で実悪用が確認され、11月9日にKEV追加。管理APIキー、ワーカー、クラウド認証情報への影響が大きい。</p></div>
+<div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>GPUStackの利用部署、公開API、リバースプロキシ構成を棚卸し</span></label></li><li><label><input type="checkbox"><span>2.2.0未満とforce_auth_localhost設定、転送ヘッダーの扱いを確認</span></label></li><li><label><input type="checkbox"><span>管理者APIキー新規発行・権限変更・推論バックエンド追加を監査</span></label></li><li><label><input type="checkbox"><span>ワーカーでの不審なプロセス、外部通信、クラウド資格情報利用を調査</span></label></li><li><label><input type="checkbox"><span>侵害疑い時は発行済みAPIキーとクラウドシークレットを失効・再発行</span></label></li></ul></div>
+<div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://github.com/advisories/GHSA-gj9m-f8ph-pmhr" target="_blank" rel="noopener noreferrer">GPUStack公式GHSA（2026-11-09更新）</a></li><li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEV</a></li></ul></div></article>
+<article class="case" id="CVE-2026-116779" data-cve="CVE-2026-116779" data-priority="P1" data-product="SignalWire FreeSWITCH" data-exploited="true" data-kev="true" data-poc="unknown" data-cvss="9.8" data-fixed="1.11.3">
+<div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-116779</h3></div>
+<p class="product">SignalWire FreeSWITCH / 1.11.2以前</p><p class="lead">SIP MESSAGE処理におけるコマンドインジェクション。SIP経由で内部APIコマンドやOSコマンドが実行され、通話制御や認証情報の漏えいにつながる。</p>
+<div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge na" data-glyph="■">公開PoC確認不十分</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div>
+<dl class="facts"><div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由でSIP MESSAGEが処理される構成。認証要件は設定に依存する可能性がある。</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり（CISA KEV登録）</dd></div><div><dt>CISA KEV</dt><dd>2026-11-09追加／米連邦機関の対応期限 2026-11-12</dd></div><div><dt>公開PoC</dt><dd class="is-warn">unknown（公開実装の確認不十分。PoC URL確認できず）</dd></div><div><dt>影響バージョン</dt><dd>1.11.2以前</dd></div><div><dt>修正版</dt><dd class="is-ok">1.11.3</dd></div></dl>
+<div class="block"><h4>推奨対処</h4><p>FreeSWITCH 1.11.3以降へ更新。更新まで不要なSIPプロファイルでenable-chat=false、パスワード未設定のユーザーを排除しSIP到達元を制限。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>通信サービス基盤でのコマンド実行と実悪用が確認され、11月9日にKEV追加。音声サービス停止・通話情報漏えい・横展開のリスクがある。</p></div>
+<div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>FreeSWITCH本体および組込PBX・音声サービスの採用状況を確認</span></label></li><li><label><input type="checkbox"><span>1.11.3未満とSIP MESSAGE受付設定、公開SIPポートを確認</span></label></li><li><label><input type="checkbox"><span>SIP MESSAGEの異常な急増と不審な送信元をSIPログで確認</span></label></li><li><label><input type="checkbox"><span>FreeSWITCHプロセスからのシェル起動や外向き通信をEDRで確認</span></label></li><li><label><input type="checkbox"><span>通話設定、SIP資格情報、転送設定の不正変更を調査</span></label></li></ul></div>
+<div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://github.com/signalwire/freeswitch/security/advisories/GHSA-mg63-h38w-8p9p" target="_blank" rel="noopener noreferrer">SignalWire公式GHSA</a></li><li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEV</a></li></ul></div></article>
+<article class="case" id="CVE-2026-123218" data-cve="CVE-2026-123218" data-priority="P1" data-product="IBM Aspera Faspex" data-exploited="true" data-kev="true" data-poc="unknown" data-cvss="9.8" data-fixed="5.0.19 PL1">
+<div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-123218</h3></div>
+<p class="product">IBM Aspera Faspex / 5.0.0〜5.0.19</p><p class="lead">ファイル転送基盤の認可処理不備により管理者権限を取得される脆弱性。機密ファイルや転送設定、利用者管理への影響が懸念される。</p>
+<div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge na" data-glyph="■">公開PoC確認不十分</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div>
+<dl class="facts"><div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">IBMの説明では認証済みユーザーによる細工したメッセージが条件。一方、公開CVSSベクトルはPR:Nであり攻撃条件の不一致は未解消。</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり（CISA KEV登録）</dd></div><div><dt>CISA KEV</dt><dd>2026-11-09追加／米連邦機関の対応期限 2026-11-12</dd></div><div><dt>公開PoC</dt><dd class="is-warn">unknown（公開実装の確認不十分。PoC URL確認できず）</dd></div><div><dt>影響バージョン</dt><dd>5.0.0〜5.0.19</dd></div><div><dt>修正版</dt><dd class="is-ok">5.0.19 PL1</dd></div></dl>
+<div class="block"><h4>推奨対処</h4><p>IBM Aspera Faspex 5.0.19 PL1を適用し、実行コンテナの修正状態を確認。暫定的に接続元を制限し管理者権限と転送履歴を監査。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>機密データ転送基盤の管理者権限奪取。11月9日KEV追加、米連邦機関の対応期限が11月12日。攻撃条件の説明に差異があるため保守的に評価。</p></div>
+<div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Aspera Faspexの運用環境と外部公開範囲を特定</span></label></li><li><label><input type="checkbox"><span>5.0.0〜5.0.19と5.0.19 PL1適用・コンテナイメージを確認</span></label></li><li><label><input type="checkbox"><span>管理者アカウント追加、権限昇格、設定変更の履歴を監査</span></label></li><li><label><input type="checkbox"><span>不審なファイル共有・大量転送・未知の送信先を確認</span></label></li><li><label><input type="checkbox"><span>侵害疑い時は資格情報を更新し転送先と連携アカウントを調査</span></label></li></ul></div>
+<div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://www.ibm.com/support/pages/node/7295921" target="_blank" rel="noopener noreferrer">IBM公式Security Bulletin（2026-11-07）</a></li><li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEV</a></li></ul></div></article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
