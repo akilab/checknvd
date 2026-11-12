@@ -1,0 +1,87 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-13 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-13" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月13日（金）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-13 08:04 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-11-06 〜 2026-11-13</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-12.html" rel="prev">← 前日 2026-11-12</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>Barracuda ESGの管理UI公開状況と修正パッチ適用を本日最優先で確認してください。</strong>
+      11月10日にCISA KEVへ追加されたBarracudaの2件は、実悪用が確認され、米連邦機関向け対応期限が本日11月13日です。Cisco BroadWorksの認証不要の情報漏えい脆弱性もKEVに追加されました。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Barracuda Email Security Gateway (ESG)</dd></div>
+      <div><dt>推奨アクション</dt><dd>管理UIのアクセス制限、修正パッチ適用、設定復元・管理操作ログの侵害調査</dd></div>
+      <div><dt>対応期限</dt><dd>Barracuda 2件：2026-11-13／Cisco BroadWorks：2026-11-24（CISA米連邦機関向け）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>2026-11-10のKEV追加、Barracudaの2026-11-09実悪用情報更新、本日の緊急期限</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-116606" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-116606</span><span class="card-product">Barracuda Email Security Gateway (ESG) / 9.4.0.030未満（CVEレコード）</span><span class="card-lead">管理UIに到達可能な攻撃者が認証なしで設定バックアップを復元し、グローバル設定を改変できる。別CVEとの連鎖でrootコマンド実行の危険。</span><span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載</span><span class="badge on" data-glyph="●">公開検証実装あり</span></span><span class="card-fixed"><span>修正版:</span> 9.4.0.030以降を目標（製品パッチ適用状態をベンダーに確認）</span></a>
+<a class="summary-card" href="#CVE-2026-111560" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-111560</span><span class="card-product">Barracuda ESG / ADC / BMA / WCC / WAF / WSG / ESG 9.4.0.27以前、ADC 6.4.0以前、BMA 5.5.4.0以前、WCC 2.2.1以前、WAF 11.0.1以前、WSG 16.1.100.100以前（公開CVE情報。機種別確認要）</span><span class="card-lead">管理者権限を持つ攻撃者が管理設定処理を悪用してOSコマンドを実行可能。ESGではCVE-2026-116606と連鎖し、認証不要のroot侵害につながる。</span><span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載</span><span class="badge on" data-glyph="●">公開検証実装あり</span></span><span class="card-fixed"><span>修正版:</span> 製品別の最新ファームウェア／修正パッチ（ESG、ADC、BMA、WCC、WAF、WSGで異なる。バージョン一律指定は確認できず）</span></a>
+<a class="summary-card" href="#CVE-2026-20320" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-20320</span><span class="card-product">Cisco BroadWorks / BroadWorks Application Delivery Platform / Application Server / Profile Server / Xtended Services Platform のRI.2026.07より前（個別リリース確認要）</span><span class="card-lead">OCI-PのXML外部実体（XXE）処理により、認証不要の遠隔攻撃者がBroadWorks権限で設定ファイル等の機密情報を読み取るおそれ。</span><span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">KEV掲載</span><span class="badge na" data-glyph="■">確認不十分</span></span><span class="card-fixed"><span>修正版:</span> RI.2026.07（導入系列ごとにCisco公式Fixed Software表を確認）</span></a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-116606" data-cve="CVE-2026-116606" data-priority="P1" data-product="Barracuda Email Security Gateway (ESG)" data-exploited="true" data-kev="true" data-poc="true" data-cvss="9.3" data-fixed="9.4.0.030以降を目標（製品パッチ適用状態をベンダーに確認）"><div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-116606</h3></div><p class="product">Barracuda Email Security Gateway (ESG) / 9.4.0.030未満（CVEレコード）</p><p class="lead">管理UIに到達可能な攻撃者が認証なしで設定バックアップを復元し、グローバル設定を改変できる。別CVEとの連鎖でrootコマンド実行の危険。</p><div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge on" data-glyph="●">公開PoC実装あり</span><span class="badge na" data-glyph="■">CVSS 9.3</span></div><dl class="facts"><div><dt>CVSS</dt><dd>9.3 / Critical (CVSS v4.0、CNA)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">管理UIへのネットワーク到達が必要。認証不要。</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり（Barracudaは2026-11-09に観測を公表。CISA KEVは2026-11-10追加）</dd></div><div><dt>CISA KEV</dt><dd>2026-11-10追加／米連邦機関向け対応期限 2026-11-13</dd></div><div><dt>公開PoC</dt><dd class="is-warn">true（<a href="https://github.com/watchtowrlabs/watchTowr-vs-Barracuda-RCE-CVE-2026-116606-CVE-2026-111560" target="_blank" rel="noopener noreferrer">watchTowr公開実装</a>。READMEに再現用スクリプトとコマンド実行例あり。実行・ダウンロード・安全性確認は未実施）</dd></div><div><dt>影響バージョン</dt><dd>9.4.0.030未満（CVEレコード）</dd></div><div><dt>修正版</dt><dd class="is-ok">9.4.0.030以降を目標（製品パッチ適用状態をベンダーに確認）</dd></div></dl><div class="block"><h4>推奨対処</h4><p>管理UIを信頼済み管理ネットワークのみに制限し、最新ファームウェアと適用パッチを実機で確認。修正ビルド表記に情報源間の差があるため、ベンダーへ適用状態を照会。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>11月9日にベンダーが実悪用情報を追加し、11月10日にKEV登録。11月13日が米連邦機関向け対応期限で、認証不要の管理設定改変と連鎖攻撃が重大。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>ESGの設置先と管理UIへの到達元（外部公開・VPN・踏み台）を確認</span></label></li><li><label><input type="checkbox"><span>ファームウェアとBNSF-40425 / BNSF-40430など適用済みパッチを照合</span></label></li><li><label><input type="checkbox"><span>管理画面での不審なバックアップ復元・設定インポート履歴を調査</span></label></li><li><label><input type="checkbox"><span>管理者アカウント、メール配送設定、外部転送先の不正変更を監査</span></label></li><li><label><input type="checkbox"><span>侵害疑い時はログ保全後に資格情報・連携シークレットを更新</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://trust.barracuda.com/security/pre-authentication-authorization-bypass-command-injection" target="_blank" rel="noopener noreferrer">Barracuda公式セキュリティアドバイザリ（11月9日更新）</a></li><li><a href="https://content.govdelivery.com/accounts/USDHSCISA/bulletins/4325e4d" target="_blank" rel="noopener noreferrer">CISA KEV追加告知（11月10日）</a></li><li><a href="https://github.com/watchtowrlabs/watchTowr-vs-Barracuda-RCE-CVE-2026-116606-CVE-2026-111560" target="_blank" rel="noopener noreferrer">watchTowr公開検証実装（実行・安全性検証は未実施）</a></li></ul></div></article>
+<article class="case" id="CVE-2026-111560" data-cve="CVE-2026-111560" data-priority="P1" data-product="Barracuda ESG / ADC / BMA / WCC / WAF / WSG" data-exploited="true" data-kev="true" data-poc="true" data-cvss="8.6" data-fixed="製品別の最新ファームウェア／修正パッチ（ESG、ADC、BMA、WCC、WAF、WSGで異なる。バージョン一律指定は確認できず）"><div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-111560</h3></div><p class="product">Barracuda ESG / ADC / BMA / WCC / WAF / WSG / ESG 9.4.0.27以前、ADC 6.4.0以前、BMA 5.5.4.0以前、WCC 2.2.1以前、WAF 11.0.1以前、WSG 16.1.100.100以前（公開CVE情報。機種別確認要）</p><p class="lead">管理者権限を持つ攻撃者が管理設定処理を悪用してOSコマンドを実行可能。ESGではCVE-2026-116606と連鎖し、認証不要のroot侵害につながる。</p><div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge on" data-glyph="●">公開PoC実装あり</span><span class="badge na" data-glyph="■">CVSS 8.6</span></div><dl class="facts"><div><dt>CVSS</dt><dd>8.6 / High (CVSS v4.0、CNA)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">通常は管理者認証と管理UI到達が必要。ESGでは認証回避との連鎖が可能。</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり（Barracudaは2026-11-09に観測を公表。CISA KEVは2026-11-10追加）</dd></div><div><dt>CISA KEV</dt><dd>2026-11-10追加／米連邦機関向け対応期限 2026-11-13</dd></div><div><dt>公開PoC</dt><dd class="is-warn">true（<a href="https://github.com/watchtowrlabs/watchTowr-vs-Barracuda-RCE-CVE-2026-116606-CVE-2026-111560" target="_blank" rel="noopener noreferrer">watchTowr公開実装</a>。READMEに再現用スクリプトとコマンド実行例あり。実行・ダウンロード・安全性確認は未実施）</dd></div><div><dt>影響バージョン</dt><dd>ESG 9.4.0.27以前、ADC 6.4.0以前、BMA 5.5.4.0以前、WCC 2.2.1以前、WAF 11.0.1以前、WSG 16.1.100.100以前（公開CVE情報。機種別確認要）</dd></div><div><dt>修正版</dt><dd class="is-ok">製品別の最新ファームウェア／修正パッチ（ESG、ADC、BMA、WCC、WAF、WSGで異なる。バージョン一律指定は確認できず）</dd></div></dl><div class="block"><h4>推奨対処</h4><p>Barracuda公式の製品別修正パッチを適用。管理UIを限定し、管理者アカウントと権限を監査。ESGでは認証回避の修正も同時に確認。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>11月10日にKEV追加、11月13日が米連邦機関向け期限。メール、WAF、ADC等のセキュリティ基盤に横断的に影響し、ESGで認証不要の連鎖侵害が可能。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>ESG、WAF、ADC、BMA、WCC、WSGの利用機器を棚卸し</span></label></li><li><label><input type="checkbox"><span>製品別の修正パッチIDと実際の適用履歴を確認</span></label></li><li><label><input type="checkbox"><span>管理画面のログイン・タイムゾーン変更・不審な設定操作を監査</span></label></li><li><label><input type="checkbox"><span>アプライアンスからの不審なシェル実行や外部通信を調査</span></label></li><li><label><input type="checkbox"><span>ESGでは認証回避CVEとの複合侵害を想定してログを保全</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://trust.barracuda.com/security/pre-authentication-authorization-bypass-command-injection" target="_blank" rel="noopener noreferrer">Barracuda公式セキュリティアドバイザリ</a></li><li><a href="https://content.govdelivery.com/accounts/USDHSCISA/bulletins/4325e4d" target="_blank" rel="noopener noreferrer">CISA KEV追加告知（11月10日）</a></li><li><a href="https://github.com/watchtowrlabs/watchTowr-vs-Barracuda-RCE-CVE-2026-116606-CVE-2026-111560" target="_blank" rel="noopener noreferrer">watchTowr ESG向け公開検証実装（他製品での動作は未確認）</a></li></ul></div></article>
+<article class="case" id="CVE-2026-20320" data-cve="CVE-2026-20320" data-priority="P1" data-product="Cisco BroadWorks" data-exploited="true" data-kev="true" data-poc="unknown" data-cvss="7.5" data-fixed="RI.2026.07（導入系列ごとにCisco公式Fixed Software表を確認）"><div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-20320</h3></div><p class="product">Cisco BroadWorks / BroadWorks Application Delivery Platform / Application Server / Profile Server / Xtended Services Platform のRI.2026.07より前（個別リリース確認要）</p><p class="lead">OCI-PのXML外部実体（XXE）処理により、認証不要の遠隔攻撃者がBroadWorks権限で設定ファイル等の機密情報を読み取るおそれ。</p><div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEV掲載</span><span class="badge na" data-glyph="■">確認不十分</span><span class="badge na" data-glyph="■">CVSS 7.5</span></div><dl class="facts"><div><dt>CVSS</dt><dd>7.5 / High (CVSS v3.1、Cisco)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要。OCI-Pサービスに到達できることが前提。</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり（Barracudaは2026-11-09に観測を公表。CISA KEVは2026-11-10追加）</dd></div><div><dt>CISA KEV</dt><dd>2026-11-10追加／米連邦機関向け対応期限 2026-11-24</dd></div><div><dt>公開PoC</dt><dd class="is-warn">unknown（十分な公開実装確認に至らず。URL確認できず）</dd></div><div><dt>影響バージョン</dt><dd>BroadWorks Application Delivery Platform / Application Server / Profile Server / Xtended Services Platform のRI.2026.07より前（個別リリース確認要）</dd></div><div><dt>修正版</dt><dd class="is-ok">RI.2026.07（導入系列ごとにCisco公式Fixed Software表を確認）</dd></div></dl><div class="block"><h4>推奨対処</h4><p>修正版へ更新。公式の完全な回避策はなし。暫定的にOCI-Pをプロビジョニング用ネットワークのみに制限。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>8月公表の既知CVEだが11月10日に実悪用根拠でKEVへ追加。通信・認証・加入者情報を扱うサービス基盤で機密情報漏えいの懸念がある。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>BroadWorksの導入・各サーバ役割・ソフトウェア系列を確認</span></label></li><li><label><input type="checkbox"><span>OCI-Pサービスの公開範囲と許可送信元を確認</span></label></li><li><label><input type="checkbox"><span>OCI-Pへの異常なXML要求、外部参照、設定ファイルアクセスを調査</span></label></li><li><label><input type="checkbox"><span>BroadWorksプロセスからの不審な外向きDNS/HTTP通信を調査</span></label></li><li><label><input type="checkbox"><span>設定情報流出疑い時は関連認証情報を更新し影響加入者を評価</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://www.cisco.com/c/en/us/support/docs/csa/cisco-sa-bworks-xxe-uwUd7CEt.html" target="_blank" rel="noopener noreferrer">Cisco公式アドバイザリ cisco-sa-bworks-xxe-uwUd7CEt</a></li><li><a href="https://content.govdelivery.com/accounts/USDHSCISA/bulletins/4325e4d" target="_blank" rel="noopener noreferrer">CISA KEV追加告知（11月10日）</a></li></ul></div></article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
