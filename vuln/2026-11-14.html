@@ -1,0 +1,87 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-14 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-14" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月14日（土）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-14 07:58 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-11-07 〜 2026-11-14</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 2 ／ P2: 2 ／ P3: 2）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-13.html" rel="prev">← 前日 2026-11-13</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>Microsoft Outlookの実悪用済み認証情報漏えい脆弱性への更新とNTLM外向き通信を最優先で確認してください。</strong>
+      Microsoftが11月10日に実悪用を確認したOutlookの問題は、端末からの認証情報漏えいにつながります。Ciscoは11月13日にBrotli影響製品表を更新し、Googleは11月11日にChromeのCritical修正を公開しました。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Microsoft Office Outlook</dd></div>
+      <div><dt>推奨アクション</dt><dd>11月更新の適用、外向きNTLM/SMBの監視・制限、認証ログ調査</dd></div>
+      <div><dt>対応期限</dt><dd>設定なし（速やかな更新を推奨）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>11月10日のOutlook実悪用公表、11月13日のCisco影響製品表更新、11月11日のChrome修正公開</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-124194" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-124194</span><span class="card-product">Microsoft Office Outlook / 影響するOffice/Outlookの各サポート版（MSRCのSecurity Updates表で製品・KB別に確認）</span><span class="card-lead">細工されたファイルをOutlookで開くと、外部接続警告なしに攻撃者のネットワーク先へ接続し、NTLMv2ハッシュが漏えいするおそれ。Microsoftが実悪用を確認。</span><span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge na" data-glyph="■">KEV確認できず</span><span class="badge na" data-glyph="■">公開PoC確認できず</span></span><span class="card-fixed"><span>修正版:</span> 2026年11月10日のMicrosoftセキュリティ更新（対象製品ごとのKBはMSRCで確認）</span></a>
+<a class="summary-card" href="#CVE-2026-111497" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-111497</span><span class="card-product">Cisco製品群（Brotli/Node.js組込み） / Cisco公式v1.13のVulnerable Products表に掲載された製品。Duo Network Gateway、Nexus NX-OS Guest Shell、Secure Endpoint Private Cloud Applianceなど。製品別ビルドは要照合。</span><span class="card-lead">Brotliデコーダの境界外書き込みによるリモートコード実行リスク。Ciscoが11月13日に影響・修正製品一覧を更新し、複数の管理・セキュリティ製品に影響。</span><span class="badges"><span class="badge na" data-glyph="■">実悪用確認できず</span><span class="badge na" data-glyph="■">KEV確認できず</span><span class="badge na" data-glyph="■">公開PoC確認できず</span></span><span class="card-fixed"><span>修正版:</span> 製品別：Duo Network Gateway 3.4.2、Nexus Guest Shell 4.9等。未提供製品あり（Cisco公式表参照）</span></a>
+<a class="summary-card" href="#CVE-2026-126885" data-priority="P2"><span class="badge p2" data-glyph="■">P2 優先対応</span><span class="card-cve">CVE-2026-126885</span><span class="card-product">Google Chrome（ServiceWorker） / Windows/Mac/Linux向けChrome Stable 157.0.8103.78/.79より前（OS別配信差あり）</span><span class="card-lead">ChromeのServiceWorkerにおけるUse-after-free。Googleが11月11日にCriticalとして修正を公開。端末台数が多く、ブラウザ経由の重大な侵害につながる可能性。</span><span class="badges"><span class="badge na" data-glyph="■">実悪用確認できず</span><span class="badge na" data-glyph="■">KEV確認できず</span><span class="badge na" data-glyph="■">公開PoC確認できず</span></span><span class="card-fixed"><span>修正版:</span> Chrome Stable 157.0.8103.78/.79（Windows/Mac）、157.0.8103.78（Linux）</span></a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-124194" data-cve="CVE-2026-124194" data-priority="P1" data-product="Microsoft Office Outlook" data-exploited="true" data-kev="unknown" data-poc="unknown" data-cvss="6.5" data-fixed="2026年11月10日のMicrosoftセキュリティ更新（対象製品ごとのKBはMSRCで確認）"><div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-124194</h3></div><p class="product">Microsoft Office Outlook / 影響するOffice/Outlookの各サポート版（MSRCのSecurity Updates表で製品・KB別に確認）</p><p class="lead">細工されたファイルをOutlookで開くと、外部接続警告なしに攻撃者のネットワーク先へ接続し、NTLMv2ハッシュが漏えいするおそれ。Microsoftが実悪用を確認。</p><div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge na" data-glyph="■">CISA KEV確認できず</span><span class="badge na" data-glyph="■">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 6.5</span></div><dl class="facts"><div><dt>CVSS</dt><dd>6.5 / Medium (CVSS v3.1、Microsoft)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・攻撃者による細工ファイル送付・ユーザーによるファイル開封が必要。プレビューのみでは成立しない。</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり（ベンダー公式確認）</dd></div><div><dt>CISA KEV</dt><dd>確認できず（最新完全照合未完了）</dd></div><div><dt>公開PoC</dt><dd class="is-warn">unknown（実装を確認できず。PoC URL確認できず。実行・ビルド・ダウンロードは未実施）</dd></div><div><dt>影響バージョン</dt><dd>影響するOffice/Outlookの各サポート版（MSRCのSecurity Updates表で製品・KB別に確認）</dd></div><div><dt>修正版</dt><dd class="is-ok">2026年11月10日のMicrosoftセキュリティ更新（対象製品ごとのKBはMSRCで確認）</dd></div></dl><div class="block"><h4>推奨対処</h4><p>MSRCで対象Office/OutlookのKBを特定し更新。外向きSMB/NTLM通信を制限し、認証情報漏えいが疑われる場合はアカウント保護と認証ログの調査を実施。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>Microsoftが2026-11-10の公開時点で実悪用を明示。CVSSは6.5だが、多数端末の認証情報漏えいと横展開に直結するためP1。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Outlook/Officeの導入版と11月セキュリティ更新適用状況を確認</span></label></li><li><label><input type="checkbox"><span>外部へのTCP 445/SMBおよびNTLM認証送出を監視・制限</span></label></li><li><label><input type="checkbox"><span>不審なメール添付ファイル開封履歴と送信者を調査</span></label></li><li><label><input type="checkbox"><span>認証先ホスト・認証失敗・不審なサインインの相関を調査</span></label></li><li><label><input type="checkbox"><span>漏えい疑いのある利用者のセッション失効と資格情報保護を検討</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://msrc.microsoft.com/security-guidance/advisory/CVE-2026-124194" target="_blank" rel="noopener noreferrer">Microsoft MSRC CVE-2026-124194</a></li></ul></div></article>
+<article class="case" id="CVE-2026-111497" data-cve="CVE-2026-111497" data-priority="P1" data-product="Cisco製品群（Brotli/Node.js組込み）" data-exploited="unknown" data-kev="unknown" data-poc="unknown" data-cvss="確認できず" data-fixed="製品別：Duo Network Gateway 3.4.2、Nexus Guest Shell 4.9等。未提供製品あり（Cisco公式表参照）"><div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-111497</h3></div><p class="product">Cisco製品群（Brotli/Node.js組込み） / Cisco公式v1.13のVulnerable Products表に掲載された製品。Duo Network Gateway、Nexus NX-OS Guest Shell、Secure Endpoint Private Cloud Applianceなど。製品別ビルドは要照合。</p><p class="lead">Brotliデコーダの境界外書き込みによるリモートコード実行リスク。Ciscoが11月13日に影響・修正製品一覧を更新し、複数の管理・セキュリティ製品に影響。</p><div class="badges"><span class="badge na" data-glyph="■">実悪用確認できず</span><span class="badge na" data-glyph="■">CISA KEV確認できず</span><span class="badge na" data-glyph="■">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 確認できず</span></div><dl class="facts"><div><dt>CVSS</dt><dd>CVE単体の統一スコアは確認できず（Cisco複数CVEアドバイザリ全体は7.4）</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">Brotliデコード処理へ悪意ある圧縮データが到達することが前提。製品別の露出経路・攻撃条件は確認できず。</dd></div><div><dt>実悪用</dt><dd class="is-alert">確認できず</dd></div><div><dt>CISA KEV</dt><dd>確認できず（最新完全照合未完了）</dd></div><div><dt>公開PoC</dt><dd class="is-warn">unknown（実装を確認できず。PoC URL確認できず。実行・ビルド・ダウンロードは未実施）</dd></div><div><dt>影響バージョン</dt><dd>Cisco公式v1.13のVulnerable Products表に掲載された製品。Duo Network Gateway、Nexus NX-OS Guest Shell、Secure Endpoint Private Cloud Applianceなど。製品別ビルドは要照合。</dd></div><div><dt>修正版</dt><dd class="is-ok">製品別：Duo Network Gateway 3.4.2、Nexus Guest Shell 4.9等。未提供製品あり（Cisco公式表参照）</dd></div></dl><div class="block"><h4>推奨対処</h4><p>Ciscoの影響表と実機の製品・リリースを照合。提供済み修正版へ更新し、未提供製品は管理面の到達制限、Brotli処理への入力経路監視、Cisco TACへの確認を実施。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>2026-11-13のCisco v1.13で影響製品・未修正製品が更新。管理・認証・セキュリティ基盤への波及と2027年まで修正待ちの製品がありP1。Cisco製品への実悪用はPSIRT未確認。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Cisco管理・認証・セキュリティ製品の資産と版を棚卸し</span></label></li><li><label><input type="checkbox"><span>Cisco v1.13の影響製品・修正提供状況と突合</span></label></li><li><label><input type="checkbox"><span>未修正の管理系インターフェースの到達元を制限</span></label></li><li><label><input type="checkbox"><span>異常な圧縮ペイロード処理後のプロセスクラッシュや不審な子プロセスを確認</span></label></li><li><label><input type="checkbox"><span>Cisco PSIRTの更新とSnort検知ルールの適用可否を確認</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://www.cisco.com/c/en/us/support/docs/csa/cisco-sa-oct2026-node-js-Jj3SQ19u.html" target="_blank" rel="noopener noreferrer">Cisco公式 cisco-sa-oct2026-node-js-Jj3SQ19u（11月13日更新）</a></li></ul></div></article>
+<article class="case" id="CVE-2026-126885" data-cve="CVE-2026-126885" data-priority="P2" data-product="Google Chrome（ServiceWorker）" data-exploited="unknown" data-kev="unknown" data-poc="unknown" data-cvss="確認できず" data-fixed="Chrome Stable 157.0.8103.78/.79（Windows/Mac）、157.0.8103.78（Linux）"><div class="case-head"><span class="badge p2" data-glyph="■">P2 優先対応</span><h3>CVE-2026-126885</h3></div><p class="product">Google Chrome（ServiceWorker） / Windows/Mac/Linux向けChrome Stable 157.0.8103.78/.79より前（OS別配信差あり）</p><p class="lead">ChromeのServiceWorkerにおけるUse-after-free。Googleが11月11日にCriticalとして修正を公開。端末台数が多く、ブラウザ経由の重大な侵害につながる可能性。</p><div class="badges"><span class="badge na" data-glyph="■">実悪用確認できず</span><span class="badge na" data-glyph="■">CISA KEV確認できず</span><span class="badge na" data-glyph="■">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 確認できず</span></div><dl class="facts"><div><dt>CVSS</dt><dd>確認できず（Google公式深刻度 Critical）</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ServiceWorker処理に関連するメモリ破損。具体的な悪用条件・必要な操作は確認できず。</dd></div><div><dt>実悪用</dt><dd class="is-alert">確認できず</dd></div><div><dt>CISA KEV</dt><dd>確認できず（最新完全照合未完了）</dd></div><div><dt>公開PoC</dt><dd class="is-warn">unknown（実装を確認できず。PoC URL確認できず。実行・ビルド・ダウンロードは未実施）</dd></div><div><dt>影響バージョン</dt><dd>Windows/Mac/Linux向けChrome Stable 157.0.8103.78/.79より前（OS別配信差あり）</dd></div><div><dt>修正版</dt><dd class="is-ok">Chrome Stable 157.0.8103.78/.79（Windows/Mac）、157.0.8103.78（Linux）</dd></div></dl><div class="block"><h4>推奨対処</h4><p>端末管理からChrome Stableの更新配信を確認し、再起動して更新を反映。Chromium系ブラウザの個別修正状況も確認。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>11月11日公開のCriticalで、ブラウザの広い普及と多数端末への波及が懸念される。実悪用やPoCは確認不十分のためP2。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>管理端末のChromeバージョン分布を取得</span></label></li><li><label><input type="checkbox"><span>157.0.8103.78/.79以降の適用とブラウザ再起動を確認</span></label></li><li><label><input type="checkbox"><span>EDRでChrome子プロセスの異常な起動やクラッシュを確認</span></label></li><li><label><input type="checkbox"><span>不審なWebサイトへのアクセスとブラウザ保護検知を調査</span></label></li><li><label><input type="checkbox"><span>Google Chrome Releasesの追加情報とPoC公開状況を継続監視</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://chromereleases.googleblog.com/2026/11/stable-channel-update-for-desktop_01744469280.html" target="_blank" rel="noopener noreferrer">Google Chrome Releases（2026-11-11）</a></li></ul></div></article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
