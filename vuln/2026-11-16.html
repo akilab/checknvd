@@ -1,0 +1,87 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-16 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-16" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月16日（月）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-16 07:58 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-11-09 〜 2026-11-16</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 2 ／ P2: 1 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-15.html" rel="prev">← 前日 2026-11-15</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>Check Point Gaiaの実悪用済み権限昇格とPHP2Shellの攻撃連鎖を最優先で確認してください。</strong>
+      11月12日にCheck Pointが侵害実態を公表し、11月13日にKEVへ追加されました。米連邦機関向け対応期限は11月16日です。NetScalerとApache HTTP/2の新たな修正情報も併せて確認してください。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Check Point Gaia / Security Gateway</dd></div>
+      <div><dt>推奨アクション</dt><dd>Jumbo Hotfix適用、PHP2Shell対策、侵害痕跡の調査</dd></div>
+      <div><dt>対応期限</dt><dd>米連邦機関向けKEV期限：2026-11-16（国内組織には直接適用されません）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>Check Pointの実悪用・KEV追加、CitrixとApacheの修正情報（11月11〜13日）</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-123039" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-123039</span><span class="card-product">Check Point Gaia / Security Gateway・管理サーバ / R81 / R81.10 / R81.20 / R82 / R82.10 / R82.20（修正Take未適用）</span><span class="card-lead">DynamicCLIのローカル権限昇格によりroot権限を取得。PHP2Shellとの攻撃連鎖で実悪用され、11月13日にKEV追加。</span><span class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEVあり</span><span class="badge na" data-glyph="■">公開PoC確認できず</span></span><span class="card-fixed"><span>修正版:</span> Jumbo Hotfix：R82.20 Take 14+、R82.10 Take 52+、R82 Take 132+、R81.20 Take 174+。R81/R81.10は修正版確認できず</span></a>
+<a class="summary-card" href="#CVE-2026-120868" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-120868</span><span class="card-product">Citrix NetScaler ADC / NetScaler Gateway / 14.1-73.57未満、13.1-64.39未満（対象ブランチと構成は公式情報を照合）</span><span class="card-lead">パケット処理のメモリ破損。追加機能を必要としない標準構成も影響し、認証不要のネットワーク経由で攻撃可能。</span><span class="badges"><span class="badge na" data-glyph="■">実悪用確認できず</span><span class="badge na" data-glyph="■">CISA KEV確認できず</span><span class="badge na" data-glyph="■">公開PoC確認できず</span></span><span class="card-fixed"><span>修正版:</span> NetScaler ADC/Gateway 14.1-73.57以降、13.1-64.39以降</span></a>
+<a class="summary-card" href="#CVE-2026-119618" data-priority="P2"><span class="badge p2" data-glyph="■">P2 優先対応</span><span class="card-cve">CVE-2026-119618</span><span class="card-product">Apache HTTP Server mod_http2 / Apache HTTP Server 2.4.55〜2.4.70 / mod_h2 2.0.8〜2.0.42</span><span class="card-lead">HTTP/2ヘッダー処理の競合によるメモリ破損でRCEの可能性。11月11日に2.4.71で修正、研究者が再現PoCを報告。</span><span class="badges"><span class="badge na" data-glyph="■">実悪用確認できず</span><span class="badge na" data-glyph="■">CISA KEV確認できず</span><span class="badge na" data-glyph="■">公開PoC確認できず</span></span><span class="card-fixed"><span>修正版:</span> Apache HTTP Server 2.4.71（2026-11-11）</span></a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-123039" data-cve="CVE-2026-123039" data-priority="P1" data-product="Check Point Gaia / Security Gateway・管理サーバ" data-exploited="true" data-kev="true" data-poc="unknown" data-cvss="7.8（CVSS v3.1、Check Point）" data-fixed="Jumbo Hotfix：R82.20 Take 14+、R82.10 Take 52+、R82 Take 132+、R81.20 Take 174+。R81/R81.10は修正版確認できず"><div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-123039</h3></div><p class="product">Check Point Gaia / Security Gateway・管理サーバ（R81 / R81.10 / R81.20 / R82 / R82.10 / R82.20（修正Take未適用））</p><p class="lead">DynamicCLIのローカル権限昇格によりroot権限を取得。PHP2Shellとの攻撃連鎖で実悪用され、11月13日にKEV追加。</p><div class="badges"><span class="badge on" data-glyph="●">実悪用あり</span><span class="badge on" data-glyph="●">CISA KEVあり</span><span class="badge na" data-glyph="■">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 7.8（CVSS v3.1、Check Point）</span></div><dl class="facts"><div><dt>CVSS</dt><dd>7.8（CVSS v3.1、Check Point）</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">低権限で機器上のコード実行が必要。実際の攻撃ではMobile AccessのPHP2Shellが初期侵入経路。</dd></div><div><dt>実悪用</dt><dd>確認あり</dd></div><div><dt>CISA KEV</dt><dd>掲載あり</dd></div><div><dt>公開PoC</dt><dd class="is-warn">確認できず（実装未確認、PoC URL確認できず）</dd></div><div><dt>影響バージョン</dt><dd>R81 / R81.10 / R81.20 / R82 / R82.10 / R82.20（修正Take未適用）</dd></div><div><dt>修正版</dt><dd class="is-ok">Jumbo Hotfix：R82.20 Take 14+、R82.10 Take 52+、R82 Take 132+、R81.20 Take 174+。R81/R81.10は修正版確認できず</dd></div></dl><div class="block"><h4>推奨対処</h4><p>対応するJumbo Hotfixを早急に適用。適用までDynamicCLIの停止を検討（機能影響に注意）。Mobile AccessのPHP2Shell修正も確認。サポート終了版は移行を検討。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>ネットワーク境界のセキュリティ機器でroot権限を奪われる。ベンダーが実悪用を確認し、CISA KEV追加（11月13日）、米連邦機関向け期限が11月16日。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Security Gateway、管理・ログサーバ、MaestroのGaia版とJumbo Hotfix Takeを棚卸し</span></label></li><li><label><input type="checkbox"><span>Mobile Access公開状況とPHP2Shell対策状況を突合</span></label></li><li><label><input type="checkbox"><span>10月30日以降のMobile Access Webアクセスと管理ログを保全・確認</span></label></li><li><label><input type="checkbox"><span>dynamicCli.log、Webシェル、TSGA/TSProxy等の侵害痕跡を公式調査情報と照合</span></label></li><li><label><input type="checkbox"><span>隣接するESXiへのSSH接続や破壊的操作を相関分析</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://research.checkpoint.com/2026/php2shell-exploitation-on-check-point-gateway/" target="_blank" rel="noopener noreferrer">Check Point Research（2026-11-12）</a></li><li><a href="https://community.checkpoint.com/t5/General-Topics/ACTION-REQUIRED-Security-Advisory-Three-Vulnerabilities-Fixed-in/m-p/284951/highlight/true" target="_blank" rel="noopener noreferrer">Check Point公式コミュニティ（修正情報）</a></li><li><a href="https://support.checkpoint.com/results/sk/sk1000362" target="_blank" rel="noopener noreferrer">Check Point sk1000362</a></li><li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEVカタログ</a></li></ul></div></article>
+<article class="case" id="CVE-2026-120868" data-cve="CVE-2026-120868" data-priority="P1" data-product="Citrix NetScaler ADC / NetScaler Gateway" data-exploited="unknown" data-kev="unknown" data-poc="unknown" data-cvss="9.3（CVSS v4.0、Citrix）" data-fixed="NetScaler ADC/Gateway 14.1-73.57以降、13.1-64.39以降"><div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-120868</h3></div><p class="product">Citrix NetScaler ADC / NetScaler Gateway（14.1-73.57未満、13.1-64.39未満（対象ブランチと構成は公式情報を照合））</p><p class="lead">パケット処理のメモリ破損。追加機能を必要としない標準構成も影響し、認証不要のネットワーク経由で攻撃可能。</p><div class="badges"><span class="badge na" data-glyph="■">実悪用確認できず</span><span class="badge na" data-glyph="■">CISA KEV確認できず</span><span class="badge na" data-glyph="■">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 9.3（CVSS v4.0、Citrix）</span></div><dl class="facts"><div><dt>CVSS</dt><dd>9.3（CVSS v4.0、Citrix）</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由、認証不要、利用者操作不要。デフォルト構成で影響。</dd></div><div><dt>実悪用</dt><dd>確認できず</dd></div><div><dt>CISA KEV</dt><dd>確認できず</dd></div><div><dt>公開PoC</dt><dd class="is-warn">確認できず（実装未確認、PoC URL確認できず）</dd></div><div><dt>影響バージョン</dt><dd>14.1-73.57未満、13.1-64.39未満（対象ブランチと構成は公式情報を照合）</dd></div><div><dt>修正版</dt><dd class="is-ok">NetScaler ADC/Gateway 14.1-73.57以降、13.1-64.39以降</dd></div></dl><div class="block"><h4>推奨対処</h4><p>公式CTX697305に従い修正版を適用。更新まで管理・公開経路を最小化し、冗長構成の切替・影響を計画。修正対象ブランチを確認。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>VPN・認証・ロードバランサの境界機器で、標準構成が影響し得る。高CVSSだけでなく認証不要・公開面の広さを考慮してP1。実悪用は未確認。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>NetScaler ADC/Gatewayの資産・ファームウェア版と公開vServerを洗い出し</span></label></li><li><label><input type="checkbox"><span>CTX697305の対象版と更新要否を照合</span></label></li><li><label><input type="checkbox"><span>VPN/AAA/LBの異常切断、クラッシュ、再起動とトラフィック急増を確認</span></label></li><li><label><input type="checkbox"><span>管理面（NSIP）とデータ面の到達性を再点検</span></label></li><li><label><input type="checkbox"><span>更新後にHA状態・認証・VPN接続・サービス継続を検証</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://support.citrix.com/external/article/CTX697305" target="_blank" rel="noopener noreferrer">Citrix CTX697305（公式）</a></li><li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEVカタログ</a></li></ul></div></article>
+<article class="case" id="CVE-2026-119618" data-cve="CVE-2026-119618" data-priority="P2" data-product="Apache HTTP Server mod_http2" data-exploited="unknown" data-kev="unknown" data-poc="unknown" data-cvss="確認できず（Apache公式はCritical）" data-fixed="Apache HTTP Server 2.4.71（2026-11-11）"><div class="case-head"><span class="badge p2" data-glyph="■">P2 優先対応</span><h3>CVE-2026-119618</h3></div><p class="product">Apache HTTP Server mod_http2（Apache HTTP Server 2.4.55〜2.4.70 / mod_h2 2.0.8〜2.0.42）</p><p class="lead">HTTP/2ヘッダー処理の競合によるメモリ破損でRCEの可能性。11月11日に2.4.71で修正、研究者が再現PoCを報告。</p><div class="badges"><span class="badge na" data-glyph="■">実悪用確認できず</span><span class="badge na" data-glyph="■">CISA KEV確認できず</span><span class="badge na" data-glyph="■">公開PoC確認できず</span><span class="badge na" data-glyph="■">CVSS 確認できず（Apache公式はCritical）</span></div><dl class="facts"><div><dt>CVSS</dt><dd>確認できず（Apache公式はCritical）</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">mod_http2を有効にしたHTTP/2リクエスト処理。詳細な悪用成立条件は確認できず。</dd></div><div><dt>実悪用</dt><dd>確認できず</dd></div><div><dt>CISA KEV</dt><dd>確認できず</dd></div><div><dt>公開PoC</dt><dd class="is-warn">確認できず（実装未確認、PoC URL確認できず）</dd></div><div><dt>影響バージョン</dt><dd>Apache HTTP Server 2.4.55〜2.4.70 / mod_h2 2.0.8〜2.0.42</dd></div><div><dt>修正版</dt><dd class="is-ok">Apache HTTP Server 2.4.71（2026-11-11）</dd></div></dl><div class="block"><h4>推奨対処</h4><p>2.4.71へ更新。直ちに更新できない場合はHTTP/2の無効化を検討し、サービスへの影響を評価。配布元のバックポート有無も確認。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>広く使われるWebサーバのHTTP/2処理におけるRCE可能性。公開PoCの言及はあるが実装内容の確認が不十分なためPoCはunknown。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>HTTP/2有効なApache httpdとmod_http2のバージョンを確認</span></label></li><li><label><input type="checkbox"><span>インターネット公開サーバとリバースプロキシの影響範囲を優先把握</span></label></li><li><label><input type="checkbox"><span>HTTP/2接続エラー、httpd子プロセスの異常終了、コアダンプを確認</span></label></li><li><label><input type="checkbox"><span>Webサーバの不審な子プロセス起動とEDR検知を突合</span></label></li><li><label><input type="checkbox"><span>修正後にHTTP/2接続とWebサービス正常性を確認</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://httpd.apache.org/security/vulnerabilities_24.html" target="_blank" rel="noopener noreferrer">Apache HTTP Server公式脆弱性一覧（2026-11-11）</a></li><li><a href="https://httpd.apache.org/download.cgi" target="_blank" rel="noopener noreferrer">Apache HTTP Server公式ダウンロード</a></li><li><a href="https://horizon3.ai/category/attack-research/vulnerabilities/" target="_blank" rel="noopener noreferrer">Horizon3.ai脆弱性研究一覧</a></li></ul></div></article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
