@@ -1,0 +1,108 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-19 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-19" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月19日（木）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-19 08:00 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-11-12 〜 2026-11-19</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-18.html" rel="prev">← 前日 2026-11-18</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>構成管理基盤Puppetと、実悪用が確認されたApache Axis搭載製品、公開nginx HTTP/2サーバを優先点検してください。</strong>
+      11月17日にPuppetのKEV追加が報じられ、11月16日にはConfluence/N-centralに対するAxis悪用が詳報されました。11月18日にはnginxのHTTP/2メモリ破損に対する修正版が公開されています。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Puppet Enterprise / Core、Confluence Data Center / N-central、nginx</dd></div>
+      <div><dt>推奨アクション</dt><dd>Puppet更新と証明書設定点検、SOAP/Legacy API無効化、nginx更新とログ・EDR調査</dd></div>
+      <div><dt>対応期限</dt><dd>Puppet：米連邦機関向け12月1日との報道（原本未照合）。その他は設定なし</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>11月17日のKEV追加報道、11月16日の実悪用詳報、11月18日のnginx修正版公開</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-115731" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-115731</span><span class="card-product">Perforce Puppet Enterprise / Puppet Core — Puppet Enterprise 2023.8.0〜2023.8.12、2025.0.0〜2025.12.0、2026.0.0。Puppet Coreの影響範囲はベンダー情報で確認</span><span class="card-lead">Puppet Serverのエージェントレポート処理における安全でないデシリアライズ。CA署名済みエージェント証明書を持つ攻撃者がサーバ上でコードを実行し得る。11月17日にKEV追加との報告。</span><span class="badges"><span class="badge on" data-glyph="■">実悪用：確認あり</span><span class="badge on" data-glyph="■">KEV：確認あり</span><span class="badge na" data-glyph="■">公開PoC：確認できず</span></span><span class="card-fixed"><span>修正版:</span> Puppet Enterprise/Advanced 2023.8.13、2025.12.1、2026.0.1、Puppet Core 8.22.2 / 9.1.3</span></a>
+<a class="summary-card" href="#CVE-2026-90436" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-90436</span><span class="card-product">Apache Axis 1.x / Atlassian Confluence Data Center / N-able N-central — Apache Axis 1.x〜1.4。Confluence 1.x〜9.xはRemote API（XML-RPC &amp; SOAP）有効時。N-centralはLegacy API有効時の影響を確認</span><span class="card-lead">Apache AxisのSOAP処理で認証不要の任意クラス生成からRCEに至る可能性。11月13日にConfluenceとN-centralへの実悪用が報告され、11月16日に詳細情報が公開された。</span><span class="badges"><span class="badge on" data-glyph="■">実悪用：確認あり</span><span class="badge na" data-glyph="■">KEV：確認できず</span><span class="badge na" data-glyph="■">公開PoC：確認できず</span></span><span class="card-fixed"><span>修正版:</span> Confluence 9.2.28または影響機能を削除した10.x。N-central 2026.4 HF3（2026.4.1.39）。Axis 1.xの正式修正版は提供予定なし</span></a>
+<a class="summary-card" href="#CVE-2026-123007" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-123007</span><span class="card-product">nginx HTTP/2 — nginx 1.9.5〜1.31.8（HTTP/2機能使用時。ベンダー配布パッケージは修正バックポートを別途確認）</span><span class="card-lead">nginxのHTTP/2フロー制御におけるメモリ破損。11月18日に公式修正版が公開され、外部公開Webサーバやリバースプロキシで優先的な確認が必要。</span><span class="badges"><span class="badge na" data-glyph="■">実悪用：確認できず</span><span class="badge na" data-glyph="■">KEV：確認できず</span><span class="badge na" data-glyph="■">公開PoC：確認できず</span></span><span class="card-fixed"><span>修正版:</span> nginx 1.30.7（stable）または1.31.9（mainline）以降</span></a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-115731" data-cve="CVE-2026-115731" data-priority="P1" data-product="Perforce Puppet Enterprise / Puppet Core" data-exploited="true" data-kev="true" data-poc="unknown" data-cvss="9.4（CVSS v4.0、ベンダー）" data-fixed="Puppet Enterprise/Advanced 2023.8.13、2025.12.1、2026.0.1、Puppet Core 8.22.2 / 9.1.3">
+<div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-115731</h3></div>
+<p class="product">Perforce Puppet Enterprise / Puppet Core — Puppet Enterprise 2023.8.0〜2023.8.12、2025.0.0〜2025.12.0、2026.0.0。Puppet Coreの影響範囲はベンダー情報で確認</p><p class="lead">Puppet Serverのエージェントレポート処理における安全でないデシリアライズ。CA署名済みエージェント証明書を持つ攻撃者がサーバ上でコードを実行し得る。11月17日にKEV追加との報告。</p>
+<div class="badges"><span class="badge on" data-glyph="■">実悪用：確認あり</span><span class="badge on" data-glyph="■">CISA KEV：確認あり</span><span class="badge na" data-glyph="■">公開PoC：確認できず</span><span class="badge na" data-glyph="■">CVSS 9.4（CVSS v4.0、ベンダー）</span></div>
+<dl class="facts"><div><dt>CVSS</dt><dd>9.4（CVSS v4.0、ベンダー）</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由。Puppet CA署名済みエージェント証明書が必要。autosign設定が緩い環境では証明書取得が攻撃経路になり得る。</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり（公開情報）</dd></div><div><dt>CISA KEV</dt><dd>11月17日追加との公開報道。CISA原本の直接取得は不可。米連邦機関向け期限は12月1日との報道。</dd></div><div><dt>公開PoC</dt><dd class="is-warn">GitHub等で再現実装を十分に確認できず（unknown）</dd></div><div><dt>影響バージョン</dt><dd>Puppet Enterprise 2023.8.0〜2023.8.12、2025.0.0〜2025.12.0、2026.0.0。Puppet Coreの影響範囲はベンダー情報で確認</dd></div><div><dt>修正版</dt><dd class="is-ok">Puppet Enterprise/Advanced 2023.8.13、2025.12.1、2026.0.1、Puppet Core 8.22.2 / 9.1.3</dd></div></dl>
+<div class="block"><h4>推奨対処</h4><p>修正版へ更新しPuppet Serverを再起動。暫定的にautosignと認可ルールを厳格化し、レポート受信面への到達元を制限。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>構成管理サーバの侵害は管理下の多数端末に波及し得る。11月17日のKEV追加報道と実悪用情報を重視しP1。</p></div>
+<div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Puppet Server、CA、エージェントの配置とバージョンを棚卸し</span></label></li><li><label><input type="checkbox"><span>autosign設定と署名済み証明書発行履歴を点検</span></label></li><li><label><input type="checkbox"><span>レポートAPIへの不審な送信元・異常なリクエストを調査</span></label></li><li><label><input type="checkbox"><span>Puppet Serverのプロセス実行、設定変更、CA鍵アクセスを調査</span></label></li><li><label><input type="checkbox"><span>管理対象ノードに配布されたマニフェスト・設定の不審な変更を確認</span></label></li></ul></div>
+<div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://trust.perforce.com/" target="_blank" rel="noopener noreferrer">Perforce Trust Center（2026-11-03）</a></li><li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer">CISA KEV カタログ（最新掲載状況を照合）</a></li></ul></div></article>
+<article class="case" id="CVE-2026-90436" data-cve="CVE-2026-90436" data-priority="P1" data-product="Apache Axis 1.x / Atlassian Confluence Data Center / N-able N-central" data-exploited="true" data-kev="unknown" data-poc="unknown" data-cvss="9.8（CVSS v3.1）" data-fixed="Confluence 9.2.28または影響機能を削除した10.x。N-central 2026.4 HF3（2026.4.1.39）。Axis 1.xの正式修正版は提供予定なし">
+<div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-90436</h3></div>
+<p class="product">Apache Axis 1.x / Atlassian Confluence Data Center / N-able N-central — Apache Axis 1.x〜1.4。Confluence 1.x〜9.xはRemote API（XML-RPC &amp; SOAP）有効時。N-centralはLegacy API有効時の影響を確認</p><p class="lead">Apache AxisのSOAP処理で認証不要の任意クラス生成からRCEに至る可能性。11月13日にConfluenceとN-centralへの実悪用が報告され、11月16日に詳細情報が公開された。</p>
+<div class="badges"><span class="badge on" data-glyph="■">実悪用：確認あり</span><span class="badge na" data-glyph="■">CISA KEV：確認できず</span><span class="badge na" data-glyph="■">公開PoC：確認できず</span><span class="badge na" data-glyph="■">CVSS 9.8（CVSS v3.1）</span></div>
+<dl class="facts"><div><dt>CVSS</dt><dd>9.8（CVSS v3.1）</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由、認証不要。脆弱なSOAP/Legacy APIの有効化と適切なクラスパス条件が必要。</dd></div><div><dt>実悪用</dt><dd class="is-alert">あり（公開情報）</dd></div><div><dt>CISA KEV</dt><dd>CISA KEV原本を直接照合できず（unknown）</dd></div><div><dt>公開PoC</dt><dd class="is-warn">11月12日のN-central向けPoC公開をRapid7が報告。実装を直接確認していないためunknown</dd></div><div><dt>影響バージョン</dt><dd>Apache Axis 1.x〜1.4。Confluence 1.x〜9.xはRemote API（XML-RPC &amp; SOAP）有効時。N-centralはLegacy API有効時の影響を確認</dd></div><div><dt>修正版</dt><dd class="is-ok">Confluence 9.2.28または影響機能を削除した10.x。N-central 2026.4 HF3（2026.4.1.39）。Axis 1.xの正式修正版は提供予定なし</dd></div></dl>
+<div class="block"><h4>推奨対処</h4><p>ConfluenceのRemote API（XML-RPC &amp; SOAP）を無効化。N-centralのLegacy APIを無効化し、ベンダー更新を適用。Axis 1.xはサポート対象のSOAP実装へ移行。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>RMMと社内ナレッジ基盤の侵害が確認されており、侵入後の横展開や多数端末への波及が懸念されるためP1。</p></div>
+<div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Confluence Remote APIとN-central Legacy APIの有効状態を点検</span></label></li><li><label><input type="checkbox"><span>外部公開されたSOAPエンドポイントと到達制御を確認</span></label></li><li><label><input type="checkbox"><span>11月13日以降のSOAPリクエストと異常な500応答を調査</span></label></li><li><label><input type="checkbox"><span>Javaプロセスからの不審な子プロセス実行やファイル生成をEDRで確認</span></label></li><li><label><input type="checkbox"><span>Rapid7およびN-able公開IOCをアクセスログと突合</span></label></li></ul></div>
+<div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://www.rapid7.com/blog/post/etr-rapid7-detected-exploitation-of-cve-2026-90436-against-atlassian-confluence-data-center-n-able-n-central-also-exploited/" target="_blank" rel="noopener noreferrer">Rapid7 実悪用調査（2026-11-16）</a></li><li><a href="https://github.com/apache/axis-axis1-java/commit/41f3b4e8d04e310ca81f86b92630ab2c11d608bd" target="_blank" rel="noopener noreferrer">Apache Axis 1.x 修正コミット（公式リポジトリ）</a></li></ul></div></article>
+<article class="case" id="CVE-2026-123007" data-cve="CVE-2026-123007" data-priority="P1" data-product="nginx HTTP/2" data-exploited="unknown" data-kev="unknown" data-poc="unknown" data-cvss="確認できず（nginx公式Severity: major）" data-fixed="nginx 1.30.7（stable）または1.31.9（mainline）以降">
+<div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-123007</h3></div>
+<p class="product">nginx HTTP/2 — nginx 1.9.5〜1.31.8（HTTP/2機能使用時。ベンダー配布パッケージは修正バックポートを別途確認）</p><p class="lead">nginxのHTTP/2フロー制御におけるメモリ破損。11月18日に公式修正版が公開され、外部公開Webサーバやリバースプロキシで優先的な確認が必要。</p>
+<div class="badges"><span class="badge na" data-glyph="■">実悪用：確認できず</span><span class="badge na" data-glyph="■">CISA KEV：確認できず</span><span class="badge na" data-glyph="■">公開PoC：確認できず</span><span class="badge na" data-glyph="■">CVSS 確認できず（nginx公式Severity: major）</span></div>
+<dl class="facts"><div><dt>CVSS</dt><dd>確認できず（nginx公式Severity: major）</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">HTTP/2を有効にしたnginxへのネットワークアクセス。具体的なコード実行成立条件は確認できず。</dd></div><div><dt>実悪用</dt><dd class="is-alert">確認できず</dd></div><div><dt>CISA KEV</dt><dd>CISA KEV原本を直接照合できず（unknown）</dd></div><div><dt>公開PoC</dt><dd class="is-warn">実装を伴う公開PoCを十分に確認できず（unknown）</dd></div><div><dt>影響バージョン</dt><dd>nginx 1.9.5〜1.31.8（HTTP/2機能使用時。ベンダー配布パッケージは修正バックポートを別途確認）</dd></div><div><dt>修正版</dt><dd class="is-ok">nginx 1.30.7（stable）または1.31.9（mainline）以降</dd></div></dl>
+<div class="block"><h4>推奨対処</h4><p>修正版に更新してnginxを再起動またはreloadし実稼働バイナリを確認。更新までの間、業務影響を確認した上でHTTP/2無効化とアクセス制限を検討。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>広範に導入される公開Web基盤のメモリ破損であり、11月18日に修正版が公開されたためP1。実悪用・PoCは未確認である点を留保。</p></div>
+<div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>公開nginxサーバ・リバースプロキシのバージョンとHTTP/2有効状態を確認</span></label></li><li><label><input type="checkbox"><span>ディストリビューションのバックポート修正情報を照合</span></label></li><li><label><input type="checkbox"><span>HTTP/2リクエスト異常、workerクラッシュ、再起動の急増を確認</span></label></li><li><label><input type="checkbox"><span>WAF/CDN経由と直接到達可能な経路を洗い出し</span></label></li><li><label><input type="checkbox"><span>修正適用後のnginxプロセス再起動と稼働版を検証</span></label></li></ul></div>
+<div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://nginx.org/en/security_advisories.html" target="_blank" rel="noopener noreferrer">nginx公式セキュリティアドバイザリ</a></li><li><a href="https://nginx.org/2026.html" target="_blank" rel="noopener noreferrer">nginx公式リリース情報（2026-11-18）</a></li></ul></div></article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
