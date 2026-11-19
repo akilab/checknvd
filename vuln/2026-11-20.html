@@ -1,0 +1,81 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-20 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-20" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月20日（金）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-20 08:00 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-11-13 〜 2026-11-20</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 2 ／ P2: 1 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-19.html" rel="prev">← 前日 2026-11-19</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>Broadcom仮想化管理基盤の認証不要RCEに対し、修正版公開を待たず回避策を優先してください。</strong>
+      11月19日、BroadcomがVCF Operations / Aria Operations / HCXの影響とパッチ未提供を公表しました。同日にPHPの修正版も公開され、TYPO3の認証不備も公開Webサイトでの確認が必要です。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>VMware Cloud Foundation Operations / Aria Operations / HCX</dd></div>
+      <div><dt>推奨アクション</dt><dd>Broadcom KB463005 / KB463022の回避策、管理面アクセス制限、TYPO3・PHP更新</dd></div>
+      <div><dt>対応期限</dt><dd>設定なし（Broadcomの修正版未提供のため回避策を至急適用）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>11月19日のBroadcom VMSA-2026-0010とPHPセキュリティリリース</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list"><a class="summary-card" href="#CVE-2026-119618" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-119618</span><span class="card-product">VMware Cloud Foundation Operations / Aria Operations / VCF Operations HCX / VCF Operations 9.x、Aria Operations 8.18.x / VCF 5.x、VCF Operations HCX 9.1.x</span><span class="card-lead">Apache mod_http2のヒープ破損により、ネットワーク経由で認証なしのコード実行が可能。11月19日、Broadcomが管理基盤への影響と修正版未提供を公表。</span><span class="badges"><span class="badge na" data-glyph="■">実悪用：確認できず</span><span class="badge na" data-glyph="■">KEV：確認できず</span><span class="badge on" data-glyph="●">PoC：あり</span></span><span class="card-fixed"><span>修正版:</span> 未提供（2026-11-19時点）。KB463005 / KB463022による回避策</span></a>
+<a class="summary-card" href="#CVE-2026-119623" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-119623</span><span class="card-product">TYPO3 CMS Installer / 10.0.0–10.4.62、11.0.0–11.5.56、12.0.0–12.4.51、13.0.0–13.4.39、14.0.0–14.3.11</span><span class="card-lead">インストーラを再有効化できる条件で認証なしの管理者作成とRCEが可能。11月17日に公式修正版を公開。</span><span class="badges"><span class="badge na" data-glyph="■">実悪用：確認できず</span><span class="badge na" data-glyph="■">KEV：確認できず</span><span class="badge na" data-glyph="■">PoC：確認できず</span></span><span class="card-fixed"><span>修正版:</span> 10.4.63 ELTS / 11.5.57 ELTS / 12.4.52 ELTS / 13.4.40 LTS / 14.3.12 LTS</span></a>
+<a class="summary-card" href="#CVE-2026-126714" data-priority="P2"><span class="badge p2" data-glyph="■">P2 優先確認</span><span class="card-cve">CVE-2026-126714</span><span class="card-product">PHP（標準 files セッションハンドラ） / 8.2.x &lt; 8.2.36、8.3.x &lt; 8.3.37、8.4.x &lt; 8.4.28、8.5.x &lt; 8.5.13</span><span class="card-lead">セッションファイルの部分上書きにより不正なオブジェクトが復元され、アプリ側のガジェットチェーンがある場合にRCEへ至る可能性。11月19日修正。</span><span class="badges"><span class="badge off" data-glyph="○">実悪用：未確認</span><span class="badge off" data-glyph="○">KEV：未確認</span><span class="badge na" data-glyph="■">PoC：確認できず</span></span><span class="card-fixed"><span>修正版:</span> PHP 8.2.36 / 8.3.37 / 8.4.28 / 8.5.13</span></a></div></section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-119618" data-cve="CVE-2026-119618" data-priority="P1" data-product="VMware Cloud Foundation Operations / Aria Operations / VCF Operations HCX" data-exploited="unknown" data-kev="unknown" data-poc="true" data-cvss="9.8" data-fixed="未提供（2026-11-19時点）。KB463005 / KB463022による回避策"><div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-119618</h3></div><p class="product">VMware Cloud Foundation Operations / Aria Operations / VCF Operations HCX — VCF Operations 9.x、Aria Operations 8.18.x / VCF 5.x、VCF Operations HCX 9.1.x</p><p class="lead">Apache mod_http2のヒープ破損により、ネットワーク経由で認証なしのコード実行が可能。11月19日、Broadcomが管理基盤への影響と修正版未提供を公表。</p><div class="badges"><span class="badge na" data-glyph="■">実悪用：確認できず</span><span class="badge na" data-glyph="■">CISA KEV：確認できず</span><span class="badge on" data-glyph="●">公開PoC：あり</span><span class="badge na" data-glyph="■">CVSS 9.8</span></div><dl class="facts"><div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1、Broadcom)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">対象管理製品のHTTP/2サービスへのネットワーク到達。認証不要。</dd></div><div><dt>実悪用</dt><dd>確認できず</dd></div><div><dt>CISA KEV</dt><dd>確認できず</dd></div><div><dt>公開PoC</dt><dd class="is-warn">実装を含む公開リポジトリを確認（実行・ビルド・ダウンロード・安全性検証なし） <a href="https://github.com/googlesky/CVE-2026-119618" target="_blank" rel="noopener noreferrer">PoC参照</a></dd></div><div><dt>影響バージョン</dt><dd>VCF Operations 9.x、Aria Operations 8.18.x / VCF 5.x、VCF Operations HCX 9.1.x</dd></div><div><dt>修正版</dt><dd class="is-ok">未提供（2026-11-19時点）。KB463005 / KB463022による回避策</dd></div></dl><div class="block"><h4>推奨対処・緩和策</h4><p>Broadcom VMSA-2026-0010に従い、VCF Operations / Aria OperationsはKB463005、HCXはKB463022の回避策を適用。HTTP/2を無効化し、管理面への到達元を限定。修正版公開後に更新する。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>仮想化管理・運用基盤への認証不要RCEで、侵害時の横展開と大規模障害の影響が大きい。公式修正版未提供であり即時の回避策が必要。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>VCF Operations 9.x、Aria Operations 8.18.x、HCX 9.1.xの設置台帳と稼働版を確認</span></label></li><li><label><input type="checkbox"><span>管理UIの外部公開・管理ネットワーク経由の到達性とHTTP/2有効化を確認</span></label></li><li><label><input type="checkbox"><span>KB463005 / KB463022に沿った回避策の適用状態を確認</span></label></li><li><label><input type="checkbox"><span>管理サービスのHTTP/2異常、接続急増、5xx、クラッシュや再起動を調査</span></label></li><li><label><input type="checkbox"><span>管理アプライアンス上の不審なプロセス起動・認証情報利用・vCenter操作を相関調査</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/39625" target="_blank" rel="noopener noreferrer">Broadcom VMSA-2026-0010（2026-11-19）</a></li><li><a href="https://knowledge.broadcom.com/external/article/463005" target="_blank" rel="noopener noreferrer">Broadcom KB463005</a></li><li><a href="https://github.com/googlesky/CVE-2026-119618" target="_blank" rel="noopener noreferrer">公開PoCリポジトリ（安全性未検証）</a></li></ul></div></article>
+<article class="case" id="CVE-2026-119623" data-cve="CVE-2026-119623" data-priority="P1" data-product="TYPO3 CMS Installer" data-exploited="unknown" data-kev="unknown" data-poc="unknown" data-cvss="確認できず" data-fixed="10.4.63 ELTS / 11.5.57 ELTS / 12.4.52 ELTS / 13.4.40 LTS / 14.3.12 LTS"><div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-119623</h3></div><p class="product">TYPO3 CMS Installer — 10.0.0–10.4.62、11.0.0–11.5.56、12.0.0–12.4.51、13.0.0–13.4.39、14.0.0–14.3.11</p><p class="lead">インストーラを再有効化できる条件で認証なしの管理者作成とRCEが可能。11月17日に公式修正版を公開。</p><div class="badges"><span class="badge na" data-glyph="■">実悪用：確認できず</span><span class="badge na" data-glyph="■">CISA KEV：確認できず</span><span class="badge na" data-glyph="■">公開PoC：確認できず</span><span class="badge na" data-glyph="■">CVSS 確認できず</span></div><dl class="facts"><div><dt>CVSS</dt><dd>公式CVSS数値は確認できず（Critical、CVSS v4.0ベクトル公表）</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">既存環境にFIRST_INSTALLで始まるマーカーファイルを置けること（低権限バックエンドユーザーによる作成、残存ファイルなど）。その後インストーラへ認証なしでアクセス可能。</dd></div><div><dt>実悪用</dt><dd>確認できず</dd></div><div><dt>CISA KEV</dt><dd>確認できず</dd></div><div><dt>公開PoC</dt><dd class="is-warn">確認できず（実装の直接確認不十分）</dd></div><div><dt>影響バージョン</dt><dd>10.0.0–10.4.62、11.0.0–11.5.56、12.0.0–12.4.51、13.0.0–13.4.39、14.0.0–14.3.11</dd></div><div><dt>修正版</dt><dd class="is-ok">10.4.63 ELTS / 11.5.57 ELTS / 12.4.52 ELTS / 13.4.40 LTS / 14.3.12 LTS</dd></div></dl><div class="block"><h4>推奨対処・緩和策</h4><p>公式修正版へ更新。Webルートとプロジェクトルートの予期しないFIRST_INSTALL*を確認し、管理者・システムメンテナアカウントとDB接続設定の改変を点検。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>公開CMSでインストーラの認証を回避し管理者作成からRCEに至る。マーカーファイル作成という前提条件があるが、低権限利用者との連鎖が公式に示されている。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>TYPO3の稼働バージョンと公開サイト・管理画面の到達範囲を棚卸し</span></label></li><li><label><input type="checkbox"><span>WebルートとプロジェクトルートのFIRST_INSTALL*の不審な存在を調査</span></label></li><li><label><input type="checkbox"><span>新規管理者・システムメンテナアカウントとDB接続先変更履歴を調査</span></label></li><li><label><input type="checkbox"><span>Installerへのアクセスログ、異常な管理操作、PHPプロセス起動を相関確認</span></label></li><li><label><input type="checkbox"><span>修正版適用後にインストーラの再有効化を許さない設定を確認</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://news.typo3.com/security/advisory/typo3-core-sa-2026-027" target="_blank" rel="noopener noreferrer">TYPO3-CORE-SA-2026-027（2026-11-17）</a></li><li><a href="https://announce.typo3.org/release-announcements/detail/2ced80ef-82bd-45ce-8483-a03358526e41" target="_blank" rel="noopener noreferrer">TYPO3公式リリース案内</a></li></ul></div></article>
+<article class="case" id="CVE-2026-126714" data-cve="CVE-2026-126714" data-priority="P2" data-product="PHP（標準 files セッションハンドラ）" data-exploited="false" data-kev="false" data-poc="unknown" data-cvss="9.2" data-fixed="PHP 8.2.36 / 8.3.37 / 8.4.28 / 8.5.13"><div class="case-head"><span class="badge p2" data-glyph="■">P2 優先確認</span><h3>CVE-2026-126714</h3></div><p class="product">PHP（標準 files セッションハンドラ） — 8.2.x &lt; 8.2.36、8.3.x &lt; 8.3.37、8.4.x &lt; 8.4.28、8.5.x &lt; 8.5.13</p><p class="lead">セッションファイルの部分上書きにより不正なオブジェクトが復元され、アプリ側のガジェットチェーンがある場合にRCEへ至る可能性。11月19日修正。</p><div class="badges"><span class="badge off" data-glyph="○">実悪用：未確認</span><span class="badge off" data-glyph="○">CISA KEV：未確認</span><span class="badge na" data-glyph="■">公開PoC：確認できず</span><span class="badge na" data-glyph="■">CVSS 9.2</span></div><dl class="facts"><div><dt>CVSS</dt><dd>9.2 / Critical (CVSS v4.0、CNA)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">filesセッションハンドラ利用、攻撃者がセッション内容を操作可能、書込み中断のタイミング成立、アプリに適切なガジェットチェーンが存在。</dd></div><div><dt>実悪用</dt><dd>確認された報告なし</dd></div><div><dt>CISA KEV</dt><dd>未掲載（確認時点）</dd></div><div><dt>公開PoC</dt><dd class="is-warn">確認できず（実装の直接確認不十分）</dd></div><div><dt>影響バージョン</dt><dd>8.2.x &lt; 8.2.36、8.3.x &lt; 8.3.37、8.4.x &lt; 8.4.28、8.5.x &lt; 8.5.13</dd></div><div><dt>修正版</dt><dd class="is-ok">PHP 8.2.36 / 8.3.37 / 8.4.28 / 8.5.13</dd></div></dl><div class="block"><h4>推奨対処・緩和策</h4><p>PHPを修正版へ更新しPHP-FPM/Apacheワーカーを再起動。更新までの間はセッション保存方式・攻撃者入力のセッション保存経路を評価し、非ファイル型ハンドラへの切替を検討。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>PHP標準のセッション保存方式に影響し、Webサービス全般へ波及し得る。一方、悪用には複数条件が必要であり、実悪用・KEVを確認していないためP2。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>公開WebアプリのPHP実行版とsession.save_handler=filesの利用有無を調査</span></label></li><li><label><input type="checkbox"><span>セッションアップロード進捗など攻撃者制御データがセッションに入る経路を確認</span></label></li><li><label><input type="checkbox"><span>PHP-FPM / Webサーバの異常終了・セッション破損・予期しないプロセス実行を監視</span></label></li><li><label><input type="checkbox"><span>修正版適用とワーカー再起動、コンテナイメージの再展開を確認</span></label></li><li><label><input type="checkbox"><span>関連するWAF・HTTPアクセスログで異常なセッション操作やアップロードを調査</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://www.php.net/ChangeLog-8.php" target="_blank" rel="noopener noreferrer">PHP公式リリース履歴（2026-11-19）</a></li><li><a href="https://github.com/php/php-src/security/advisories/GHSA-fm2m-fjf5-v3cp" target="_blank" rel="noopener noreferrer">PHP公式GHSA-fm2m-fjf5-v3cp</a></li><li><a href="https://www.cve.org/CVERecord?id=CVE-2026-126714" target="_blank" rel="noopener noreferrer">CVEレコード</a></li></ul></div></article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
