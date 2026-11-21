@@ -1,0 +1,87 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-22 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-22" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月22日（日）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-22 08:02 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-11-15 〜 2026-11-22</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-21.html" rel="prev">← 前日 2026-11-21</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>実悪用が確認されたApache Rollerの認証不要RCEを最優先で封じ、Cisco ExpresswayとvCenterの更新・侵害調査を進めてください。</strong>
+      Apache公式はRollerの実悪用を明記しています。11月20日にRoller、Cisco Expressway、vCenterのCISA KEV追加が報告され、管理基盤・境界装置の侵害リスクが高まっています。KEV原本の個別レコード照合は完了していないため、追加日と期限は要再確認です。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Apache Roller / Cisco Expressway / VMware vCenter</dd></div>
+      <div><dt>推奨アクション</dt><dd>Roller 6.1.6への更新、Expressway X15.5.20への更新、vCenterの修正・SSO侵害調査</dd></div>
+      <div><dt>対応期限</dt><dd>米連邦機関向け11月23日との報告（CISA原本の直接照合は未完了）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>11月20日のKEV追加報告。vCenterは前日掲載からの重要更新</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-129448" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-129448</span><span class="card-product">Apache Roller / 4.0.0〜6.1.4（XML-RPC）</span><span class="card-lead">XML-RPCエンドポイントで認証前に危険なデシリアライズを行い、認証不要で任意コード実行。Apache公式が実悪用を明記。</span><span class="badges"><span class="badge on" data-glyph="●">実悪用：あり</span><span class="badge on" data-glyph="●">KEV：あり</span><span class="badge na" data-glyph="■">公開PoC：確認できず</span></span><span class="card-fixed"><span>修正版:</span> 6.1.6以降</span></a>
+<a class="summary-card" href="#CVE-2026-76466" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-76466</span><span class="card-product">Cisco Expressway-C / Expressway-E / クラスタ構成のX14以前、X15.5.3以前</span><span class="card-lead">クラスタのDBサービスに関する認証不備。条件を満たすリモート攻撃者がroot権限でOSコマンドを実行可能。11月20日にKEV追加との報告。</span><span class="badges"><span class="badge na" data-glyph="■">実悪用：確認できず</span><span class="badge on" data-glyph="●">KEV：あり</span><span class="badge na" data-glyph="■">公開PoC：確認できず</span></span><span class="card-fixed"><span>修正版:</span> X15.5.20（X14以前は移行）</span></a>
+<a class="summary-card" href="#CVE-2026-123890" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-123890</span><span class="card-product">VMware vCenter Server / VMware Cloud Foundation / vCenter 9.1.x、9.0.x、8.0、7.0 / VCF 5.xの修正前</span><span class="card-lead">vCenter Directory Serviceの認証回避によりSSO管理者権限を取得可能。実悪用済みで、11月20日のKEV追加が新たに報告された。</span><span class="badges"><span class="badge on" data-glyph="●">実悪用：あり</span><span class="badge on" data-glyph="●">KEV：あり</span><span class="badge na" data-glyph="■">公開PoC：確認できず</span></span><span class="card-fixed"><span>修正版:</span> vCenter 9.1.1.0200 / 9.0.2.0200 / 8.0 U3m、VCF 5.2.5</span></a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-129448" data-cve="CVE-2026-129448" data-priority="P1" data-product="Apache Roller" data-exploited="true" data-kev="true" data-poc="unknown" data-cvss="9.8" data-fixed="6.1.6以降"><div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-129448</h3></div><p class="product">Apache Roller / 4.0.0〜6.1.4（XML-RPC）</p><p class="lead">XML-RPCエンドポイントで認証前に危険なデシリアライズを行い、認証不要で任意コード実行。Apache公式が実悪用を明記。</p><div class="badges"><span class="badge on" data-glyph="●">実悪用：あり</span><span class="badge on" data-glyph="●">CISA KEV：あり</span><span class="badge na" data-glyph="■">公開PoC：確認できず</span><span class="badge na" data-glyph="■">CVSS 9.8（CVSS v3.1）</span></div><dl class="facts"><div><dt>CVSS</dt><dd>9.8（CVSS v3.1）</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要。XML-RPCエンドポイントに到達可能な構成。</dd></div><div><dt>実悪用</dt><dd>あり（Apache公式アドバイザリ）</dd></div><div><dt>CISA KEV</dt><dd>11月20日追加との報告。CISA原本の個別レコード直接照合は確認できず</dd></div><div><dt>公開PoC</dt><dd class="is-warn">公開再現実装の直接確認は不十分（unknown）</dd></div><div><dt>影響バージョン</dt><dd>4.0.0〜6.1.4（XML-RPC）</dd></div><div><dt>修正版</dt><dd class="is-ok">6.1.6以降</dd></div></dl><div class="block"><h4>推奨対処</h4><p>Apache Roller 6.1.6以降に更新。暫定策としてWEB-INF/web.xmlのenabledForExtensionsをfalseにするか/roller-services/xmlrpcマッピングを削除し再起動。管理UIでXML-RPCを無効化するだけでは不十分。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>Apacheが実悪用を明記した認証不要RCE。ブログ/CMSの外部公開面からアプリケーションサーバ侵害へ直結するためP1。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Rollerの公開サイトとバージョン、XML-RPC有効性を棚卸し</span></label></li><li><label><input type="checkbox"><span>6.1.6以降への更新またはweb.xmlでの暫定遮断を確認</span></label></li><li><label><input type="checkbox"><span>/roller-services/xmlrpcへの外部POST、異常なHTTP 500を調査</span></label></li><li><label><input type="checkbox"><span>Javaプロセス配下の不審な子プロセス、外向き通信をEDRで確認</span></label></li><li><label><input type="checkbox"><span>侵害疑い時はWebコンテンツ改変と認証情報流出を調査</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://lists.apache.org/thread/lnz4s26tv6hdo03wngtdbpfj4hg4gtds" target="_blank" rel="noopener noreferrer">Apache Software Foundation公式告知（2026-11-17）</a></li><li><a href="https://github.com/apache/roller/pull/171" target="_blank" rel="noopener noreferrer">Apache Roller修正PR</a></li></ul></div></article>
+<article class="case" id="CVE-2026-76466" data-cve="CVE-2026-76466" data-priority="P1" data-product="Cisco Expressway-C / Expressway-E" data-exploited="unknown" data-kev="true" data-poc="unknown" data-cvss="9.8" data-fixed="X15.5.20（X14以前は移行）"><div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-76466</h3></div><p class="product">Cisco Expressway-C / Expressway-E / クラスタ構成のX14以前、X15.5.3以前</p><p class="lead">クラスタのDBサービスに関する認証不備。条件を満たすリモート攻撃者がroot権限でOSコマンドを実行可能。11月20日にKEV追加との報告。</p><div class="badges"><span class="badge na" data-glyph="■">実悪用：確認できず</span><span class="badge on" data-glyph="●">CISA KEV：あり</span><span class="badge na" data-glyph="■">公開PoC：確認できず</span><span class="badge na" data-glyph="■">CVSS 9.8（CVSS v3.1）</span></div><dl class="facts"><div><dt>CVSS</dt><dd>9.8（CVSS v3.1）</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">クラスタ構成・DBサービスへのネットワーク到達・必要な永続cookieの入手。単純な無条件攻撃ではない。</dd></div><div><dt>実悪用</dt><dd>Cisco PSIRTは10月21日付で悪用を未把握。11月20日のKEV追加報告あり、個別事例の詳細は確認できず</dd></div><div><dt>CISA KEV</dt><dd>11月20日追加との報告。CISA原本の個別レコード直接照合は確認できず</dd></div><div><dt>公開PoC</dt><dd class="is-warn">実装を伴う公開PoCは確認できず（unknown）</dd></div><div><dt>影響バージョン</dt><dd>クラスタ構成のX14以前、X15.5.3以前</dd></div><div><dt>修正版</dt><dd class="is-ok">X15.5.20（X14以前は移行）</dd></div></dl><div class="block"><h4>推奨対処</h4><p>X15.5.20へ更新。X14以前は修正版へ移行。公式回避策なし。クラスタDBサービスのTCP 4371/4372を信頼済みクラスタノードに限定するネットワーク制限を補助策として実施。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>音声・ビデオ通信の境界装置でroot権限侵害の可能性。外部到達性とクラスタ間通信の保護が重要なためP1。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Expressway-C/Eのクラスタ構成とソフトウェア系列を確認</span></label></li><li><label><input type="checkbox"><span>クラスタDB通信TCP 4371/4372の到達元を制限</span></label></li><li><label><input type="checkbox"><span>X15.5.20以降への更新計画と稼働確認</span></label></li><li><label><input type="checkbox"><span>クラスタ間RPC接続元、認証異常、設定変更を点検</span></label></li><li><label><input type="checkbox"><span>root権限での不審プロセス・外部通信を調査</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-vcs-static-cred-hr7EWZ8t" target="_blank" rel="noopener noreferrer">Cisco公式アドバイザリ（2026-10-21）</a></li><li><a href="https://github.com/cisagov/kev-data" target="_blank" rel="noopener noreferrer">CISA KEV公式データ</a></li></ul></div></article>
+<article class="case" id="CVE-2026-123890" data-cve="CVE-2026-123890" data-priority="P1" data-product="VMware vCenter Server / VMware Cloud Foundation" data-exploited="true" data-kev="true" data-poc="unknown" data-cvss="9.8" data-fixed="vCenter 9.1.1.0200 / 9.0.2.0200 / 8.0 U3m、VCF 5.2.5"><div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-123890</h3></div><p class="product">VMware vCenter Server / VMware Cloud Foundation / vCenter 9.1.x、9.0.x、8.0、7.0 / VCF 5.xの修正前</p><p class="lead">vCenter Directory Serviceの認証回避によりSSO管理者権限を取得可能。実悪用済みで、11月20日のKEV追加が新たに報告された。</p><div class="badges"><span class="badge on" data-glyph="●">実悪用：あり</span><span class="badge on" data-glyph="●">CISA KEV：あり</span><span class="badge na" data-glyph="■">公開PoC：確認できず</span><span class="badge na" data-glyph="■">CVSS 9.8（CVSS v3.1）</span></div><dl class="facts"><div><dt>CVSS</dt><dd>9.8（CVSS v3.1）</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">管理インターフェースへのネットワーク到達・認証不要。</dd></div><div><dt>実悪用</dt><dd>あり（Google Threat Intelligence / Mandiantが9月の攻撃を確認）</dd></div><div><dt>CISA KEV</dt><dd>11月20日追加との報告。CISA原本の個別レコード直接照合は確認できず</dd></div><div><dt>公開PoC</dt><dd class="is-warn">公開再現実装の直接確認は不十分（unknown）</dd></div><div><dt>影響バージョン</dt><dd>vCenter 9.1.x、9.0.x、8.0、7.0 / VCF 5.xの修正前</dd></div><div><dt>修正版</dt><dd class="is-ok">vCenter 9.1.1.0200 / 9.0.2.0200 / 8.0 U3m、VCF 5.2.5</dd></div></dl><div class="block"><h4>推奨対処</h4><p>Broadcom VMSA-2026-0009に従い更新。公式回避策なし。管理面の到達元制限に加え、既存侵害の調査と認証情報・STS署名鍵の影響評価を行う。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>実悪用が確認された仮想化管理基盤の認証回避。前日掲載済みだがKEV追加という重要変化が報告されたため再掲載。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>vCenter/VCFの影響バージョンとパッチ適用状況を確認</span></label></li><li><label><input type="checkbox"><span>管理インターフェースへの到達元を限定</span></label></li><li><label><input type="checkbox"><span>SSO管理者追加、STS鍵アクセス、認証設定変更を調査</span></label></li><li><label><input type="checkbox"><span>ESXiホストのSSH設定とauthorized_keys改変を点検</span></label></li><li><label><input type="checkbox"><span>侵害が疑われる場合はトークン・認証情報の再発行を検討</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/VMSA-2026-0009--VMware-vCenter--Tools--and-SDDC-Manager-updates-address-multiple-vulnerabilities--CVE-2026-123890--CVE-2026-123891--CVE-2026-123892--CVE-2026-123893--CVE-2026-123894-/39495" target="_blank" rel="noopener noreferrer">Broadcom公式セキュリティ情報</a></li><li><a href="https://cloud.google.com/blog/topics/threat-intelligence/armory-castle-exploits-vsphere" target="_blank" rel="noopener noreferrer">Google Threat Intelligence / Mandiant（2026-11-19）</a></li><li><a href="https://github.com/cisagov/kev-data" target="_blank" rel="noopener noreferrer">CISA KEV公式データ</a></li></ul></div></article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
