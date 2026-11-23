@@ -1,0 +1,87 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-24 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-24" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月24日（火）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-24 08:01 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-11-17 〜 2026-11-24</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 1 ／ P2: 2 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-23.html" rel="prev">← 前日 2026-11-23</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>PHPの新たな認証不要RCEリスクを優先して確認し、公開WebアプリのPHP更新状況を点検してください。</strong>
+      Red Hatが11月23日に重大なPHP脆弱性群の対応状況を更新しました。GPGMEは11月20日に公式修正版が公開され、simple-gitは11月23日に新たな引数注入のアドバイザリが公開されています。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>PHP 8.2〜8.5 / PHPセッション処理</dd></div>
+      <div><dt>推奨アクション</dt><dd>PHP更新と公開Webアプリのセッション処理確認、GPGMEとsimple-gitの依存関係棚卸し</dd></div>
+      <div><dt>対応期限</dt><dd>設定なし（運用上は早急な対応を推奨）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>11月23日Red Hat更新、11月23日simple-git新規GHSA公開、11月20日GPGME公式修正版公開</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-115560" data-priority="P1"><span class="badge p1" data-glyph="■">P1 即時確認</span><span class="card-cve">CVE-2026-115560</span><span class="card-product">PHP 8.2〜8.5 / PHPセッション処理</span><span class="card-lead">セッションシリアライザの不整合に起因する認証不要の遠隔コード実行リスク。Red Hatが11月23日に対応状況を更新。</span><span class="badges"><span class="badge na" data-glyph="■">実悪用: 確認できず</span><span class="badge na" data-glyph="■">KEV: 確認できず</span><span class="badge na" data-glyph="■">公開PoC: 確認できず</span></span><span class="card-fixed"><span>修正版:</span> PHP公式の2026年11月19日セキュリティ修正版（ブランチ別バージョンは要確認）</span></a>
+<a class="summary-card" href="#CVE-2026-129975" data-priority="P2"><span class="badge p2" data-glyph="■">P2 優先対応</span><span class="card-cve">CVE-2026-129975</span><span class="card-product">GnuPG GPGME / Gpg4win / GPGME組込みアプリ</span><span class="card-lead">細工されたOpenPGP鍵の長いユーザーIDでdouble freeが発生。情報流出につながり、RCEも否定できない。11月20日に公式公開。</span><span class="badges"><span class="badge na" data-glyph="■">実悪用: 確認できず</span><span class="badge na" data-glyph="■">KEV: 確認できず</span><span class="badge na" data-glyph="■">公開PoC: 確認できず</span></span><span class="card-fixed"><span>修正版:</span> GPGME 2.3.1、Gpg4win 5.1.2</span></a>
+<a class="summary-card" href="#CVE-2026-134815" data-priority="P2"><span class="badge p2" data-glyph="■">P2 優先対応</span><span class="card-cve">CVE-2026-134815</span><span class="card-product">Node.js simple-git / git-js</span><span class="card-lead">Git操作の引数に攻撃者が影響できる場合、危険なGitオプションの検査を回避してホスト上でコマンド実行が可能。11月23日にGHSA公開。</span><span class="badges"><span class="badge na" data-glyph="■">実悪用: 確認できず</span><span class="badge na" data-glyph="■">KEV: 確認できず</span><span class="badge na" data-glyph="■">公開PoC: 確認できず</span></span><span class="card-fixed"><span>修正版:</span> simple-git 4.1.0</span></a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-115560" data-cve="CVE-2026-115560" data-priority="P1" data-product="PHP 8.2〜8.5 / PHPセッション処理" data-exploited="unknown" data-kev="unknown" data-poc="unknown" data-cvss="確認できず" data-fixed="PHP公式の2026年11月19日セキュリティ修正版（ブランチ別バージョンは要確認）"><div class="case-head"><span class="badge p1" data-glyph="■">P1 即時確認</span><h3>CVE-2026-115560</h3></div><p class="product">PHP 8.2〜8.5 / PHPセッション処理（PHP 8.2〜8.5の2026年11月19日セキュリティ更新前の影響ビルド（ブランチ別詳細はPHP公式で要確認））</p><p class="lead">セッションシリアライザの不整合に起因する認証不要の遠隔コード実行リスク。Red Hatが11月23日に対応状況を更新。</p><div class="badges"><span class="badge na" data-glyph="■">実悪用: 確認できず</span><span class="badge na" data-glyph="■">CISA KEV: 確認できず</span><span class="badge na" data-glyph="■">公開PoC: 確認できず</span><span class="badge na" data-glyph="■">CVSS 確認できず</span></div><dl class="facts"><div><dt>CVSS</dt><dd>確認できず</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">外部入力が脆弱なPHPセッション処理へ到達する構成。詳細条件は製品別確認</dd></div><div><dt>実悪用</dt><dd>確認できず（最新の直接確認が不十分）</dd></div><div><dt>CISA KEV</dt><dd>確認できず（最新原本の個別照合未完了）</dd></div><div><dt>公開PoC</dt><dd>確認できず（実装ファイルの確認不十分、unknown）</dd></div><div><dt>影響バージョン</dt><dd>PHP 8.2〜8.5の2026年11月19日セキュリティ更新前の影響ビルド（ブランチ別詳細はPHP公式で要確認）</dd></div><div><dt>修正版</dt><dd class="is-ok">PHP公式の2026年11月19日セキュリティ修正版（ブランチ別バージョンは要確認）</dd></div></dl><div class="block"><h4>推奨対処</h4><p>PHP公式の修正版へ更新し、Red Hat等ディストリビューションのバックポート状況を確認。更新前は公開範囲とセッション機能の使用箇所を制限・点検する。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>広範な公開Webアプリケーションで使われるPHPコアの認証不要RCE候補。Red HatがCriticalとして緊急修正を進めており、広域波及リスクからP1。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>Webサーバ、PHP-FPM、コンテナのPHPバージョンと配布元を棚卸し</span></label></li><li><label><input type="checkbox"><span>PHPセッションハンドラと外部入力経路を確認</span></label></li><li><label><input type="checkbox"><span>公開Webアプリの更新優先度を設定し修正済みパッケージを適用</span></label></li><li><label><input type="checkbox"><span>Webアクセスログの異常POST、500応答、セッション異常を調査</span></label></li><li><label><input type="checkbox"><span>PHPワーカーからの不審な子プロセス起動や外部通信をEDRで確認</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://access.redhat.com/security/vulnerabilities/RHSB-2026-020" target="_blank" rel="noopener noreferrer">Red Hat RHSB-2026-020（11月23日更新）</a></li><li><a href="https://www.php.net/releases/" target="_blank" rel="noopener noreferrer">PHP公式リリース</a></li></ul></div></article>
+<article class="case" id="CVE-2026-129975" data-cve="CVE-2026-129975" data-priority="P2" data-product="GnuPG GPGME / Gpg4win / GPGME組込みアプリ" data-exploited="unknown" data-kev="unknown" data-poc="unknown" data-cvss="確認できず" data-fixed="GPGME 2.3.1、Gpg4win 5.1.2"><div class="case-head"><span class="badge p2" data-glyph="■">P2 優先対応</span><h3>CVE-2026-129975</h3></div><p class="product">GnuPG GPGME / Gpg4win / GPGME組込みアプリ（GPGME 2.3.1より前の全バージョン。Gpg4win 5.1.2より前の該当同梱版）</p><p class="lead">細工されたOpenPGP鍵の長いユーザーIDでdouble freeが発生。情報流出につながり、RCEも否定できない。11月20日に公式公開。</p><div class="badges"><span class="badge na" data-glyph="■">実悪用: 確認できず</span><span class="badge na" data-glyph="■">CISA KEV: 確認できず</span><span class="badge na" data-glyph="■">公開PoC: 確認できず</span><span class="badge na" data-glyph="■">CVSS 確認できず</span></div><dl class="facts"><div><dt>CVSS</dt><dd>確認できず</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">細工されたOpenPGP鍵をGPGME使用アプリケーションが処理すること</dd></div><div><dt>実悪用</dt><dd>確認できず（最新の直接確認が不十分）</dd></div><div><dt>CISA KEV</dt><dd>確認できず（最新原本の個別照合未完了）</dd></div><div><dt>公開PoC</dt><dd>確認できず（実装ファイルの確認不十分、unknown）</dd></div><div><dt>影響バージョン</dt><dd>GPGME 2.3.1より前の全バージョン。Gpg4win 5.1.2より前の該当同梱版</dd></div><div><dt>修正版</dt><dd class="is-ok">GPGME 2.3.1、Gpg4win 5.1.2</dd></div></dl><div class="block"><h4>推奨対処</h4><p>GPGME 2.3.1、Gpg4win 5.1.2以降へ更新。静的リンクや同梱ライブラリはアプリごとに再ビルド・更新し、旧系列は公式パッチを適用。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>署名や暗号化を扱うアプリケーションで細工された鍵を処理するだけで情報流出が生じ得る。暗号基盤への影響とRCE可能性を考慮しP2。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>GPGME共有ライブラリ・静的リンク・Gpg4winの利用を棚卸し</span></label></li><li><label><input type="checkbox"><span>署名検証・鍵インポート・メール暗号化処理の入力経路を確認</span></label></li><li><label><input type="checkbox"><span>GPGME 2.3.1または同梱修正版へ更新</span></label></li><li><label><input type="checkbox"><span>不審なOpenPGP鍵取り込みと関連アプリのクラッシュ履歴を調査</span></label></li><li><label><input type="checkbox"><span>鍵処理アプリの異常通信・メモリ破損関連アラートを監視</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://lists.gnupg.org/pipermail/gnupg-announce/2026q4/000517.html" target="_blank" rel="noopener noreferrer">GnuPG公式セキュリティ告知（11月20日）</a></li><li><a href="https://gnupg.org/index.html" target="_blank" rel="noopener noreferrer">GnuPG公式サイト</a></li></ul></div></article>
+<article class="case" id="CVE-2026-134815" data-cve="CVE-2026-134815" data-priority="P2" data-product="Node.js simple-git / git-js" data-exploited="unknown" data-kev="unknown" data-poc="unknown" data-cvss="9.2 (CVSS v4.0)" data-fixed="simple-git 4.1.0"><div class="case-head"><span class="badge p2" data-glyph="■">P2 優先対応</span><h3>CVE-2026-134815</h3></div><p class="product">Node.js simple-git / git-js（simple-git 4.1.0より前（NVD/GHSA記載））</p><p class="lead">Git操作の引数に攻撃者が影響できる場合、危険なGitオプションの検査を回避してホスト上でコマンド実行が可能。11月23日にGHSA公開。</p><div class="badges"><span class="badge na" data-glyph="■">実悪用: 確認できず</span><span class="badge na" data-glyph="■">CISA KEV: 確認できず</span><span class="badge na" data-glyph="■">公開PoC: 確認できず</span><span class="badge na" data-glyph="■">CVSS 9.2 (CVSS v4.0)</span></div><dl class="facts"><div><dt>CVSS</dt><dd>9.2 (CVSS v4.0)</dd></div><div><dt>攻撃条件</dt><dd class="is-alert">listRemote() / raw()等へ外部由来の引数が渡されるアプリケーション。攻撃条件は実装依存</dd></div><div><dt>実悪用</dt><dd>確認できず（最新の直接確認が不十分）</dd></div><div><dt>CISA KEV</dt><dd>確認できず（最新原本の個別照合未完了）</dd></div><div><dt>公開PoC</dt><dd>確認できず（実装ファイルの確認不十分、unknown）</dd></div><div><dt>影響バージョン</dt><dd>simple-git 4.1.0より前（NVD/GHSA記載）</dd></div><div><dt>修正版</dt><dd class="is-ok">simple-git 4.1.0</dd></div></dl><div class="block"><h4>推奨対処</h4><p>simple-git 4.1.0以降へ更新。外部入力をGitオプションへ直接渡さず、許可リスト方式で引数を制限。CI/CD実行権限も最小化。</p></div><div class="block reason"><h4>AIによる注目理由</h4><p>Git操作を行う開発・CI/CD基盤でコマンド実行につながり得る。攻撃条件は限定されるが供給網への波及可能性からP2。</p></div><div class="block"><h4>SOC向け推奨アクション</h4><ul class="checklist"><li><label><input type="checkbox"><span>CI/CD・開発ツール・Node.jsアプリのsimple-git依存関係を棚卸し</span></label></li><li><label><input type="checkbox"><span>listRemote()/raw()等に外部入力が入る経路を確認</span></label></li><li><label><input type="checkbox"><span>4.1.0へ更新し入力の許可リストを実装</span></label></li><li><label><input type="checkbox"><span>Git子プロセスからの不審なシェル起動を監視</span></label></li><li><label><input type="checkbox"><span>CIランナーの資格情報・権限・外部通信を点検</span></label></li></ul></div><div class="block"><h4>情報源</h4><ul class="sources"><li><a href="https://github.com/advisories/GHSA-24pq-g7mp-w876" target="_blank" rel="noopener noreferrer">GitHub Advisory GHSA-24pq-g7mp-w876（11月23日）</a></li><li><a href="https://github.com/steveukx/git-js/releases/tag/simple-git%404.1.0" target="_blank" rel="noopener noreferrer">simple-git公式リリース</a></li></ul></div></article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
