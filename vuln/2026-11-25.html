@@ -1,0 +1,293 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-25 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-25" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月25日（水）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-25 08:00 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-11-18 〜 2026-11-25</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-24.html" rel="prev">← 前日 2026-11-24</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>vCenterの新規認証回避と実悪用済み2件を即時確認する。</strong>
+      11月24日にBroadcomが新規修正を公開。MONAI LabelとMailAssureは11月23日にKEV追加との情報がある。CISA原本とNVD本文は直接照合できず、公式アドバイザリ・公的機関・二次情報を区別した。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>VMware vCenter Server</dd></div>
+      <div><dt>推奨アクション</dt><dd>修正版の確認、管理面のアクセス制限、侵害痕跡調査</dd></div>
+      <div><dt>対応期限</dt><dd>MONAI Label・MailAssureは11月26日（米連邦機関向け、二次情報）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>新規vCenter認証回避、KEV追加とMONAI修正版確認</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-123903" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-123903</span>
+        <span class="card-product">VMware vCenter Server 9.1.x、9.0.x、8.0、7.0等（仮想化管理基盤）</span>
+        <span class="card-lead">VMware Directory Serviceの認証回避により、ネットワーク到達可能な攻撃者が不正アクセスできる。11月24日公表。</span>
+        <span class="badges">
+          <span class="badge na" data-glyph="■">実悪用確認できず</span>
+          <span class="badge na" data-glyph="■">KEV確認できず</span>
+          <span class="badge on" data-glyph="●">公開PoCあり</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 9.1.2 / 9.0.2.0300 / 8.0 U3m / VCF 5.2.5</span>
+      </a>
+<a class="summary-card" href="#CVE-2026-133968" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-133968</span>
+        <span class="card-product">MONAI Label 0.8.5以前（医療画像AI）</span>
+        <span class="card-lead">データストアへのアップロード処理にパストラバーサルがあり、任意ファイル書き込みからRCEに至り得る。11月23日KEV追加との報告。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge on" data-glyph="●">KEVあり</span>
+          <span class="badge na" data-glyph="■">公開PoC確認できず</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 0.8.6</span>
+      </a>
+<a class="summary-card" href="#CVE-2026-134624" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-134624</span>
+        <span class="card-product">N-able MailAssure / SpamExperts 20261121.1943未満（メールセキュリティ）</span>
+        <span class="card-lead">LDAP同期接続チェックのSSRFにより、認証済みAPI利用者が内部サービスへ意図しない通信を発生させ得る。11月23日KEV追加。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge on" data-glyph="●">KEVあり</span>
+          <span class="badge na" data-glyph="■">公開PoC確認できず</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 20261121.1943</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-123903"
+      data-cve="CVE-2026-123903"
+      data-priority="P1"
+      data-product="VMware vCenter Server"
+      data-exploited="unknown"
+      data-kev="unknown"
+      data-poc="true"
+      data-cvss="9.8"
+      data-fixed="9.1.2 / 9.0.2.0300 / 8.0 U3m / VCF 5.2.5">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-123903</h3>
+      </div>
+      <p class="product">VMware vCenter Server 9.1.x、9.0.x、8.0、7.0等（仮想化管理基盤）</p>
+      <p class="lead">VMware Directory Serviceの認証回避により、ネットワーク到達可能な攻撃者が不正アクセスできる。11月24日公表。</p>
+      <div class="badges">
+        <span class="badge na" data-glyph="■">実悪用確認できず</span>
+        <span class="badge na" data-glyph="■">KEV確認できず</span>
+        <span class="badge on" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 9.8</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">本CVEの実悪用は確認できず。別件CVE-2026-123890の実悪用と区別する。</dd></div>
+        <div><dt>CISA KEV</dt><dd>11月23日版では未掲載との報告。最新原本は確認できず。</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">GitHubで検証用Pythonファイルの存在を確認。実行・安全性検証なし。</dd></div>
+        <div><dt>影響バージョン</dt><dd>9.1.x、9.0.x、8.0、7.0等（仮想化管理基盤）</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">9.1.2 / 9.0.2.0300 / 8.0 U3m / VCF 5.2.5</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>公式マトリクスに従い更新。7.0は延長サポート窓口へ相談。公式回避策なし。管理ネットワークへの接続を制限する。前回8.0 U3m適用済みなら本件も修正済みだが9.xは再確認。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>仮想化管理基盤の認証回避で多数のホストに波及し得る。公開検証コードも確認されたためP1。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>vCenterとVCFの資産台帳を照合</span></label></li>
+          <li><label><input type="checkbox"><span>稼働ビルドと前回パッチを確認</span></label></li>
+          <li><label><input type="checkbox"><span>管理ネットワークの到達性を制限</span></label></li>
+          <li><label><input type="checkbox"><span>不審なSSOアカウントや権限変更を調査</span></label></li>
+          <li><label><input type="checkbox"><span>vmdir・認証ログを保全し異常を確認</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>Broadcom VMSA-2026-0011</li>
+          <li><a href="https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/39626" target="_blank" rel="noopener noreferrer">Broadcom VMSA-2026-0011</a></li>
+        <li><a href="https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-advisories/vmsa-2026-0011/README.md" target="_blank" rel="noopener noreferrer">VMware公式FAQ</a></li>
+<li><a href="https://github.com/dinosn/CVE-2026-123903" target="_blank" rel="noopener noreferrer">公開PoC（未検証）</a></li>
+<li><a href="https://www.rescana.com/post/vmware-vcenter-cve-2026-123903-auth-bypass-and-esx-code-execution-patch-now" target="_blank" rel="noopener noreferrer">KEV照合の二次情報</a></li></ul>
+      </div>
+    </article>
+<article class="case" id="CVE-2026-133968"
+      data-cve="CVE-2026-133968"
+      data-priority="P1"
+      data-product="MONAI Label"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="unknown"
+      data-cvss="9.8"
+      data-fixed="0.8.6">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-133968</h3>
+      </div>
+      <p class="product">MONAI Label 0.8.5以前（医療画像AI）</p>
+      <p class="lead">データストアへのアップロード処理にパストラバーサルがあり、任意ファイル書き込みからRCEに至り得る。11月23日KEV追加との報告。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge on" data-glyph="●">KEVあり</span>
+        <span class="badge na" data-glyph="■">公開PoC確認できず</span>
+        <span class="badge na" data-glyph="■">CVSS 9.8</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1、CNA値の二次確認)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由、既定で認証無効。認証有効時もANNOTATOR権限で影響。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">9月から実悪用とのCVE記録（GitHub Advisory Database）。</dd></div>
+        <div><dt>CISA KEV</dt><dd>11月23日追加、11月26日期限との報告。CISA原本直接照合は未完了。</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">公開実装は確認できず。公式アドバイザリに技術説明あり。</dd></div>
+        <div><dt>影響バージョン</dt><dd>0.8.5以前（医療画像AI）</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">0.8.6</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>公式リリース0.8.6へ更新。信頼できないネットワークから隔離し、認証を有効化、書き込み権限をデータストアに限定。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>実悪用が報告され、医療・研究データを扱うサーバの侵害に至り得るためP1。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>研究・医療部門のMONAI Labelを棚卸し</span></label></li>
+          <li><label><input type="checkbox"><span>コンテナとpipの稼働版を確認</span></label></li>
+          <li><label><input type="checkbox"><span>外部公開と認証設定を確認</span></label></li>
+          <li><label><input type="checkbox"><span>データストア外の不審なファイル変更を調査</span></label></li>
+          <li><label><input type="checkbox"><span>サービスプロセスの異常起動と通信を調査</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>公式 GHSA-qc22-rmgc-vg94</li>
+          <li><a href="https://github.com/Project-MONAI/MONAILabel/security/advisories/GHSA-qc22-rmgc-vg94" target="_blank" rel="noopener noreferrer">公式 GHSA-qc22-rmgc-vg94</a></li>
+        <li><a href="https://github.com/Project-MONAI/MONAILabel/releases/tag/0.8.6" target="_blank" rel="noopener noreferrer">公式修正版0.8.6</a></li>
+<li><a href="https://github.com/advisories/GHSA-2f43-rwqm-6h67" target="_blank" rel="noopener noreferrer">CVE記録のGitHubミラー</a></li>
+<li><a href="https://shattered.io/cisa-kev-monai-label-cve-2026-133968-n-able-mail-assure-cve-2026-134624-nov-26/" target="_blank" rel="noopener noreferrer">KEV追加・期限の二次情報</a></li></ul>
+      </div>
+    </article>
+<article class="case" id="CVE-2026-134624"
+      data-cve="CVE-2026-134624"
+      data-priority="P1"
+      data-product="N-able MailAssure / SpamExperts"
+      data-exploited="true"
+      data-kev="true"
+      data-poc="unknown"
+      data-cvss="9.3"
+      data-fixed="20261121.1943">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-134624</h3>
+      </div>
+      <p class="product">N-able MailAssure / SpamExperts 20261121.1943未満（メールセキュリティ）</p>
+      <p class="lead">LDAP同期接続チェックのSSRFにより、認証済みAPI利用者が内部サービスへ意図しない通信を発生させ得る。11月23日KEV追加。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge on" data-glyph="●">KEVあり</span>
+        <span class="badge na" data-glyph="■">公開PoC確認できず</span>
+        <span class="badge na" data-glyph="■">CVSS 9.3</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.3 / Critical (CVSS v4.0、CNA値の二次確認)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">認証済みAPI利用者、高権限、リレー設定あり</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">KEV追加をカナダ公的機関が確認。初期侵入経路は確認できず。</dd></div>
+        <div><dt>CISA KEV</dt><dd>11月23日追加（CCCS確認）、11月26日期限（二次情報）。</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">GitHub検索で公開実装を確認できず。</dd></div>
+        <div><dt>影響バージョン</dt><dd>20261121.1943未満（メールセキュリティ）</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">20261121.1943</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>ベンダーに修正適用状況を確認。API認証情報を棚卸しし不要なものを失効、必要に応じて更新。公式回避策は確認できず。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>実悪用済みのメールセキュリティサービスで、内部通信や認証情報への影響を調査すべきためP1。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>契約中のMailAssureとSpamExpertsを確認</span></label></li>
+          <li><label><input type="checkbox"><span>修正済みビルドをベンダーに確認</span></label></li>
+          <li><label><input type="checkbox"><span>APIトークンと連携アカウントを点検</span></label></li>
+          <li><label><input type="checkbox"><span>LDAP同期とリレー設定の変更を調査</span></label></li>
+          <li><label><input type="checkbox"><span>関連ログを保全しベンダーRCAを追跡</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>CCCS AV26-1191 Update 1</li>
+          <li><a href="https://www.cyber.gc.ca/en/alerts-advisories/n-able-security-advisory-av26-1191" target="_blank" rel="noopener noreferrer">CCCS AV26-1191 Update 1</a></li>
+        <li><a href="https://me.n-able.com/s/security-advisory/aArVy0000002mrlKAA" target="_blank" rel="noopener noreferrer">N-able公式（本文取得不可）</a></li>
+<li><a href="https://www.rescana.com/post/n-able-mail-assure-cve-2026-134624-ssrf-added-to-cisa-kev-what-customers-should-do-now" target="_blank" rel="noopener noreferrer">CNA・ベンダー情報の二次確認</a></li></ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
