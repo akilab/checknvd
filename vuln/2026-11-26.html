@@ -1,0 +1,288 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-26 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-26" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月26日（木）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-26 08:00 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-11-19 〜 2026-11-26</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-25.html" rel="prev">← 前日 2026-11-25</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>Juniper Session Smart Conductorの緊急更新と侵害調査を優先。</strong>
+      集中管理基盤の実悪用報告に加え、Drupalと旧ASP.NETライブラリの実悪用情報が更新された。CISA原本は403、ミラー取得も失敗したためKEVは二次情報として記録。公開PoCは検索したが実装の直接確認が不十分。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Juniper Session Smart Conductor</dd></div>
+      <div><dt>推奨アクション</dt><dd>緊急更新、管理通信制限、侵害痕跡確認</dd></div>
+      <div><dt>対応期限</dt><dd>米連邦機関向け11月27日・28日との報告（原本未照合）</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>11月24〜25日の実悪用・KEV追加報告</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      
+      <a class="summary-card" href="#CVE-2026-103406" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-103406</span>
+        <span class="card-product">Juniper Session Smart Conductor 7.0.5未満、7.1.0〜7.1.6、7.2.0〜7.2.2</span>
+        <span class="card-lead">集中管理基盤のOSコマンドインジェクションにより、認証なしでroot権限のコード実行が可能。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用報告あり</span>
+          <span class="badge na" data-glyph="○">KEV追加報告・原本未照合</span>
+          <span class="badge na" data-glyph="○">公開PoC確認できず</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 7.0.5 / 7.1.7 / 7.2.3以降</span>
+      </a>
+<a class="summary-card" href="#CVE-2026-132165" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-132165</span>
+        <span class="card-product">Drupal Core 10.6.22未満、11.0.0〜11.3.21、11.4.0〜11.4.12</span>
+        <span class="card-lead">インストーラの不備により、条件次第でサイト乗っ取りや遠隔コード実行が可能。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge na" data-glyph="○">KEV追加報告・原本未照合</span>
+          <span class="badge na" data-glyph="○">公開PoC確認できず</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 10.6.22 / 11.3.22 / 11.4.13</span>
+      </a>
+<a class="summary-card" href="#CVE-2026-131914" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-131914</span>
+        <span class="card-product">Idunno.AntiCsrf (ASP.NET) 0.9.1 Betaまで</span>
+        <span class="card-lead">信頼できないデータのデシリアライズにより、未認証の遠隔攻撃者がコード実行可能。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用報告あり</span>
+          <span class="badge na" data-glyph="○">KEV追加報告・原本未照合</span>
+          <span class="badge na" data-glyph="○">公開PoC確認できず</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 確認できず（利用停止・代替推奨）</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-103406"
+      data-cve="CVE-2026-103406"
+      data-priority="P1"
+      data-product="Juniper Session Smart Conductor"
+      data-exploited="true"
+      data-kev="unknown"
+      data-poc="unknown"
+      data-cvss="9.8"
+      data-fixed="7.0.5 / 7.1.7 / 7.2.3以降">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-103406</h3>
+      </div>
+      <p class="product">Juniper Session Smart Conductor 7.0.5未満、7.1.0〜7.1.6、7.2.0〜7.2.2</p>
+      <p class="lead">集中管理基盤のOSコマンドインジェクションにより、認証なしでroot権限のコード実行が可能。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用報告あり</span>
+        <span class="badge na" data-glyph="○">KEV追加報告・原本未照合</span>
+        <span class="badge na" data-glyph="○">公開PoC確認できず</span>
+        <span class="badge na" data-glyph="■">CVSS 9.8</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.8 / Critical (CVSS v3.1)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・操作不要</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">11月24日にSIRTが実悪用報告を受領したとのRescana報告。公式ページの取得版は旧版。</dd></div>
+        <div><dt>CISA KEV</dt><dd>11月25日追加、11月28日期限との二次情報。原本未照合。</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">確認できず（公開実装の直接確認不十分）</dd></div>
+        <div><dt>影響バージョン</dt><dd>7.0.5未満、7.1.0〜7.1.6、7.2.0〜7.2.2</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">7.0.5 / 7.1.7 / 7.2.3以降</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>修正版へ緊急更新。公式回避策なし。更新まで管理通信の到達元を制限し、侵害疑い時は隔離。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>集中管理基盤の侵害は配下ルータへ波及するため。10月公開だが実悪用報告が新しい。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>Conductorと配下Routerの資産を特定</span></label></li>
+          <li><label><input type="checkbox"><span>稼働バージョンと更新計画を確認</span></label></li>
+          <li><label><input type="checkbox"><span>管理・プロビジョニング通信の到達元を確認</span></label></li>
+          <li><label><input type="checkbox"><span>不審な鍵登録や構成配布履歴を調査</span></label></li>
+          <li><label><input type="checkbox"><span>rootプロセス、認証ログ、外部通信を確認</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>Juniper JSA112183</li>
+          <li><a href="https://supportportal.juniper.net/JSA112183" target="_blank" rel="noopener noreferrer">Juniper JSA112183</a></li>
+        <li><a href="https://radar.cloudflare.com/zero-wire/cves/CVE-2026-103406" target="_blank" rel="noopener noreferrer">Cloudflare CNA情報</a></li><li><a href="https://www.rescana.com/post/juniper-session-smart-conductor-cve-2026-103406-exploited-and-in-cisa-kev-upgrade-now" target="_blank" rel="noopener noreferrer">Rescana 11月25日報告</a></li><li><a href="https://www.cybercard.net/vulnerabilities/CVE-2026-103406" target="_blank" rel="noopener noreferrer">KEV転記情報</a></li></ul>
+      </div>
+    </article>
+<article class="case" id="CVE-2026-132165"
+      data-cve="CVE-2026-132165"
+      data-priority="P1"
+      data-product="Drupal Core"
+      data-exploited="true"
+      data-kev="unknown"
+      data-poc="unknown"
+      data-cvss="unknown"
+      data-fixed="10.6.22 / 11.3.22 / 11.4.13">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-132165</h3>
+      </div>
+      <p class="product">Drupal Core 10.6.22未満、11.0.0〜11.3.21、11.4.0〜11.4.12</p>
+      <p class="lead">インストーラの不備により、条件次第でサイト乗っ取りや遠隔コード実行が可能。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge na" data-glyph="○">KEV追加報告・原本未照合</span>
+        <span class="badge na" data-glyph="○">公開PoC確認できず</span>
+        <span class="badge na" data-glyph="■">CVSS unknown</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>確認できず（Drupal独自評価20/25）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">認証不要、インストーラへの到達と特定条件が必要</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">公式Security Teamが11月19日からの実サイト悪用報告を確認。</dd></div>
+        <div><dt>CISA KEV</dt><dd>11月24日追加、11月27日期限との報告。原本未照合。</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">確認できず（公開実装の直接確認不十分）</dd></div>
+        <div><dt>影響バージョン</dt><dd>10.6.22未満、11.0.0〜11.3.21、11.4.0〜11.4.12</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">10.6.22 / 11.3.22 / 11.4.13</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>修正版へ更新し、インストール後のインストーラを保護する。settings.phpの書込制限は一部経路のみ緩和。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>公開CMSで実悪用が公式確認され、サイト改変・情報流出につながる。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>Drupal公開サイトと依存関係を棚卸し</span></label></li>
+          <li><label><input type="checkbox"><span>Coreの修正版適用状況を確認</span></label></li>
+          <li><label><input type="checkbox"><span>インストーラへの外部アクセスを制限</span></label></li>
+          <li><label><input type="checkbox"><span>Webログの不審なインストーラアクセスを確認</span></label></li>
+          <li><label><input type="checkbox"><span>設定ファイル・管理者・Webシェルの改変を調査</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>Drupal SA-CORE-2026-017</li>
+          <li><a href="https://www.drupal.org/sa-core-2026-017" target="_blank" rel="noopener noreferrer">Drupal SA-CORE-2026-017</a></li>
+        <li><a href="https://shattered.io/drupal-core-cve-2026-132165-cisa-kev-exploited-patch-10-6-22-nov-25/" target="_blank" rel="noopener noreferrer">KEV追加報告</a></li></ul>
+      </div>
+    </article>
+<article class="case" id="CVE-2026-131914"
+      data-cve="CVE-2026-131914"
+      data-priority="P1"
+      data-product="Idunno.AntiCsrf (ASP.NET)"
+      data-exploited="true"
+      data-kev="unknown"
+      data-poc="unknown"
+      data-cvss="9.3"
+      data-fixed="確認できず（利用停止・代替推奨）">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-131914</h3>
+      </div>
+      <p class="product">Idunno.AntiCsrf (ASP.NET) 0.9.1 Betaまで</p>
+      <p class="lead">信頼できないデータのデシリアライズにより、未認証の遠隔攻撃者がコード実行可能。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用報告あり</span>
+        <span class="badge na" data-glyph="○">KEV追加報告・原本未照合</span>
+        <span class="badge na" data-glyph="○">公開PoC確認できず</span>
+        <span class="badge na" data-glyph="■">CVSS 9.3</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>9.3 / Critical (CVSS v4.0, GHSA)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要・対象ライブラリを使用するASP.NETアプリ</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">KEV追加報告およびCISA SSVC転記で実悪用あり。</dd></div>
+        <div><dt>CISA KEV</dt><dd>11月24日追加、11月27日期限との転記情報。原本未照合。</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">確認できず（公開実装の直接確認不十分）</dd></div>
+        <div><dt>影響バージョン</dt><dd>0.9.1 Betaまで</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">確認できず（利用停止・代替推奨）</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>修正版は確認できず。対象ライブラリの利用を停止し、サポートされるCSRF対策へ移行。移行まで公開範囲を制限し、CSRF保護を失わないよう検証する。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>旧式の業務Webアプリに残存しやすく、修正版が確認できない実悪用案件。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>IIS上の対象DLLと依存関係を棚卸し</span></label></li>
+          <li><label><input type="checkbox"><span>Web.configのモジュール登録を確認</span></label></li>
+          <li><label><input type="checkbox"><span>公開ASP.NETアプリの到達性を評価</span></label></li>
+          <li><label><input type="checkbox"><span>IISワーカープロセスの異常な子プロセスを確認</span></label></li>
+          <li><label><input type="checkbox"><span>Webログ、ファイル改変、外部通信を調査</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>GitHub Advisory GHSA-pj2m-2r8v-h9cp</li>
+          <li><a href="https://github.com/advisories/GHSA-pj2m-2r8v-h9cp" target="_blank" rel="noopener noreferrer">GitHub Advisory GHSA-pj2m-2r8v-h9cp</a></li>
+        <li><a href="https://github.com/mandiant/Vulnerability-Disclosures/blob/master/2026/MNDT-2026-0048.md" target="_blank" rel="noopener noreferrer">Mandiant開示（GHSA参照先）</a></li><li><a href="https://cve.circl.lu/known-exploited-vulnerabilities-catalog/7de5a70c-7e5d-4d89-9e1f-17a2a9d7be3d" target="_blank" rel="noopener noreferrer">CIRCL KEV転記</a></li></ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
