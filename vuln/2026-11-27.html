@@ -1,0 +1,314 @@
+<!doctype html>
+<!--
+  日次脆弱性ブリーフ テンプレート
+  ==========================================================================
+  使い方: このファイルを vuln/YYYY-MM-DD.html としてコピーし、各プレースホルダー を置換する。
+  ファイル名が YYYY-MM-DD.html 形式でないHTMLは、トップページの一覧に載らない。
+
+  トップページ（assets/app.js）が解析する要素:
+    article.case              … 脆弱性1件。data-* 属性を最優先で読む。
+      data-cve                … CVE番号（例: CVE-2026-18577）
+      data-priority           … P1 / P2 / P3
+      data-product            … 対象製品名
+      data-exploited          … true / false / unknown
+      data-kev                … true / false / unknown
+      data-poc                … true / false / unknown
+      data-cvss / data-fixed  … 任意（表示用）
+    .case h3                  … 見出し（data-cve が無い場合のフォールバック）
+    .product                  … 対象製品（data-product が無い場合のフォールバック）
+    .lead                     … 1〜2行の概要（一覧カードに表示）
+    .badge                    … 状態バッジ（data-* が無い場合のフォールバック解析対象）
+    .summary-card             … 優先度サマリーのカード
+
+  data-* を省略した場合はバッジ文言から推定するが、判定精度が落ちる。
+  可能な限り data-* を付けること。
+  ==========================================================================
+-->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>2026-11-27 日次脆弱性ブリーフ — AI Vulnerability Intelligence</title>
+<link rel="stylesheet" href="../assets/report.css">
+</head>
+<body data-report-date="2026-11-27" data-case-count="3">
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="report-header">
+  <div class="wrap">
+    <p class="eyebrow"><a href="../index.html">AI Vulnerability Intelligence</a> ／ SOC向け 日次脆弱性ブリーフ</p>
+    <h1>2026年11月27日（金）の脆弱性ブリーフ</h1>
+    <dl class="report-meta">
+      <div><dt>生成日時</dt><dd>2026-11-27 08:04 JST</dd></div>
+      <div><dt>調査対象期間</dt><dd>2026-11-20 〜 2026-11-27</dd></div>
+      <div><dt>掲載件数</dt><dd>3 件（P1: 3 ／ P2: 0 ／ P3: 0）</dd></div>
+    </dl>
+    <!-- 前日・翌日のファイルが存在しない場合は <a> ではなく
+         <span class="nav-btn is-disabled" aria-disabled="true"> を使う -->
+    <nav class="report-nav" aria-label="レポートの移動">
+      <a class="nav-btn" href="2026-11-26.html" rel="prev">← 前日 2026-11-26</a>
+      <span class="nav-btn is-disabled" aria-disabled="true">翌日レポートなし →</span>
+      <a class="nav-btn is-home" href="../index.html">レポート一覧へ戻る</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="conclusion" aria-labelledby="conclusionHeading">
+    <h2 id="conclusionHeading">今日の結論</h2>
+    <p class="conclusion-body">
+      <strong>DrupalとGeoServerの公開環境を直ちに確認する。</strong>
+      Drupalは前回修正後も残る別の問題を公式が公表。GeoServerは複合攻撃の一部に実悪用報告がある。CISA KEV原本は未照合。
+    </p>
+    <dl class="conclusion-points">
+      <div><dt>最優先で確認すべき製品</dt><dd>Drupal Core / GeoServer</dd></div>
+      <div><dt>推奨アクション</dt><dd>修正版適用、Drupalのupdate.php実行、公開範囲制限と侵害調査</dd></div>
+      <div><dt>対応期限</dt><dd>公式期限は確認できず。即時対応推奨。</dd></div>
+      <div><dt>今日読むべき理由</dt><dd>11月25日のDrupal公式発表とGeoServer公的機関の実悪用情報</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="summaryHeading">
+    <div class="section-head">
+      <h2 id="summaryHeading">優先度サマリー</h2>
+      <p class="section-note">SOC Priority順。カードから詳細へ移動できます。</p>
+    </div>
+    <div class="summary-list">
+
+      <!-- 脆弱性1件につき1枚。badge のクラスは p1 / p2 / p3、
+           状態は on（該当・危険） / warn（注意） / off（非該当） / na（不明） -->
+      <a class="summary-card" href="#CVE-2026-136716" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-136716</span>
+        <span class="card-product">Drupal Core 10.6.23未満、11.0.0〜11.3.22、11.4.0〜11.4.13</span>
+        <span class="card-lead">不完全なインストール状態のサイトで認証を回避し、サイトを乗っ取られる。11月25日に公式が実悪用を公表。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge na" data-glyph="■">KEV確認できず</span>
+          <span class="badge na" data-glyph="■">公開PoC確認できず</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 10.6.23 / 11.3.23 / 11.4.14</span>
+      </a>
+<a class="summary-card" href="#CVE-2026-120705" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-120705</span>
+        <span class="card-product">GeoServer 2.27.6以前、2.28.0〜2.28.5、3.0.0〜3.0.1</span>
+        <span class="card-lead">WFSのXML処理不備により認証なしでローカルファイルの読み取りや外部URLへのアクセスが可能。複合攻撃でRCEに至る。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge na" data-glyph="■">KEV確認できず</span>
+          <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 2.27.7 / 2.28.6 / 3.0.2</span>
+      </a>
+<a class="summary-card" href="#CVE-2026-129243" data-priority="P1">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <span class="card-cve">CVE-2026-129243</span>
+        <span class="card-product">GeoServer 2.27.6以前、2.28.0〜2.28.5、3.0.0〜3.0.1</span>
+        <span class="card-lead">サービス名の処理不備でサービス単位のアクセス制御を回避できる。複合攻撃の一部として利用される。</span>
+        <span class="badges">
+          <span class="badge on" data-glyph="●">実悪用あり</span>
+          <span class="badge na" data-glyph="■">KEV確認できず</span>
+          <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        </span>
+        <span class="card-fixed"><span>修正版:</span> 2.27.7 / 2.28.6 / 3.0.2</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="detailHeading">
+    <div class="section-head">
+      <h2 id="detailHeading">詳細</h2>
+      <p class="section-note">SOC Priorityは、AIが公開情報から判定した運用優先度です（CVSSとは別軸）。</p>
+    </div>
+
+    <article class="case" id="CVE-2026-136716"
+      data-cve="CVE-2026-136716"
+      data-priority="P1"
+      data-product="Drupal Core"
+      data-exploited="true"
+      data-kev="unknown"
+      data-poc="unknown"
+      data-cvss="確認できず"
+      data-fixed="10.6.23 / 11.3.23 / 11.4.14">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-136716</h3>
+      </div>
+      <p class="product">Drupal Core 10.6.23未満、11.0.0〜11.3.22、11.4.0〜11.4.13</p>
+      <p class="lead">不完全なインストール状態のサイトで認証を回避し、サイトを乗っ取られる。11月25日に公式が実悪用を公表。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge na" data-glyph="■">KEV確認できず</span>
+        <span class="badge na" data-glyph="■">公開PoC確認できず</span>
+        <span class="badge na" data-glyph="■">CVSS 確認できず</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>CVSS確認できず（公式独自評価21/25）</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要。インストーラが外部から到達可能で特定の状態にあること。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり（公式確認）</dd></div>
+        <div><dt>CISA KEV</dt><dd>確認できず（CISA原本未照合）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">確認できず</dd></div>
+        <div><dt>影響バージョン</dt><dd>10.6.23未満、11.0.0〜11.3.22、11.4.0〜11.4.13</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">10.6.23 / 11.3.23 / 11.4.14</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>修正版へ更新し、update.phpを実行して既存サイトの状態を修正する。インストーラへの外部アクセスを制限し、サポート終了版は移行する。侵害疑い時は証拠保全と復旧を行う。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>前回の修正を適用しても残存する別の脆弱性であり、実悪用が公式確認されている。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <!-- 全脆弱性で同じ文面にせず、製品特性・攻撃条件に合わせて調整すること -->
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>Drupal稼働サイトを棚卸し</span></label></li>
+          <li><label><input type="checkbox"><span>修正版とupdate.php実行履歴を確認</span></label></li>
+          <li><label><input type="checkbox"><span>インストーラの外部到達性を確認</span></label></li>
+          <li><label><input type="checkbox"><span>user 1のメールアドレスと権限変更を確認</span></label></li>
+          <li><label><input type="checkbox"><span>Webアクセスログ、PHPファイル改変、異常な管理操作を調査</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>SA-CORE-2026-019</li>
+          <li><a href="https://www.drupal.org/sa-core-2026-019" target="_blank" rel="noopener noreferrer">Drupal公式</a></li>
+        </ul>
+      </div>
+    </article>
+<article class="case" id="CVE-2026-120705"
+      data-cve="CVE-2026-120705"
+      data-priority="P1"
+      data-product="GeoServer"
+      data-exploited="true"
+      data-kev="unknown"
+      data-poc="true"
+      data-cvss="8.6"
+      data-fixed="2.27.7 / 2.28.6 / 3.0.2">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-120705</h3>
+      </div>
+      <p class="product">GeoServer 2.27.6以前、2.28.0〜2.28.5、3.0.0〜3.0.1</p>
+      <p class="lead">WFSのXML処理不備により認証なしでローカルファイルの読み取りや外部URLへのアクセスが可能。複合攻撃でRCEに至る。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge na" data-glyph="■">KEV確認できず</span>
+        <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 8.6</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>8.6 / High (CVSS v3.1、公式)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要、WFSへの到達性。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり（11月25日カナダ公的機関が公開情報に基づき報告、侵害成功の範囲は不明）</dd></div>
+        <div><dt>CISA KEV</dt><dd>確認できず（CISA原本未照合）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">あり（公開リポジトリの検証ファイル存在確認、実行・安全性確認なし）</dd></div>
+        <div><dt>影響バージョン</dt><dd>2.27.6以前、2.28.0〜2.28.5、3.0.0〜3.0.1</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">2.27.7 / 2.28.6 / 3.0.2</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>修正版へ更新し、不要なWFSを停止またはアクセス制限。公開環境では認証情報の漏えいを調査し、必要に応じて更新する。2.27系はサポート対象版へ移行する。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>11月23日公式公開、25日にカナダ公的機関が実悪用報告を紹介。公開GISから機密情報流出や複合侵害につながる。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <!-- 全脆弱性で同じ文面にせず、製品特性・攻撃条件に合わせて調整すること -->
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>GIS・地図公開基盤のGeoServerを棚卸し</span></label></li>
+          <li><label><input type="checkbox"><span>GeoServerと依存GeoToolsの更新状況確認</span></label></li>
+          <li><label><input type="checkbox"><span>WFSの外部到達性を確認</span></label></li>
+          <li><label><input type="checkbox"><span>WFSの異常XML要求とファイルアクセスを調査</span></label></li>
+          <li><label><input type="checkbox"><span>Javaプロセスの異常な外部通信や子プロセスを確認</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>GHSA-39mw-5chv-jh47</li>
+          <li><a href="https://github.com/geoserver/geoserver/security/advisories/GHSA-39mw-5chv-jh47" target="_blank" rel="noopener noreferrer">GeoServer公式</a></li>
+        <li><a href="https://www.cyber.gc.ca/en/alerts-advisories/geoserver-security-advisory-av26-1207" target="_blank" rel="noopener noreferrer">カナダ Cyber Centre AV26-1207</a></li><li><a href="https://github.com/Crypto-Cat/geoserver-unauth-rce-poc" target="_blank" rel="noopener noreferrer">公開PoC（安全性未確認）</a></li></ul>
+      </div>
+    </article>
+<article class="case" id="CVE-2026-129243"
+      data-cve="CVE-2026-129243"
+      data-priority="P1"
+      data-product="GeoServer"
+      data-exploited="true"
+      data-kev="unknown"
+      data-poc="true"
+      data-cvss="8.8"
+      data-fixed="2.27.7 / 2.28.6 / 3.0.2">
+      <div class="case-head">
+        <span class="badge p1" data-glyph="■">P1 即時確認</span>
+        <h3>CVE-2026-129243</h3>
+      </div>
+      <p class="product">GeoServer 2.27.6以前、2.28.0〜2.28.5、3.0.0〜3.0.1</p>
+      <p class="lead">サービス名の処理不備でサービス単位のアクセス制御を回避できる。複合攻撃の一部として利用される。</p>
+      <div class="badges">
+        <span class="badge on" data-glyph="●">実悪用あり</span>
+        <span class="badge na" data-glyph="■">KEV確認できず</span>
+        <span class="badge warn" data-glyph="●">公開PoCあり</span>
+        <span class="badge na" data-glyph="■">CVSS 8.8</span>
+      </div>
+      <dl class="facts">
+        <div><dt>CVSS</dt><dd>8.8 / High (CVSS v4.0、公式)</dd></div>
+        <div><dt>攻撃条件</dt><dd class="is-alert">ネットワーク経由・認証不要、対象サービスへの到達性。</dd></div>
+        <div><dt>実悪用</dt><dd class="is-alert">あり（11月25日カナダ公的機関が公開情報に基づき報告、侵害成功の範囲は不明）</dd></div>
+        <div><dt>CISA KEV</dt><dd>確認できず（CISA原本未照合）</dd></div>
+        <div><dt>公開PoC</dt><dd class="is-warn">あり（公開リポジトリの検証ファイル存在確認、実行・安全性確認なし）</dd></div>
+        <div><dt>影響バージョン</dt><dd>2.27.6以前、2.28.0〜2.28.5、3.0.0〜3.0.1</dd></div>
+        <div><dt>修正版</dt><dd class="is-ok">2.27.7 / 2.28.6 / 3.0.2</dd></div>
+      </dl>
+      <div class="block">
+        <h4>推奨対処</h4>
+        <p>修正版へ更新。更新までリバースプロキシで不正なサービス名を拒否し、公開範囲を制限する。単独の緩和では他の脆弱性は解消しない。</p>
+      </div>
+      <div class="block reason">
+        <h4>AIによる注目理由</h4>
+        <p>11月25日に実悪用報告。アクセス制御を突破し、別の脆弱性と組み合わせた侵害を可能にする。</p>
+      </div>
+      <div class="block">
+        <h4>SOC向け推奨アクション</h4>
+        <!-- 全脆弱性で同じ文面にせず、製品特性・攻撃条件に合わせて調整すること -->
+        <ul class="checklist">
+          <li><label><input type="checkbox"><span>GeoServerの公開サービスを棚卸し</span></label></li>
+          <li><label><input type="checkbox"><span>修正版適用状況を確認</span></label></li>
+          <li><label><input type="checkbox"><span>サービス単位のアクセス制御を確認</span></label></li>
+          <li><label><input type="checkbox"><span>不審なサービス名や保存クエリ作成履歴を調査</span></label></li>
+          <li><label><input type="checkbox"><span>管理セッションや設定変更、Java子プロセスを調査</span></label></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h4>情報源</h4>
+        <ul class="sources">
+          <li>GHSA-rv5g-g2r9-58rj</li>
+          <li><a href="https://github.com/geoserver/geoserver/security/advisories/GHSA-rv5g-g2r9-58rj" target="_blank" rel="noopener noreferrer">GeoServer公式</a></li>
+        <li><a href="https://www.cyber.gc.ca/en/alerts-advisories/geoserver-security-advisory-av26-1207" target="_blank" rel="noopener noreferrer">カナダ Cyber Centre AV26-1207</a></li><li><a href="https://github.com/Crypto-Cat/geoserver-unauth-rce-poc" target="_blank" rel="noopener noreferrer">公開PoC（安全性未確認）</a></li></ul>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="disclaimer">
+    <strong>SOC Priorityは、AIが公開情報をもとに判定した独自の運用優先度です。</strong>
+    CVSSやベンダーの深刻度評価とは異なります。公開PoCへのリンクは安全性を確認したものではなく、検証環境以外で実行しないでください。
+  </p>
+
+  <footer class="report-footer">
+    <p>生成: AI Vulnerability Intelligence ／ 公開情報にもとづく自動整理</p>
+    <p><a href="../index.html">レポート一覧へ戻る</a></p>
+  </footer>
+
+</main>
+</body>
+</html>
